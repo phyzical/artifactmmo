@@ -10,15 +10,35 @@ module MapService
         super(maps: pull)
       end
 
-      def find_maps_by_monster_code(code)
-        non_empty_maps.select { |map| map.type == Map::TYPES[:monster] && map.code == code }
+      def monsters(code: nil)
+        non_empty.select { |map| map.type == Map::TYPES[:monster] && (!code || map.code == code) }
       end
 
-      def find_maps_by_resource_code(code)
-        non_empty_maps.select { |map| map.type == Map::TYPES[:resource] && map.code == code }
+      def resources(code: nil)
+        non_empty.select { |map| map.type == Map::TYPES[:resource] && (!code || map.code == code) }
       end
 
-      def non_empty_maps
+      def banks(code: nil)
+        non_empty.select { |map| map.type == Map::TYPES[:bank] && (!code || map.code == code) }
+      end
+
+      def npcs(code: nil)
+        non_empty.select { |map| map.type == Map::TYPES[:npc] && (!code || map.code == code) }
+      end
+
+      def tasks_masters(code: nil)
+        non_empty.select { |map| map.type == Map::TYPES[:tasks_master] && (!code || map.code == code) }
+      end
+
+      def workshops(code: nil)
+        non_empty.select { |map| map.type == Map::TYPES[:workshop] && (!code || map.code == code) }
+      end
+
+      def grand_exchanges(code: nil)
+        non_empty.select { |map| map.type == Map::TYPES[:grand_exchange] && (!code || map.code == code) }
+      end
+
+      def non_empty
         maps.reject { |map| map.type.nil? }
       end
 
