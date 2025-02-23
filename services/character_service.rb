@@ -5,9 +5,9 @@ module CharacterService
     @all ||= List.new
   end
   List =
-    Struct.new(:characters) do
+    Struct.new(:items) do
       def initialize
-        super(characters: pull)
+        super(items: pull)
       end
 
       def update(values)
