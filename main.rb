@@ -9,15 +9,24 @@ Dir[File.join(__dir__, 'models', '**', '*.rb')].each { |file| require file }
 Dir[File.join(__dir__, 'services', '**', '*.rb')].each { |file| require file }
 
 characters = CharacterService.all.characters
-maps = MapService.all.non_empty_maps
+maps = MapService.all
 
 action_queue = API::QueueService.new
+chicken_tile = maps.find_maps_by_monster_code(Monster::TYPES[:chicken]).first
 
-characters.each do |character|
-  action_queue.add(character.move(x: 2, y: 0))
-  action_queue.add(character.move(x: 2, y: 2))
-  action_queue.add(character.move(x: 0, y: 2))
-  action_queue.add(character.move(x: 0, y: 0))
+chicken_massacre = -> do
+  characters.each do |character|
+    action_queue.add(character.move(**chicken_tile.to_h.slice(:x, :y)))
+    action_queue.add(character.fight)
+  end
 end
 
-action_queue.process
+loop do
+  characters.each do |character|
+    action_queue.add(character.move(**chicken_tile.to_h.slice(:x, :y)))
+    action_queue.add(character.fight)
+  end
+
+  action_queue.process
+  chicken_massacre if action_queue.blank?
+end

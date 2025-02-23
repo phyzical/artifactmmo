@@ -96,6 +96,10 @@ Character =
       api.move(x:, y:)
     end
 
+    def fight
+      api.fight
+    end
+
     def cooldown_expiration
       Time.new(self[:cooldown_expiration]).utc
     end

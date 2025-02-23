@@ -21,13 +21,17 @@ module API
       uri: 'maps',
       type: Net::HTTP::Get,
       model: Map
+    },
+    fight: {
+      uri: 'my/CHARACTER_NAME/action/fight',
+      type: Net::HTTP::Post
     }
   }.freeze
 
   RESPONSE_CODES = { no_move: 490, cooldown: 499 }.freeze
 
   Action =
-    Struct.new(:character_name, :action, :request) do
+    Struct.new(:character_name, :action, :body) do
       def character
         return if character_name.nil?
         CharacterService.all.find_by_name(character_name)
@@ -35,6 +39,10 @@ module API
 
       def move(x: 0, y: 0) # rubocop:disable Naming/MethodParameterName
         prepare(action: :move, body: { x:, y: })
+      end
+
+      def fight
+        prepare(action: :fight, body: { name: character_name })
       end
 
       def characters
@@ -46,14 +54,15 @@ module API
       end
 
       def handle
-        perform
+        perform_all
       end
 
       private
 
       def prepare(action:, body: {})
         self.action = action
-        prepare_request(body:)
+        self.body = body
+        request(body:)
         self
       end
 
@@ -61,32 +70,37 @@ module API
         ENV['API_KEY']
       end
 
-      def prepare_request(body: {})
-        url = URI("#{BASE_URL}/#{uri}")
-        self.request = type.new(url)
+      def request(get_vars = nil)
+        uris = URI.encode_www_form(**get_vars) if get_vars.present?
+        url = URI("#{BASE_URL}/#{uri}?#{uris}")
+        request = type.new(url)
         request['Content-Type'] = 'application/json'
         request['Accept'] = 'application/json'
         request['Authorization'] = "Bearer #{api_key}"
         request.body = JSON.generate(body)
+        request
       end
 
-      def perform
-        http = Net::HTTP.new(request.uri.host, request.uri.port)
-        http.use_ssl = true
-        page = 0
+      def perform_all
+        page = 1
         items = []
         loop do
-          puts "#{character_text}#{action} #{JSON.parse(request.body)} #{page_text(page)}"
-          request.uri.query = URI.encode_www_form(page:) if page.present?
-          response = http.request(request)
-          handled_response = handle_response(response_code: response.code.to_i, response_body: response.body)
+          handled_response = perform(page:)
           break if handled_response.nil?
           page += 1
           pages = handled_response[:pages]
           items.concat(handled_response[:items]) if handled_response[:items].is_a?(Array)
-          break unless pages.present? && page < pages
+          break unless pages.present? && page <= pages
         end
         items
+      end
+
+      def perform(page:)
+        http = Net::HTTP.new(request.uri.host, request.uri.port)
+        http.use_ssl = true
+        puts "#{character_text}#{action} #{JSON.parse(request.body)} #{page_text(page)}"
+        response = http.request(request({ page: }))
+        handle_response(response_code: response.code.to_i, response_body: response.body)
       end
 
       def handle_response(response_code:, response_body:)
@@ -109,7 +123,7 @@ module API
       end
 
       def page_text(page)
-        page.positive? ? "#{page}: " : ''
+        page > 1 ? "page: #{page}" : ''
       end
 
       def handle_success(response_body:)
