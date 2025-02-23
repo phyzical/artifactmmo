@@ -5,11 +5,12 @@ require 'uri'
 require 'net/http'
 require 'active_support/all'
 require 'prettyprint'
-Dir[File.join(__dir__, 'lib', '**', '*.rb')].each { |file| require file }
+Dir[File.join(__dir__, 'models', '**', '*.rb')].each { |file| require file }
+Dir[File.join(__dir__, 'services', '**', '*.rb')].each { |file| require file }
 
-characters = Characters.all.characters
+characters = CharacterService.all.characters
 
-action_queue = API::Queue.new
+action_queue = API::QueueService.new
 
 characters.each do |character|
   action_queue.add(character.move(x: 1, y: 0))

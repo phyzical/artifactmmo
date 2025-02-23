@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require_relative '../character'
+
 module API
   BASE_URL = 'https://api.artifactsmmo.com'
 
@@ -11,6 +13,11 @@ module API
     },
     characters: {
       uri: 'my/characters',
+      type: Net::HTTP::Get,
+      model: Character
+    },
+    maps: {
+      uri: 'maps',
       type: Net::HTTP::Get
     }
   }.freeze
@@ -21,7 +28,7 @@ module API
     Struct.new(:character_name, :action, :request) do
       def character
         return if character_name.nil?
-        Characters.all.find_by_name(character_name)
+        CharacterService.all.find_by_name(character_name)
       end
 
       def move(x: 0, y: 0) # rubocop:disable Naming/MethodParameterName
@@ -30,6 +37,10 @@ module API
 
       def characters
         prepare(action: :characters)
+      end
+
+      def maps
+        prepare(action: :maps)
       end
 
       def handle
@@ -68,9 +79,7 @@ module API
       def handle_response(response_code:, response_body:)
         case response_code
         when 200
-          payload = JSON.parse(response_body, symbolize_names: true)[:data]
-          return payload if character.nil?
-          Characters.all.update(payload[:character])
+          handle_success(response_body:)
         when RESPONSE_CODES[:no_move]
           puts "#{character_name}: already on tile"
         when RESPONSE_CODES[:cooldown]
@@ -82,12 +91,23 @@ module API
         end
       end
 
+      def handle_success(response_body:)
+        payloads = JSON.parse(response_body, symbolize_names: true)[:data]
+        return payloads.map { |payload| model.new(**payload) } if model.present? && payloads.is_a?(Array)
+        return model.new(**payloads) if model.present?
+        CharacterService.all.update(payloads[:character])
+      end
+
       def uri
         ACTIONS[action][:uri].gsub(CHARACTER_NAME_KEY, character_name || '')
       end
 
       def type
         ACTIONS[action][:type]
+      end
+
+      def model
+        ACTIONS[action][:model]
       end
     end
 end

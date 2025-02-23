@@ -1,13 +1,13 @@
 # frozen_string_literal: true
 
-module Characters
+module CharacterService
   def self.all
     @all ||= List.new
   end
   List =
     Struct.new(:characters) do
       def initialize
-        super(characters: pull.map { |character| Character.new(**character) })
+        super(characters: pull)
       end
 
       def update(values)

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module API
-  Queue =
+  QueueService =
     Struct.new(:actions) do
       def initialize(keys = {})
         super(**keys)
@@ -13,7 +13,7 @@ module API
           index = next_action_index_not_in_cooldown
           action = actions.slice!(index)
           result = action.handle
-          actions.insert(index, action) if result == API::RESPONSE_CODES[:cooldown]
+          actions.insert(index, action) if result == RESPONSE_CODES[:cooldown]
         end
       end
 
