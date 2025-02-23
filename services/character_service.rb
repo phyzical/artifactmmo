@@ -5,13 +5,13 @@ module CharacterService
     @all ||= List.new
   end
   List =
-    Struct.new(:items) do
+    Struct.new(:characters) do
       def initialize
-        super(items: pull)
+        super(characters: pull)
       end
 
       def update(values)
-        characters.find { |character| character.name == values[:name] }&.update(values)
+        find_by_name(values[:name])&.update(values)
       end
 
       def find_by_name(name)

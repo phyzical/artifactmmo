@@ -5,9 +5,13 @@ module MapService
     @all ||= List.new
   end
   List =
-    Struct.new(:items) do
+    Struct.new(:maps) do
       def initialize
-        super(items: pull)
+        super(maps: pull)
+      end
+
+      def non_empty_maps
+        maps.reject { |map| map.type.nil? }
       end
 
       private
