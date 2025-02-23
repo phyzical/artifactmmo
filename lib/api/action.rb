@@ -22,16 +22,16 @@ module API
       delegate :name, to: :character, prefix: true, allow_nil: true
 
       def move(x: 0, y: 0) # rubocop:disable Naming/MethodParameterName
-        go(action: :move, body: { x:, y: })
+        handle(action: :move, body: { x:, y: })
       end
 
       def characters
-        go(action: :characters)
+        handle(action: :characters)
       end
 
       private
 
-      def go(action:, body: {})
+      def handle(action:, body: {})
         self.action = action
         wait_for_cooldown
         puts "#{character_name}: #{action} #{body}"
