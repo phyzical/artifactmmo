@@ -23,7 +23,15 @@ module API
       model: Map
     },
     fight: {
-      uri: 'my/CHARACTER_NAME/action/fight',
+      uri: "my/#{CHARACTER_NAME_KEY}/action/fight",
+      type: Net::HTTP::Post
+    },
+    rest: {
+      uri: "my/#{CHARACTER_NAME_KEY}/action/rest",
+      type: Net::HTTP::Post
+    },
+    deposit: {
+      uri: "my/#{CHARACTER_NAME_KEY}/action/bank/deposit",
       type: Net::HTTP::Post
     }
   }.freeze
@@ -42,7 +50,15 @@ module API
       end
 
       def fight
-        prepare(action: :fight, body: { name: character_name })
+        prepare(action: :fight)
+      end
+
+      def rest
+        prepare(action: :rest)
+      end
+
+      def deposit(code:, quantity:)
+        prepare(action: :deposit, body: { code:, quantity: })
       end
 
       def characters
