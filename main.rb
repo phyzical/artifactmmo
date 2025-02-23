@@ -12,16 +12,29 @@ characters = CharacterService.all.characters
 maps = MapService.all
 
 action_queue = API::QueueService.new
-chicken_tile = maps.find_maps_by_monster_code(Monster::TYPES[:chicken]).first
+bank_tile_coords = maps.banks.first.to_h.slice(:x, :y)
+chicken_tile_coords = maps.monsters(code: Monster::TYPES[:chicken]).first.to_h.slice(:x, :y)
+
+empty_inventories = -> do
+  characters.each do |character|
+    next unless character.inventory_full?
+    puts "#{character.name} inventory is full"
+    action_queue.add(character.move(**bank_tile_coords)) if character.to_h.slice(:x, :y) != bank_tile_coords
+    action_queue.add(character.deposit_all)
+  end
+end
 
 chicken_massacre = -> do
   characters.each do |character|
-    action_queue.add(character.move(**chicken_tile.to_h.slice(:x, :y)))
+    action_queue.add(character.move(**chicken_tile_coords)) if character.to_h.slice(:x, :y) != chicken_tile_coords
     action_queue.add(character.fight)
   end
 end
 
 loop do
-  chicken_massacre.call if action_queue.empty?
+  if action_queue.empty?
+    empty_inventories.call
+    chicken_massacre.call
+  end
   action_queue.process
 end
