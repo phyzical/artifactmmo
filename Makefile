@@ -1,0 +1,2 @@
+go:
+	ruby main.rb

@@ -1,0 +1,7 @@
+--print-width=120
+--plugins=plugin/single_quotes
+--plugins=erb
+--plugins=erb
+--ignore-files='logs/*'
+--ignore-files='tmp/*'
+--ignore-files='storage/*'

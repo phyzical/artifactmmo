@@ -1,0 +1,71 @@
+AllCops:
+  Exclude:
+    - .idea/**/*
+    - .vscode/**/*
+    - log/**/*
+    - tmp/**/*
+    - public/**/*
+    - .bundle/**/*
+  NewCops: enable
+Layout/EmptyLineAfterMagicComment:
+  Enabled: true
+Layout/EmptyLineBetweenDefs:
+  Enabled: true
+Lint/AmbiguousBlockAssociation:
+  # If you're extending the exclude list please also extend the IntelliJ "Rubocop Watcher" configuration
+  # We don't need to call super on initialize for View Components
+  Enabled: false
+Lint/MissingSuper:
+  Exclude:
+    - app/components/**/*
+Metrics/AbcSize:
+  # Allow migrations to be arbitrarily long.
+  Exclude:
+    - db/**/*
+  # We've found overly short methods often do more harm than good. An outright ban on medium-sized methods seems bad.
+  # "Splitting up a method only makes sense if it results in cleaner abstractions." - John Ousterhout
+  Max: 30
+Metrics/BlockLength:
+  Enabled: false
+Metrics/ClassLength:
+  Enabled: false
+# Rely on ABC complexity for deciding whether a method is too long, not the amount of text.
+Metrics/MethodLength:
+  Enabled: false
+Metrics/ModuleLength:
+  Enabled: false
+Style/ClassAndModuleChildren:
+  Enabled: true
+  # We want to maintain the git history of the files that are being refactored
+  Exclude:
+    - app/controllers/aaf/openid_connect/provider/*.rb
+Style/Documentation:
+  Enabled: false
+Style/EmptyElse:
+  AllowComments: true
+# Endless methods are cute, but simplecov reports them as 100% covered, even
+# if they're never executed. Not worth the trouble.
+Style/EndlessMethod:
+  EnforcedStyle: disallow
+Style/FetchEnvVar:
+  Enabled: false
+Style/FormatStringToken:
+  Enabled: false
+# Disabled as it introduces breaking changes as it incorrectly assumes some _key arguments
+# are not used, but they are
+Style/HashEachMethods:
+  Enabled: false
+Style/QuotedSymbols:
+  EnforcedStyle: single_quotes
+# This cop is too aggressive and doesn't take into account the fact that we might want to use a nested chain.
+# for example: model.&.association&.method. Setting the cop to 5 to allow for a reasonable amount of chaining.
+Style/SafeNavigationChainLength:
+  Max: 5
+Style/StringLiterals:
+  EnforcedStyle: single_quotes
+Style/StringLiteralsInInterpolation:
+  EnforcedStyle: single_quotes
+inherit_gem:
+  syntax_tree: config/rubocop.yml
+require:
+  - rubocop-performance
