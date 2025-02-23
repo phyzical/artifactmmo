@@ -5,7 +5,15 @@ module Map
     Item.new(**keys)
   end
 
-  TYPES = { monster: 'monster', resource: 'resource' }.freeze
+  TYPES = {
+    monster: 'monster',
+    resource: 'resource',
+    bank: 'bank',
+    npc: 'npc',
+    tasks_master: 'tasks_master',
+    workshop: 'workshop',
+    grand_exchange: 'grand_exchange'
+  }.freeze
 
   Item =
     Struct.new(:name, :skin, :x, :y, :type, :code) do
