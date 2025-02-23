@@ -7,14 +7,14 @@ require 'active_support/all'
 require 'prettyprint'
 Dir[File.join(__dir__, 'lib', '**', '*.rb')].each { |file| require file }
 
-characters = API::Action.new.characters.handle.map { |character| Character.new(**character) }
+characters = Characters.all.characters
 
-action_queue = API::Queue.new(characters:)
+action_queue = API::Queue.new
 
 characters.each do |character|
   action_queue.add(character.move(x: 1, y: 0))
   action_queue.add(character.move(x: 1, y: 1))
-  action_queue.add(character.move(x: 0, y: 0))
+  action_queue.add(character.move(x: 0, y: 1))
   action_queue.add(character.move(x: 0, y: 0))
 end
 

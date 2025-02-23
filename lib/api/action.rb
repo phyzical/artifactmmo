@@ -18,8 +18,11 @@ module API
   RESPONSE_CODES = { no_move: 490, cooldown: 499 }.freeze
 
   Action =
-    Struct.new(:character, :action, :request) do
-      delegate :name, to: :character, prefix: true, allow_nil: true
+    Struct.new(:character_name, :action, :request) do
+      def character
+        return if character_name.nil?
+        Characters.all.find_by_name(character_name)
+      end
 
       def move(x: 0, y: 0) # rubocop:disable Naming/MethodParameterName
         prepare(action: :move, body: { x:, y: })
@@ -67,10 +70,9 @@ module API
         when 200
           payload = JSON.parse(response_body, symbolize_names: true)[:data]
           return payload if character.nil?
-          character&.update(payload[:character])
+          Characters.all.update(payload[:character])
         when RESPONSE_CODES[:no_move]
           puts "#{character_name}: already on tile"
-          character
         when RESPONSE_CODES[:cooldown]
           puts "#{character_name}: on cooldown"
           RESPONSE_CODES[:cooldown]
