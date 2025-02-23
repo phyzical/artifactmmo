@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require_relative '../character'
+require_relative '../map'
 
 module API
   BASE_URL = 'https://api.artifactsmmo.com'
@@ -18,7 +19,8 @@ module API
     },
     maps: {
       uri: 'maps',
-      type: Net::HTTP::Get
+      type: Net::HTTP::Get,
+      model: Map
     }
   }.freeze
 
@@ -69,11 +71,18 @@ module API
       end
 
       def perform
-        puts "#{character_name}: #{action} #{request.body}"
         http = Net::HTTP.new(request.uri.host, request.uri.port)
         http.use_ssl = true
-        response = http.request(request)
-        handle_response(response_code: response.code.to_i, response_body: response.body)
+        page = 1
+        loop do
+          puts "#{character_name ? "#{character_name}: " : ''}#{action} page #{page}"
+          request.uri.query = URI.encode_www_form(page:)
+          response = http.request(request)
+          handled_response = handle_response(response_code: response.code.to_i, response_body: response.body)
+          page += 1
+          pages = handled_response[:pages]
+          break unless pages.present? && page < pages
+        end
       end
 
       def handle_response(response_code:, response_body:)
@@ -92,10 +101,17 @@ module API
       end
 
       def handle_success(response_body:)
-        payloads = JSON.parse(response_body, symbolize_names: true)[:data]
-        return payloads.map { |payload| model.new(**payload) } if model.present? && payloads.is_a?(Array)
-        return model.new(**payloads) if model.present?
-        CharacterService.all.update(payloads[:character])
+        payloads = JSON.parse(response_body, symbolize_names: true)
+        items = payloads[:data]
+        response = payloads.slice(:page, :pages)
+        if model.present? && items.is_a?(Array)
+          response[:items] = items.map { |payload| model.new(**payload) }
+        elsif model.present?
+          response[:items] = model.new(**items)
+        else
+          CharacterService.all.update(items[:character])
+        end
+        response
       end
 
       def uri
