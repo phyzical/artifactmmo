@@ -105,11 +105,23 @@ Character =
     end
 
     def deposit_all
-      inventory.group_by(&:code).map { |code, items| api.deposit(code: code, quantity: items.count) }
+      deposit_all_items.push(deposit_all_gold)
+    end
+
+    def deposit_all_items
+      inventory.group_by(&:code).map { |code, items| api.deposit(code: code, quantity: items.count) }.flatten
     end
 
     def deposit(code:, quantity:)
       api.deposit(code:, quantity:)
+    end
+
+    def deposit_gold(quantity:)
+      api.deposit_gold(quantity:)
+    end
+
+    def deposit_all_gold
+      api.deposit_gold(quantity: character.gold)
     end
 
     def cooldown_expiration
