@@ -73,16 +73,20 @@ module API
       def perform
         http = Net::HTTP.new(request.uri.host, request.uri.port)
         http.use_ssl = true
-        page = 1
+        page = 0
+        items = []
         loop do
-          puts "#{character_name ? "#{character_name}: " : ''}#{action} page #{page}"
-          request.uri.query = URI.encode_www_form(page:)
+          puts "#{character_text}#{action} #{JSON.parse(request.body)} #{page_text(page)}"
+          request.uri.query = URI.encode_www_form(page:) if page.present?
           response = http.request(request)
           handled_response = handle_response(response_code: response.code.to_i, response_body: response.body)
+          break if handled_response.nil?
           page += 1
           pages = handled_response[:pages]
+          items.concat(handled_response[:items]) if handled_response[:items].is_a?(Array)
           break unless pages.present? && page < pages
         end
+        items
       end
 
       def handle_response(response_code:, response_body:)
@@ -90,14 +94,22 @@ module API
         when 200
           handle_success(response_body:)
         when RESPONSE_CODES[:no_move]
-          puts "#{character_name}: already on tile"
+          puts "#{character_text}already on tile"
         when RESPONSE_CODES[:cooldown]
-          puts "#{character_name}: on cooldown"
+          puts "#{character_text}on cooldown"
           RESPONSE_CODES[:cooldown]
         else
           puts "Error: #{response_code}"
           raise response_body
         end
+      end
+
+      def character_text
+        character_name ? "#{character_name}: " : ''
+      end
+
+      def page_text(page)
+        page.positive? ? "#{page}: " : ''
       end
 
       def handle_success(response_body:)
