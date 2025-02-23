@@ -83,7 +83,7 @@ Character =
     :y
   ) do
     def initialize(keys)
-      keys[:inventory] = keys[:inventory].map { |item| InventoryItem.new(item) }
+      keys[:inventory] = keys[:inventory].map { |item| InventoryItem.new(**item) }
       super(**keys)
     end
 
@@ -100,6 +100,18 @@ Character =
       api.fight
     end
 
+    def rest
+      api.rest
+    end
+
+    def deposit_all
+      inventory.group_by(&:code).map { |code, items| api.deposit(code: code, quantity: items.count) }
+    end
+
+    def deposit(code:, quantity:)
+      api.deposit(code:, quantity:)
+    end
+
     def cooldown_expiration
       Time.new(self[:cooldown_expiration]).utc
     end
@@ -110,6 +122,10 @@ Character =
 
     def current_cooldown
       cooldown_expiration - Time.now.utc
+    end
+
+    def inventory_full?
+      inventory.size >= inventory_max_items
     end
 
     private
