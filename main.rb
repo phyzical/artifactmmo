@@ -26,6 +26,7 @@ end
 
 chicken_massacre = -> do
   characters.each do |character|
+    action_queue.add(character.rest) if character.hp < character.max_hp
     action_queue.add(character.move(**chicken_tile_coords)) if character.to_h.slice(:x, :y) != chicken_tile_coords
     action_queue.add(character.fight)
   end
