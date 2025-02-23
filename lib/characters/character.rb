@@ -1,11 +1,7 @@
 # frozen_string_literal: true
 
-module Character
-  def self.new(keys)
-    keys[:inventory] = keys[:inventory].map { |item| InventoryItem.new(item) }
-    Item.new(**keys)
-  end
-  Item =
+module Characters
+  Character =
     Struct.new(
       :account,
       :alchemy_level,
@@ -87,6 +83,11 @@ module Character
       :xp,
       :y
     ) do
+      def initialize(keys)
+        keys[:inventory] = keys[:inventory].map { |item| InventoryItem.new(item) }
+        super(**keys)
+      end
+
       def update(keys)
         keys.each { |key, value| self[key] = value }
         self
@@ -100,10 +101,18 @@ module Character
         Time.new(self[:cooldown_expiration]).utc
       end
 
+      def on_cooldown?
+        current_cooldown.positive?
+      end
+
+      def current_cooldown
+        cooldown_expiration - Time.now.utc
+      end
+
       private
 
       def api
-        API::Action.new(character: self)
+        API::Action.new(character_name: name)
       end
     end
 end
