@@ -12,8 +12,8 @@ module API
         while actions.any?
           index = next_action_index_not_in_cooldown
           if index.nil?
-            puts 'everyone is on cooldown, waiting...'
-            sleep(0.1)
+            puts "everyone is on cooldown, waiting #{lowest_cooldown} seconds"
+            sleep(lowest_cooldown + 0.1)
             next
           end
           action = actions.slice!(index)
@@ -26,10 +26,18 @@ module API
         actions << action
       end
 
+      def empty?
+        actions.empty?
+      end
+
       private
 
       def next_action_index_not_in_cooldown
         actions.find_index { |action| !action.character.on_cooldown? }
+      end
+
+      def lowest_cooldown
+        actions.map { |action| action.character.current_cooldown }.min
       end
     end
 end

@@ -22,11 +22,6 @@ chicken_massacre = -> do
 end
 
 loop do
-  characters.each do |character|
-    action_queue.add(character.move(**chicken_tile.to_h.slice(:x, :y)))
-    action_queue.add(character.fight)
-  end
-
+  chicken_massacre.call if action_queue.empty?
   action_queue.process
-  chicken_massacre if action_queue.blank?
 end
