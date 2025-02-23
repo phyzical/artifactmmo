@@ -11,6 +11,11 @@ module API
       def process
         while actions.any?
           index = next_action_index_not_in_cooldown
+          if index.nil?
+            puts 'everyone is on cooldown, waiting...'
+            sleep(0.1)
+            next
+          end
           action = actions.slice!(index)
           result = action.handle
           actions.insert(index, action) if result == RESPONSE_CODES[:cooldown]
@@ -24,7 +29,7 @@ module API
       private
 
       def next_action_index_not_in_cooldown
-        actions.find_index { |action| !action.character.on_cooldown? } || 0
+        actions.find_index { |action| !action.character.on_cooldown? }
       end
     end
 end
