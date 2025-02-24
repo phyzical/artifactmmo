@@ -8,9 +8,11 @@ require 'prettyprint'
 Dir[File.join(__dir__, 'models', '**', '*.rb')].each { |file| require file }
 Dir[File.join(__dir__, 'services', '**', '*.rb')].each { |file| require file }
 
-characters = CharacterService.characters
+monsters = MonsterService.items
+items = ItemsService.items
+characters = CharacterService.items
 bank_tile_coords = MapService.banks.first.to_h.slice(:x, :y)
-chicken_tile_coords = MapService.monsters(code: Monster::TYPES[:chicken]).first.to_h.slice(:x, :y)
+chicken_tile_coords = MapService.monsters(code: Monster::CODES[:chicken]).first.to_h.slice(:x, :y)
 
 # TODO: could we maybe make the action queue, queue this up if fight fails due to inventory being full?
 empty_inventories = -> do
