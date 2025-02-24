@@ -12,9 +12,7 @@ module API
           index = next_action_index_not_in_cooldown
           if index.nil?
             puts "everyone is on cooldown, waiting on the lowest cooldown #{lowest_cooldown} seconds"
-            characters.each do |character|
-              puts "#{character.name}: is on cooldown for #{character.current_cooldown} seconds"
-            end
+            puts CharacterService.character_cooldowns_text
             sleep(lowest_cooldown + 0.1)
             next
           end
@@ -36,10 +34,6 @@ module API
 
       def next_action_index_not_in_cooldown
         actions.find_index { |action| !action.character.on_cooldown? }
-      end
-
-      def characters
-        CharacterService.items
       end
 
       def lowest_cooldown

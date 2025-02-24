@@ -14,6 +14,12 @@ module CharacterService
       items.find { |character| character.name == name }
     end
 
+    def character_cooldowns_text
+      items
+        .reduce('') { |acc, character| acc + "#{character.name}: #{character.current_cooldown} seconds, " }
+        .trim(', ')
+    end
+
     private
 
     def pull
