@@ -83,11 +83,12 @@ Character =
     :y
   ) do
     def initialize(keys)
-      keys[:inventory] = keys[:inventory].map { |item| InventoryItem.new(**item) }
+      keys[:inventory] = process_inventory(inventory: keys[:inventory])
       super(**keys)
     end
 
     def update(keys)
+      keys[:inventory] = process_inventory(inventory: keys[:inventory])
       keys.each { |key, value| self[key] = value }
       self
     end
@@ -105,23 +106,27 @@ Character =
     end
 
     def deposit_all
-      deposit_all_items.push(deposit_all_gold)
+      deposit_all_items.push(deposit_gold)
     end
 
     def deposit_all_items
-      inventory.group_by(&:code).map { |code, items| api.deposit(code: code, quantity: items.count) }.flatten
+      inventory_counts_by_items.map { |code, quantity| api.deposit(code:, quantity:) }
+    end
+
+    def inventory_items
+      inventory.reject { |x| x.code.empty? }
+    end
+
+    def inventory_counts_by_items
+      inventory_items.group_by(&:code).transform_values { |items| items.sum(&:quantity) }
     end
 
     def deposit(code:, quantity:)
       api.deposit(code:, quantity:)
     end
 
-    def deposit_gold(quantity:)
-      api.deposit_gold(quantity:)
-    end
-
-    def deposit_all_gold
-      api.deposit_gold(quantity: character.gold)
+    def deposit_gold(quantity: gold)
+      api.deposit(code: InventoryItem::CODES[:gold], quantity:)
     end
 
     def cooldown_expiration
@@ -137,10 +142,14 @@ Character =
     end
 
     def inventory_full?
-      inventory.size >= inventory_max_items
+      inventory_counts_by_items.values.sum >= (inventory_max_items - 5) || inventory.none? { |item| item.code.empty? }
     end
 
     private
+
+    def process_inventory(inventory:)
+      inventory.map { |item| InventoryItem.new(**item) }
+    end
 
     def api
       API::Action.new(character_name: name)
