@@ -2,16 +2,20 @@ init:
 	bundle install
 	cp .env.dist .env
 
-go:
+run:
 	ruby main.rb
 
-build:
-	docker build -t artifactmmo .
+IMAGE_NAME=artifactmmo
 
-run:
-	docker run -it --rm \
-	--env-file=.env \
+build:
+	docker build -t ${IMAGE_NAME} .
+
+COMMON=--env-file=.env \
 	-v ${PWD}/services:/app/services \
 	-v ${PWD}/models:/app/models \
-	-v ${PWD}/main.rb:/app/main.rb \
-	artifactmmo
+	-v ${PWD}/main.rb:/app/main.rb
+
+run-image:
+	docker run -it --rm \
+	${COMMON} \
+	${IMAGE_NAME} 
