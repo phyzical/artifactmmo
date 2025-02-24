@@ -17,7 +17,7 @@ module CharacterService
     def character_cooldowns_text
       items
         .reduce('') { |acc, character| acc + "#{character.name}: #{character.current_cooldown} seconds, " }
-        .trim(', ')
+        .chomp(', ')
     end
 
     private
