@@ -1,18 +1,20 @@
 # frozen_string_literal: true
 
 module API
-  QueueService =
-    Struct.new(:actions) do
-      def initialize(keys = {})
-        super(**keys)
-        self.actions = []
+  module QueueService
+    class << self
+      def actions
+        @actions ||= []
       end
 
       def process
         while actions.any?
           index = next_action_index_not_in_cooldown
           if index.nil?
-            puts "everyone is on cooldown, waiting #{lowest_cooldown} seconds"
+            puts 'everyone is on cooldown, waiting'
+            characters.each do |character|
+              puts "#{character.name}: is on cooldown for #{character.current_cooldown} seconds"
+            end
             sleep(lowest_cooldown + 0.1)
             next
           end
@@ -22,8 +24,8 @@ module API
         end
       end
 
-      def add(action)
-        actions << action
+      def add(actions_to_add)
+        actions.push(*(actions_to_add.is_a?(Action) ? [actions_to_add] : actions_to_add))
       end
 
       def empty?
@@ -36,8 +38,13 @@ module API
         actions.find_index { |action| !action.character.on_cooldown? }
       end
 
+      def characters
+        CharacterService.characters
+      end
+
       def lowest_cooldown
         actions.map { |action| action.character.current_cooldown }.min
       end
     end
+  end
 end
