@@ -1,3 +1,11 @@
 # frozen_string_literal: true
 
-InventoryItem = Struct.new(:slot, :code, :quantity)
+module InventoryItem
+  CODES = { gold: 'gold' }.freeze
+
+  def self.new(keys)
+    Item.new(**keys)
+  end
+
+  Item = Struct.new(:slot, :code, :quantity)
+end

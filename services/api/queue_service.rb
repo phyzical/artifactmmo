@@ -11,7 +11,7 @@ module API
         while actions.any?
           index = next_action_index_not_in_cooldown
           if index.nil?
-            puts 'everyone is on cooldown, waiting'
+            puts "everyone is on cooldown, waiting on the lowest cooldown #{lowest_cooldown} seconds"
             characters.each do |character|
               puts "#{character.name}: is on cooldown for #{character.current_cooldown} seconds"
             end
@@ -39,7 +39,7 @@ module API
       end
 
       def characters
-        CharacterService.characters
+        CharacterService.items
       end
 
       def lowest_cooldown

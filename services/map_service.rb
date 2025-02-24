@@ -2,8 +2,8 @@
 
 module MapService
   class << self
-    def maps
-      @maps ||= pull
+    def items
+      @items ||= pull
     end
 
     def monsters(code: nil)
@@ -35,7 +35,7 @@ module MapService
     end
 
     def non_empty
-      maps.reject { |map| map.type.nil? }
+      items.reject { |map| map.type.nil? }
     end
 
     private

@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
-require_relative '../character'
-require_relative '../map'
+Dir[File.join(__dir__, '..', '*.rb')].each { |file| require file }
 
 module API
   BASE_URL = 'https://api.artifactsmmo.com'
@@ -10,7 +9,8 @@ module API
   ACTIONS = {
     move: {
       uri: "my/#{CHARACTER_NAME_KEY}/action/move",
-      type: Net::HTTP::Post
+      type: Net::HTTP::Post,
+      add_to_queue: true
     },
     characters: {
       uri: 'my/characters',
@@ -22,21 +22,35 @@ module API
       type: Net::HTTP::Get,
       model: Map
     },
+    monsters: {
+      uri: 'monsters',
+      type: Net::HTTP::Get,
+      model: Monster
+    },
+    items: {
+      uri: 'items',
+      type: Net::HTTP::Get,
+      model: Item
+    },
     fight: {
       uri: "my/#{CHARACTER_NAME_KEY}/action/fight",
-      type: Net::HTTP::Post
+      type: Net::HTTP::Post,
+      add_to_queue: true
     },
     rest: {
       uri: "my/#{CHARACTER_NAME_KEY}/action/rest",
-      type: Net::HTTP::Post
+      type: Net::HTTP::Post,
+      add_to_queue: true
     },
     deposit: {
       uri: "my/#{CHARACTER_NAME_KEY}/action/bank/deposit",
-      type: Net::HTTP::Post
+      type: Net::HTTP::Post,
+      add_to_queue: true
     },
     deposit_gold: {
       uri: "my/#{CHARACTER_NAME_KEY}/action/bank/deposit/gold",
-      type: Net::HTTP::Post
+      type: Net::HTTP::Post,
+      add_to_queue: true
     }
   }.freeze
 
@@ -115,31 +129,39 @@ module API
       end
 
       def move(x: 0, y: 0) # rubocop:disable Naming/MethodParameterName
-        add_to_queue(action: :move, body: { x:, y: })
+        prepare(action: :move, body: { x:, y: })
       end
 
       def fight
-        add_to_queue(action: :fight)
+        prepare(action: :fight)
       end
 
       def rest
-        add_to_queue(action: :rest)
+        prepare(action: :rest)
       end
 
       def deposit(code:, quantity:)
         if code == InventoryItem::CODES[:gold]
           deposit_gold(quantity:)
         else
-          add_to_queue(action: :deposit, body: { code:, quantity: })
+          prepare(action: :deposit, body: { code:, quantity: })
         end
       end
 
+      def monsters
+        prepare(action: :monsters)
+      end
+
+      def items
+        prepare(action: :items)
+      end
+
       def characters
-        prepare(action: :characters).handle
+        prepare(action: :characters)
       end
 
       def maps
-        prepare(action: :maps).handle
+        prepare(action: :maps)
       end
 
       def handle
@@ -156,11 +178,11 @@ module API
         self.action = action
         self.body = body
         request(body:)
-        self
+        ACTIONS[action][:add_to_queue] ? add_to_queue : handle
       end
 
-      def add_to_queue(action:, body: {})
-        API::QueueService.add(prepare(action:, body:))
+      def add_to_queue
+        API::QueueService.add(self)
       end
 
       def api_key

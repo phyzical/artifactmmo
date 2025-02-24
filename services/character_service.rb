@@ -2,8 +2,8 @@
 
 module CharacterService
   class << self
-    def characters
-      @characters ||= pull
+    def items
+      @items ||= pull
     end
 
     def update(values)
@@ -11,7 +11,7 @@ module CharacterService
     end
 
     def find_by_name(name)
-      characters.find { |character| character.name == name }
+      items.find { |character| character.name == name }
     end
 
     private
