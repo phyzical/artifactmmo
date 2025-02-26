@@ -89,6 +89,7 @@ module Characters
       :y
     ) do
       def updates(keys)
+        keys[:inventory] = Character.process_inventory(inventory: keys[:inventory]) if keys[:inventory]
         keys.each { |key, value| self[key] = value }
         self
       end
@@ -114,8 +115,8 @@ module Characters
       end
 
       def deposit(code:, quantity:)
-        bank_position = MapService.bank.position
-        move(**bank_position) if position != bank_position
+        bank = MapService.bank
+        move(**bank.position) if position != bank.position
         api.deposit(code:, quantity:)
       end
 
@@ -137,6 +138,8 @@ module Characters
       end
 
       def task
+        task_master = MapService.tasks_master
+        move(**task_master.position) if position != task_master.position
         api.task
       end
 
