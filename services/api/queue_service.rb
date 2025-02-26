@@ -2,6 +2,7 @@
 
 module API
   module QueueService
+    MAX_HISTORY_SIZE = 100
     class << self
       def actions
         @actions ||= []
@@ -53,7 +54,13 @@ module API
       def run(action:)
         action.handle
         responses.push(*action.responses)
+        clean_history
         action.data
+      end
+
+      def clean_history
+        diff = responses.length - MAX_HISTORY_SIZE
+        self.responses = responses.slice(diff - 1, responses.length) if diff.positive?
       end
 
       def next_action_index_not_in_cooldown
