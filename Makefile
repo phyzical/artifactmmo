@@ -16,6 +16,6 @@ COMMON=--env-file=.env \
 	-v ${PWD}/main.rb:/app/main.rb
 
 run-image:
-	docker run -it --rm \
+	@docker run -it --rm \
 	${COMMON} \
 	${IMAGE_NAME} 

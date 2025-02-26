@@ -100,7 +100,7 @@ Character =
     def fight(code:)
       if inventory_full?
         deposit_all
-        puts "#{character.name} inventory is full"
+        puts "#{name} inventory is full"
       end
       rest
       monster = MapService.monster(code:)
@@ -120,6 +120,7 @@ Character =
     end
 
     def deposit_gold(quantity: gold)
+      return if quantity.zero?
       deposit(code: InventoryItem::CODES[:gold], quantity:)
     end
 
@@ -150,7 +151,7 @@ Character =
     private
 
     def deposit_all_items
-      inventory_counts_by_items.map { |code, quantity| api.deposit(code:, quantity:) }
+      inventory_counts_by_items.map { |code, quantity| deposit(code:, quantity:) }
     end
 
     def inventory_items
