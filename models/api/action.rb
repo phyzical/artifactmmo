@@ -63,6 +63,11 @@ module API
       uri: 'my/bank/items',
       type: Net::HTTP::Get,
       model: Characters::Item
+    },
+    task: {
+      uri: "my/#{CHARACTER_NAME_KEY}/action/task/new",
+      type: Net::HTTP::Post,
+      model: Tasks::Task
     }
   }.freeze
 
@@ -120,6 +125,10 @@ module API
 
         def maps
           prepare(action: :maps)
+        end
+
+        def task
+          prepare(action: :task, body: { name: character_name })
         end
 
         def handle

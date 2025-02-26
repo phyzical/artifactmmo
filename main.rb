@@ -15,7 +15,10 @@ def run
 
   loop do
     if API::QueueService.empty?
-      CharacterService.items.each { |character| character.fight(code: Monsters::Monster::CODES[:chicken]) }
+      CharacterService.items.each do |character|
+        character.task
+        character.fight(code: Monsters::Monster::CODES[:chicken])
+      end
     end
     API::QueueService.process
   end

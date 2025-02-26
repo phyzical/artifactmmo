@@ -137,6 +137,10 @@ module Characters
         cooldown_expiration - Time.now.utc
       end
 
+      def task
+        api.task
+      end
+
       def inventory_full?
         inventory_counts_by_items.values.sum >= (inventory_max_items - 5) || inventory.none? { |item| item.code.empty? }
       end
