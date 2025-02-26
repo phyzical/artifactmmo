@@ -7,7 +7,7 @@ module MapService
     end
 
     def monsters(code: nil)
-      non_empty.select { |map| map.type == Map::TYPES[:monster] && (!code || map.code == code) }
+      @monsters ||= non_empty.select { |map| map.type == Map::TYPES[:monster] && (!code || map.code == code) }
     end
 
     def monster(code: nil)
@@ -15,7 +15,7 @@ module MapService
     end
 
     def resources(code: nil)
-      non_empty.select { |map| map.type == Map::TYPES[:resource] && (!code || map.code == code) }
+      @resources ||= non_empty.select { |map| map.type == Map::TYPES[:resource] && (!code || map.code == code) }
     end
 
     def resource(code: nil)
@@ -23,7 +23,7 @@ module MapService
     end
 
     def banks(code: nil)
-      non_empty.select { |map| map.type == Map::TYPES[:bank] && (!code || map.code == code) }
+      @banks ||= non_empty.select { |map| map.type == Map::TYPES[:bank] && (!code || map.code == code) }
     end
 
     def bank(code: nil)
@@ -31,7 +31,7 @@ module MapService
     end
 
     def npcs(code: nil)
-      non_empty.select { |map| map.type == Map::TYPES[:npc] && (!code || map.code == code) }
+      @npcs ||= non_empty.select { |map| map.type == Map::TYPES[:npc] && (!code || map.code == code) }
     end
 
     def npc(code: nil)
@@ -39,7 +39,7 @@ module MapService
     end
 
     def tasks_masters(code: nil)
-      non_empty.select { |map| map.type == Map::TYPES[:tasks_master] && (!code || map.code == code) }
+      @tasks_masters ||= non_empty.select { |map| map.type == Map::TYPES[:tasks_master] && (!code || map.code == code) }
     end
 
     def tasks_master(code: nil)
@@ -47,7 +47,7 @@ module MapService
     end
 
     def workshops(code: nil)
-      non_empty.select { |map| map.type == Map::TYPES[:workshop] && (!code || map.code == code) }
+      @workshops ||= non_empty.select { |map| map.type == Map::TYPES[:workshop] && (!code || map.code == code) }
     end
 
     def workshop(code: nil)
@@ -55,7 +55,8 @@ module MapService
     end
 
     def grand_exchanges(code: nil)
-      non_empty.select { |map| map.type == Map::TYPES[:grand_exchange] && (!code || map.code == code) }
+      @grand_exchanges ||=
+        non_empty.select { |map| map.type == Map::TYPES[:grand_exchange] && (!code || map.code == code) }
     end
 
     def grand_exchange(code: nil)

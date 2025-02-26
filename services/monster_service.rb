@@ -6,6 +6,14 @@ module MonsterService
       @items ||= pull
     end
 
+    def monster(code:)
+      monsters(code:).first
+    end
+
+    def monsters(code:)
+      items.find { |item| item.code == code }
+    end
+
     private
 
     def pull

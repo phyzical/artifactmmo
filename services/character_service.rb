@@ -7,7 +7,7 @@ module CharacterService
     end
 
     def update(values)
-      find_by_name(values[:name])&.update(values)
+      find_by_name(values[:name])&.updates(values)
     end
 
     def find_by_name(name)
