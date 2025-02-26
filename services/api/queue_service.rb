@@ -7,6 +7,10 @@ module API
         @actions ||= []
       end
 
+      def responses
+        @responses ||= []
+      end
+
       def process
         while actions.any?
           index = next_action_index_not_in_cooldown
@@ -17,13 +21,17 @@ module API
             next
           end
           action = actions.slice!(index)
-          result = action.handle
-          actions.insert(index, action) if result == RESPONSE_CODES[:cooldown]
+          run(action:)
+          if action.responses.last.code == Response::CODES[:cooldown]
+            actions.insert(index, action)
+          else
+            puts "#{action.character_text}(Completed #{action.action}) #{responses.last.data}"
+          end
         end
       end
 
-      def add(actions_to_add)
-        actions.push(*(actions_to_add.is_a?(Action) ? [actions_to_add] : actions_to_add))
+      def handle_action(action:)
+        ACTIONS[action.action][:add_to_queue] ? add(action:) : run(action:)
       end
 
       def empty?
@@ -31,6 +39,16 @@ module API
       end
 
       private
+
+      def add(action:)
+        actions.push(action)
+      end
+
+      def run(action:)
+        action.handle
+        responses.push(*action.responses)
+        action.data
+      end
 
       def next_action_index_not_in_cooldown
         actions.find_index { |action| !action.character.on_cooldown? }
