@@ -27,8 +27,8 @@ module Map
           Monster.new(code: code)
           # elsif type == TYPES[:resource]
           #   Resource.new(code: code)
-          # elsif type == TYPES[:bank]
-          #   Bank.new(code: code)
+        elsif type == TYPES[:bank]
+          Bank.new(code: code)
           # elsif type == TYPES[:npc]
           #   Npc.new(code: code)
           # elsif type == TYPES[:tasks_master]

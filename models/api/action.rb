@@ -52,6 +52,16 @@ module API
       uri: "my/#{CHARACTER_NAME_KEY}/action/bank/deposit/gold",
       type: Net::HTTP::Post,
       add_to_queue: true
+    },
+    bank: {
+      uri: 'my/bank',
+      type: Net::HTTP::Get,
+      model: Locations::Bank
+    },
+    bank_items: {
+      uri: 'my/bank/items',
+      type: Net::HTTP::Get,
+      model: InventoryItem
     }
   }.freeze
 
@@ -77,6 +87,14 @@ module API
 
         def rest
           prepare(action: :rest)
+        end
+
+        def bank
+          prepare(action: :bank)
+        end
+
+        def bank_items
+          prepare(action: :bank_items)
         end
 
         def deposit(code:, quantity:)

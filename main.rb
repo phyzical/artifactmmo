@@ -9,12 +9,13 @@ Dir[File.join(__dir__, 'models', '**', '*.rb')].each { |file| require file }
 Dir[File.join(__dir__, 'services', '**', '*.rb')].each { |file| require file }
 
 def run
-  %i[CharacterService MonsterService ItemsService MapService].map { |service| Object.const_get(service).items }
-  characters = CharacterService.items
+  %i[CharacterService MonsterService ItemsService MapService BankService].map do |service|
+    Object.const_get(service).items
+  end
 
   loop do
     if API::QueueService.empty?
-      characters.each { |character| character.fight(code: Monsters::Monster::CODES[:chicken]) }
+      CharacterService.items.each { |character| character.fight(code: Monsters::Monster::CODES[:chicken]) }
     end
     API::QueueService.process
   end
@@ -24,6 +25,6 @@ begin
   run
 rescue StandardError => e
   pp API::QueueService.responses.last
-  pp e
   pp e.backtrace.map { |x| x.gsub('/app', '') }
+  raise e
 end
