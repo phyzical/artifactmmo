@@ -97,11 +97,15 @@ Character =
       api.move(x:, y:)
     end
 
-    def fight
+    def fight(code:)
+      rest
+      monster = MapService.monster(code:)
+      move(**monster.position) if position != monster.position
       api.fight
     end
 
     def rest
+      return if hp >= max_hp
       api.rest
     end
 
@@ -122,11 +126,13 @@ Character =
     end
 
     def deposit(code:, quantity:)
+      bank_position = MapService.bank.position
+      move(**bank_position) if position != bank_position
       api.deposit(code:, quantity:)
     end
 
     def deposit_gold(quantity: gold)
-      api.deposit(code: InventoryItem::CODES[:gold], quantity:)
+      deposit(code: InventoryItem::CODES[:gold], quantity:)
     end
 
     def cooldown_expiration
@@ -143,6 +149,10 @@ Character =
 
     def inventory_full?
       inventory_counts_by_items.values.sum >= (inventory_max_items - 5) || inventory.none? { |item| item.code.empty? }
+    end
+
+    def position
+      { x:, y: }
     end
 
     private
