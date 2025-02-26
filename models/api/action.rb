@@ -46,7 +46,8 @@ module API
     deposit: {
       uri: "my/#{CHARACTER_NAME_KEY}/action/bank/deposit",
       type: Net::HTTP::Post,
-      add_to_queue: true
+      add_to_queue: true,
+      model: Item
     },
     deposit_gold: {
       uri: "my/#{CHARACTER_NAME_KEY}/action/bank/deposit/gold",
