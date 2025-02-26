@@ -13,7 +13,7 @@ def run
   items = ItemsService.items
   characters = CharacterService.items
   bank_tile_coords = MapService.banks.first.to_h.slice(:x, :y)
-  chicken_tile_coords = MapService.monsters(code: Monster::CODES[:chicken]).first.to_h.slice(:x, :y)
+  chicken_tile_coords = MapService.monsters(code: Monsters::Monster::CODES[:chicken]).first.to_h.slice(:x, :y)
 
   #TODO: could we maybe make the action queue, queue this up if fight fails due to inventory being full?
   empty_inventories = -> do
@@ -46,7 +46,7 @@ end
 begin
   run
 rescue StandardError => e
+  pp API::QueueService.responses.last
   pp e
-  pp e.backtrace
-  pp API::QueueService.responses.last(20)
+  pp e.backtrace.map { |x| x.gsub('/app', '') }
 end
