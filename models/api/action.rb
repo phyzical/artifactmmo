@@ -15,7 +15,7 @@ module API
     characters: {
       uri: 'my/characters',
       type: Net::HTTP::Get,
-      model: Character
+      model: Characters::Character
     },
     maps: {
       uri: 'maps',
@@ -62,7 +62,7 @@ module API
     bank_items: {
       uri: 'my/bank/items',
       type: Net::HTTP::Get,
-      model: InventoryItem
+      model: Characters::Item
     }
   }.freeze
 
