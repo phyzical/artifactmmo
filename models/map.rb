@@ -24,11 +24,11 @@ module Map
 
       def item
         if type == TYPES[:monster]
-          Monster.new(code: code)
+          MonsterService.monster(code:)
           # elsif type == TYPES[:resource]
           #   Resource.new(code: code)
         elsif type == TYPES[:bank]
-          Bank.new(code: code)
+          BankService.bank
           # elsif type == TYPES[:npc]
           #   Npc.new(code: code)
           # elsif type == TYPES[:tasks_master]

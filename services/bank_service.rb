@@ -11,7 +11,7 @@ module BankService
     alias items bank
 
     def update_items(bank_items:)
-      @bank.items = bank_items.map { |item| InventoryItem.new(**item) }
+      @bank.items = bank_items.map { |item| Characters::Item.new(**item) }
     end
 
     private

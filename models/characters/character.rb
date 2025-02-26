@@ -88,8 +88,7 @@ module Characters
       :xp,
       :y
     ) do
-      def update(keys)
-        keys[:inventory] = process_inventory(inventory: keys[:inventory])
+      def updates(keys)
         keys.each { |key, value| self[key] = value }
         self
       end
