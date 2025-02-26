@@ -22,7 +22,7 @@ module API
           end
           action = actions.slice!(index)
           run(action:)
-          if responses.last.code == Response::CODES[:cooldown]
+          if responses.last.code == Response::CODES[:character_in_cooldown]
             actions.insert(index, action)
           else
             puts "#{action.character_log}Completed #{action.action}"
