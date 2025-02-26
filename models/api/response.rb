@@ -99,7 +99,14 @@ module API
           elsif model.present?
             self.data = [model.new(**raw_data)]
           end
-          CharacterService.update(raw_data[:character]) if raw_data.is_a?(Hash) && raw_data[:character].present?
+          handle_updates
+        end
+
+        def handle_updates
+          return unless raw_data.is_a?(Hash)
+
+          BankService.update_items(raw_data[:bank]) if raw_data[:bank].present?
+          CharacterService.update(raw_data[:character]) if raw_data[:character].present?
         end
 
         def page

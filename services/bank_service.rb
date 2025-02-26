@@ -10,6 +10,10 @@ module BankService
 
     alias items bank
 
+    def update_items(bank_items:)
+      @bank.items = bank_items.map { |item| InventoryItem.new(**item) }
+    end
+
     private
 
     def pull
