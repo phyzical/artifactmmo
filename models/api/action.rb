@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-Dir[File.join(__dir__, '..', '*.rb')].each { |file| require file }
+Dir[File.join(__dir__, '..', '**', '*.rb')].each { |file| require file }
 
 module API
   BASE_URL = 'https://api.artifactsmmo.com'
@@ -25,7 +25,7 @@ module API
     monsters: {
       uri: 'monsters',
       type: Net::HTTP::Get,
-      model: Monster
+      model: Monsters::Monster
     },
     items: {
       uri: 'items',
@@ -35,7 +35,8 @@ module API
     fight: {
       uri: "my/#{CHARACTER_NAME_KEY}/action/fight",
       type: Net::HTTP::Post,
-      add_to_queue: true
+      add_to_queue: true,
+      model: Monsters::Fight
     },
     rest: {
       uri: "my/#{CHARACTER_NAME_KEY}/action/rest",
@@ -115,7 +116,7 @@ module API
           responses.map(&:data).flatten
         end
 
-        def character_text
+        def character_log
           character_name ? "#{character_name}: " : ''
         end
 
@@ -154,12 +155,16 @@ module API
           generated_request = request({ page: page })
           http = Net::HTTP.new(generated_request.uri.host, generated_request.uri.port)
           http.use_ssl = true
-          puts "#{character_text}#{action} #{JSON.parse(generated_request.body)} #{page_text(page:)}"
+          puts "#{character_log}#{action} #{body_log(body: generated_request.body)}#{page_log(page:)}"
           Response.new(action: self, response: http.request(generated_request))
         end
 
-        def page_text(page:)
+        def page_log(page:)
           page && page > 1 ? "page: #{page}" : ''
+        end
+
+        def body_log(body:)
+          body == '{}' ? '' : "#{body} "
         end
 
         def uri

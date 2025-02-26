@@ -86,9 +86,9 @@ module API
             success
           else
             if code_raise?
-              puts "Error: #{code} -> #{code_text}"
+              puts "Error: #{code} -> #{code_log}"
             else
-              puts "#{action.character_text}#{code_text}"
+              puts "#{action.character_log}#{code_log}"
             end
           end
         end
@@ -98,9 +98,8 @@ module API
             self.data = raw_data.map { |payload| model.new(**payload) }
           elsif model.present?
             self.data = [model.new(**raw_data)]
-          else
-            CharacterService.update(raw_data[:character])
           end
+          CharacterService.update(raw_data[:character]) if raw_data.is_a?(Hash) && raw_data[:character].present?
         end
 
         def page
@@ -117,7 +116,7 @@ module API
 
         private
 
-        def code_text
+        def code_log
           CODES.key(code)
         end
 

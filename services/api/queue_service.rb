@@ -22,10 +22,11 @@ module API
           end
           action = actions.slice!(index)
           run(action:)
-          if action.responses.last.code == Response::CODES[:cooldown]
+          if responses.last.code == Response::CODES[:cooldown]
             actions.insert(index, action)
           else
-            puts "#{action.character_text}(Completed #{action.action}) #{responses.last.data}"
+            puts "#{action.character_log}Completed #{action.action}"
+            last_response_data_log
           end
         end
       end
@@ -39,6 +40,11 @@ module API
       end
 
       private
+
+      def last_response_data_log
+        return if responses.last.data == []
+        pp responses.last.data
+      end
 
       def add(action:)
         actions.push(action)
