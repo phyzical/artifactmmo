@@ -98,6 +98,10 @@ Character =
     end
 
     def fight(code:)
+      if inventory_full?
+        deposit_all
+        puts "#{character.name} inventory is full"
+      end
       rest
       monster = MapService.monster(code:)
       move(**monster.position) if position != monster.position
@@ -107,22 +111,6 @@ Character =
     def rest
       return if hp >= max_hp
       api.rest
-    end
-
-    def deposit_all
-      deposit_all_items.push(deposit_gold)
-    end
-
-    def deposit_all_items
-      inventory_counts_by_items.map { |code, quantity| api.deposit(code:, quantity:) }
-    end
-
-    def inventory_items
-      inventory.reject { |x| x.code.empty? }
-    end
-
-    def inventory_counts_by_items
-      inventory_items.group_by(&:code).transform_values { |items| items.sum(&:quantity) }
     end
 
     def deposit(code:, quantity:)
@@ -155,7 +143,23 @@ Character =
       { x:, y: }
     end
 
+    def deposit_all
+      deposit_all_items.push(deposit_gold)
+    end
+
     private
+
+    def deposit_all_items
+      inventory_counts_by_items.map { |code, quantity| api.deposit(code:, quantity:) }
+    end
+
+    def inventory_items
+      inventory.reject { |x| x.code.empty? }
+    end
+
+    def inventory_counts_by_items
+      inventory_items.group_by(&:code).transform_values { |items| items.sum(&:quantity) }
+    end
 
     def process_inventory(inventory:)
       inventory.map { |item| InventoryItem.new(**item) }
