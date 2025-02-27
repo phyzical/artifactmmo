@@ -52,8 +52,11 @@ module API
       end
 
       def run(action:)
-        action.handle
-        responses.push(*action.responses)
+        begin
+          action.handle
+        ensure
+          responses.push(*action.responses)
+        end
         clean_history
         action.data
       end
