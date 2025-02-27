@@ -3,11 +3,19 @@
 module Tasks
   module Task
     def self.new(keys)
-      keys = keys[:task]
-      keys[:rewards] = keys[:rewards].map { |reward| Reward.new(**reward) }
-      Item.new(**keys)
+      Thing.new(**Thing.process_keys(keys:))
     end
 
-    Item = Struct.new(:code, :type, :total, :rewards)
+    Thing =
+      Struct.new(:code, :type, :rewards, :total, :progress, :level, :min_quantity, :max_quantity, :skill) do
+        def update(keys)
+          Thing.process_keys(keys:).each { |key, value| self[key] = value }
+        end
+
+        def self.process_keys(keys:)
+          keys[:rewards] = Reward.new(**keys[:rewards]) if keys[:rewards]
+          keys
+        end
+      end
   end
 end
