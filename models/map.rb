@@ -2,7 +2,7 @@
 
 module Map
   def self.new(keys)
-    Item.new(**keys)
+    Thing.new(**keys)
   end
 
   TYPES = {
@@ -15,7 +15,7 @@ module Map
     grand_exchange: 'grand_exchange'
   }.freeze
 
-  Item =
+  Thing =
     Struct.new(:name, :skin, :x, :y, :type, :code) do
       def initialize(keys)
         content = keys.delete(:content) || {}
