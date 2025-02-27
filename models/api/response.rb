@@ -71,6 +71,7 @@ module API
 
     def self.new(action:, response:)
       response = Item.new(response:, action:, data: [])
+      action.add_response(response:)
       response.handle
       response
     end
