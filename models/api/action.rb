@@ -66,7 +66,11 @@ module API
     },
     task: {
       uri: "my/#{CHARACTER_NAME_KEY}/action/task/new",
-      type: Net::HTTP::Post,
+      type: Net::HTTP::Post
+    },
+    tasks: {
+      uri: 'tasks/list',
+      type: Net::HTTP::Get,
       model: Tasks::Task
     }
   }.freeze
@@ -104,7 +108,7 @@ module API
         end
 
         def deposit(code:, quantity:)
-          if code == InventoryItem::CODES[:gold]
+          if code == Item::CODES[:gold]
             deposit_gold(quantity:)
           else
             prepare(action: :deposit, body: { code:, quantity: })
@@ -117,6 +121,10 @@ module API
 
         def items
           prepare(action: :items)
+        end
+
+        def tasks
+          prepare(action: :tasks)
         end
 
         def characters
@@ -134,7 +142,6 @@ module API
         def handle
           loop do
             response = perform(page: (responses.last&.page || 0) + 1)
-            responses << response
             break if response.data.nil? || response.code == Response::CODES[:character_in_cooldown]
             break unless response.pages.present? && response.page <= response.pages
           end
@@ -150,6 +157,10 @@ module API
 
         def model
           ACTIONS[action][:model]
+        end
+
+        def add_response(response:)
+          responses.push(response)
         end
 
         private
