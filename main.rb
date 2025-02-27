@@ -9,14 +9,14 @@ Dir[File.join(__dir__, 'models', '**', '*.rb')].each { |file| require file }
 Dir[File.join(__dir__, 'services', '**', '*.rb')].each { |file| require file }
 
 def run
-  %i[CharacterService MonsterService ItemsService MapService BankService].map do |service|
+  %i[TasksService CharacterService MonsterService ItemsService MapService BankService].map do |service|
     Object.const_get(service).items
   end
 
   loop do
     if API::QueueService.empty?
       CharacterService.items.each do |character|
-        character.task
+        character.new_task
         character.fight(code: Monsters::Monster::CODES[:chicken])
       end
     end
