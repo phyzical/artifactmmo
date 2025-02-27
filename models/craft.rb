@@ -5,7 +5,7 @@ module Craft
 
   def self.new(keys)
     keys[:items] = keys[:items].map { |item| Characters::Item.new(**item) }
-    Item.new(**keys)
+    Thing.new(**keys)
   end
-  Item = Struct.new(:skill, :level, :items, :quantity)
+  Thing = Struct.new(:skill, :level, :items, :quantity)
 end

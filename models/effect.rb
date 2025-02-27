@@ -2,8 +2,8 @@
 
 module Effect
   def self.new(keys)
-    Item.new(**keys)
+    Thing.new(**keys)
   end
 
-  Item = Struct.new(:code, :value)
+  Thing = Struct.new(:code, :value)
 end
