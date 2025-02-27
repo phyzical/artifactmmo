@@ -63,7 +63,7 @@ module API
 
       def clean_history
         diff = responses.length - MAX_HISTORY_SIZE
-        self.responses = responses.slice(diff - 1, responses.length) if diff.positive?
+        @responses = responses.slice(diff - 1, responses.length) if diff.positive?
       end
 
       def next_action_index_not_in_cooldown
