@@ -4,9 +4,9 @@ module Tasks
   module Reward
     def self.new(keys)
       keys[:items] = keys[:items].map { |item| Characters::Item.new(**item) }
-      Item.new(**keys)
+      Thing.new(**keys)
     end
 
-    Item = Struct.new(:gold, :items)
+    Thing = Struct.new(:gold, :items)
   end
 end

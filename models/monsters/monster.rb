@@ -7,10 +7,10 @@ module Monsters
     def self.new(keys)
       keys[:drops] = keys[:drops].map { |drop| Drop.new(**drop) }
       keys[:effects] = keys[:effects].map { |drop| Effect.new(**drop) }
-      Item.new(**keys)
+      Thing.new(**keys)
     end
 
-    Item =
+    Thing =
       Struct.new(
         :name,
         :code,

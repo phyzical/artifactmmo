@@ -9,9 +9,9 @@ module Monsters
       keys[:player_blocked_hits] = Hit.new(**keys[:player_blocked_hits]) if keys[:player_blocked_hits]
       keys[:win] = keys.delete(:result) == 'win'
 
-      Item.new(**keys)
+      Thing.new(**keys)
     end
 
-    Item = Struct.new(:xp, :gold, :drops, :turns, :monster_blocked_hits, :player_blocked_hits, :logs, :win)
+    Thing = Struct.new(:xp, :gold, :drops, :turns, :monster_blocked_hits, :player_blocked_hits, :logs, :win)
   end
 end
