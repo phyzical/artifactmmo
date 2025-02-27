@@ -7,11 +7,12 @@ module MonsterService
     end
 
     def monster(code:)
-      monsters(code:).first
+      monsters(code:)&.first
     end
 
-    def monsters(code:)
-      items.find { |item| item.code == code }
+    def monsters(code: nil)
+      @monsters ||= items.group_by(&:code)
+      @monsters[code] || @monsters.values.flatten
     end
 
     private

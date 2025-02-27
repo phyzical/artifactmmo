@@ -7,64 +7,74 @@ module MapService
     end
 
     def monsters(code: nil)
-      @monsters ||= non_empty.select { |map| map.type == Map::TYPES[:monster] && (!code || map.code == code) }
+      @monsters ||= maps_by_type[Map::TYPES[:monster]].group_by(&:code)
+      @monsters[code] || @monsters.values.flatten
     end
 
-    def monster(code: nil)
-      monsters(code:).first
+    def monster(code:)
+      monsters(code:)&.first
     end
 
     def resources(code: nil)
-      @resources ||= non_empty.select { |map| map.type == Map::TYPES[:resource] && (!code || map.code == code) }
+      @resources ||= maps_by_type[Map::TYPES[:resource]].group_by(&:code)
+      @resources[code] || @resources.values.flatten
     end
 
-    def resource(code: nil)
-      resources(code:).first
+    def resource(code:)
+      resources(code:)&.first
     end
 
     def banks(code: nil)
-      @banks ||= non_empty.select { |map| map.type == Map::TYPES[:bank] && (!code || map.code == code) }
+      @banks ||= maps_by_type[Map::TYPES[:bank]].group_by(&:code)
+      @banks[code] || @banks.values.flatten
     end
 
-    def bank(code: nil)
-      banks(code:).first
+    def bank(code:)
+      banks(code:)&.first
     end
 
     def npcs(code: nil)
-      @npcs ||= non_empty.select { |map| map.type == Map::TYPES[:npc] && (!code || map.code == code) }
+      @npcs ||= maps_by_type[Map::TYPES[:npc]].group_by(&:code)
+      @npcs[code] || @npcs.values.flatten
     end
 
-    def npc(code: nil)
-      npcs(code:).first
+    def npc(code:)
+      npcs(code:)&.first
     end
 
     def tasks_masters(code: nil)
-      @tasks_masters ||= non_empty.select { |map| map.type == Map::TYPES[:tasks_master] && (!code || map.code == code) }
+      @tasks_masters ||= maps_by_type[Map::TYPES[:tasks_master]].group_by(&:code)
+      @tasks_masters[code] || @tasks_masters.values.flatten
     end
 
     def tasks_master(code: nil)
-      tasks_masters(code:).first
+      tasks_masters(code:)&.first
     end
 
     def workshops(code: nil)
-      @workshops ||= non_empty.select { |map| map.type == Map::TYPES[:workshop] && (!code || map.code == code) }
+      @workshops ||= maps_by_type[Map::TYPES[:workshop]].group_by(&:code)
+      @workshops[code] || @workshops.values.flatten
     end
 
-    def workshop(code: nil)
-      workshops(code:).first
+    def workshop(code:)
+      workshops(code:)&.first
     end
 
     def grand_exchanges(code: nil)
-      @grand_exchanges ||=
-        non_empty.select { |map| map.type == Map::TYPES[:grand_exchange] && (!code || map.code == code) }
+      @grand_exchanges ||= maps_by_type[Map::TYPES[:grand_exchange]].group_by(&:code)
+      @grand_exchanges[code] || @grand_exchanges.values.flatten
     end
 
-    def grand_exchange(code: nil)
-      grand_exchanges(code:).first
+    def grand_exchange(code:)
+      grand_exchanges(code:)&.first
     end
 
     def non_empty
-      items.reject { |map| map.type.nil? }
+      @non_empty ||= items.reject { |map| map.type.nil? }
+    end
+
+    def maps_by_type
+      @maps_by_type ||= non_empty.group_by(&:type)
     end
 
     private
