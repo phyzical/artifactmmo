@@ -10,6 +10,10 @@ module Monsters
       Thing.new(**keys)
     end
 
+    def self.code(code:)
+      TYPES[code.to_sym] || raise(ArgumentError, "Invalid code: #{code}")
+    end
+
     Thing =
       Struct.new(
         :name,

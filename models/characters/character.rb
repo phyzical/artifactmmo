@@ -118,7 +118,7 @@ module Characters
 
         def deposit_gold(quantity: gold)
           return if quantity.zero?
-          deposit(code: Item::CODES[:gold], quantity:)
+          deposit(code: Item.code(code: :gold), quantity:)
         end
 
         def cooldown_expiration

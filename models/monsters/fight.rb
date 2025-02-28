@@ -3,7 +3,6 @@
 module Monsters
   module Fight
     def self.new(keys)
-      keys = keys[:fight]
       keys[:drops] = keys[:drops].map { |drop| Drop.new(**drop) }
       keys[:monster_blocked_hits] = Hit.new(**keys[:monster_blocked_hits]) if keys[:monster_blocked_hits]
       keys[:player_blocked_hits] = Hit.new(**keys[:player_blocked_hits]) if keys[:player_blocked_hits]
