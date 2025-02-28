@@ -11,6 +11,19 @@ module Monsters
       Thing.new(**keys)
     end
 
-    Thing = Struct.new(:xp, :gold, :drops, :turns, :monster_blocked_hits, :player_blocked_hits, :logs, :win)
+    Thing =
+      Struct.new(:xp, :gold, :drops, :turns, :monster_blocked_hits, :player_blocked_hits, :logs, :win) do
+        def overview
+          [
+            '============== Fight Overview =================',
+            "#{win ? 'Win' : 'Lose'}: #{xp} XP, #{gold} gold",
+            "Monster: #{monster_blocked_hits.overview}",
+            "Player: #{player_blocked_hits.overview}",
+            'Last 10 turns:',
+            *logs.last(10),
+            '==============================================='
+          ].join("\n")
+        end
+      end
   end
 end

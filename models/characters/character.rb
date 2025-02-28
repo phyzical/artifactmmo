@@ -97,7 +97,7 @@ module Characters
         def fight(code:)
           if inventory_full?
             deposit_all
-            puts "#{name} inventory is full"
+            Logs.log(type: :puts, log: "#{name} inventory is full", info: true)
           end
           rest
           monster = MapService.monster(code:)

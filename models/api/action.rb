@@ -218,7 +218,11 @@ module API
           generated_request = request({ page: page })
           http = Net::HTTP.new(generated_request.uri.host, generated_request.uri.port)
           http.use_ssl = true
-          puts "#{character_log}#{action} #{body_log(body: generated_request.body)}#{page_log(page:)}"
+          Logs.log(
+            type: :puts,
+            log: "#{character_log}#{action} #{body_log(body: generated_request.body)}#{page_log(page:)}",
+            start: page.nil? || page == 1
+          )
           Response.new(action: self, response: http.request(generated_request))
         end
 

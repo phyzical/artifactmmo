@@ -5,6 +5,7 @@ require 'uri'
 require 'net/http'
 require 'active_support/all'
 require 'prettyprint'
+Dir[File.join(__dir__, 'helpers', '**', '*.rb')].each { |file| require file }
 Dir[File.join(__dir__, 'models', '**', '*.rb')].each { |file| require file }
 Dir[File.join(__dir__, 'services', '**', '*.rb')].each { |file| require file }
 
@@ -27,7 +28,13 @@ end
 begin
   run
 rescue StandardError => e
-  pp API::QueueService.responses.last
-  pp e.backtrace.map { |x| x.gsub('/app', '') }
+  Logs.log(type: :pp, log: API::QueueService.responses.last, error: true)
+  Logs.log(type: :pp, log: e.backtrace.map { |x| x.gsub('/app', '') }, error: true)
   raise e
 end
+
+#  TODOS
+#  - make some loose algo to workout how chance of winning aginst a monster
+#  - add logic to choose the type of task not just monster
+#  - add logic for skills
+#  - helpers to models for like a prettier overview, raw struct is pretty loud

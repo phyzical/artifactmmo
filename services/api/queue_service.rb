@@ -16,8 +16,14 @@ module API
         while actions.any?
           index = next_action_index_not_in_cooldown
           if index.nil?
-            puts "everyone is on cooldown, waiting on the lowest cooldown #{lowest_cooldown} seconds"
-            puts CharacterService.character_cooldowns_text
+            Logs.log(
+              type: :puts,
+              log: [
+                "everyone is on cooldown, waiting on the lowest cooldown #{lowest_cooldown} seconds",
+                CharacterService.character_cooldowns_text
+              ].join("\n"),
+              info: true
+            )
             sleep(lowest_cooldown + 0.1)
             next
           end
@@ -26,8 +32,7 @@ module API
           if responses.last.code == Response::CODES[:character_in_cooldown]
             actions.insert(index, action)
           else
-            puts "#{action.character_log}Completed #{action.action}"
-            last_response_data_log
+            last_response_data_log(prefix: "#{action.character_log}Completed #{action.action}\n")
           end
         end
       end
@@ -42,9 +47,18 @@ module API
 
       private
 
-      def last_response_data_log
-        return if responses.last.data == []
-        pp responses.last.data
+      def last_response_data_log(prefix:)
+        last_response = responses.last
+        data = last_response.data
+        character_text = last_response.action.character_log
+        return if data == []
+        unless data.first.respond_to?(:overview)
+          data = data.first if data.length == 1
+          return Logs.log(type: :puts, log: "#{prefix}#{character_text}#{data}") if data.is_a?(String)
+          Logs.log(type: :puts, log: prefix)
+          return Logs.log(type: :pp, log: data)
+        end
+        Logs.log(type: :puts, log: "#{prefix}#{character_text}#{data.map(&:overview).join("\n")}")
       end
 
       def add(action:)

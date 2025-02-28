@@ -87,9 +87,9 @@ module API
             success
           else
             if code_raise?
-              puts "Error: #{code} -> #{code_log}"
+              Logs.log(type: :puts, log: "Error: #{code} -> #{code_log}", error: true)
             else
-              puts "#{action.character_log}#{code_log}"
+              Logs.log(type: :puts, log: "#{action.character_log}#{code_log}", info: true)
             end
           end
         end

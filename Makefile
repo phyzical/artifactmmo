@@ -13,6 +13,7 @@ build:
 COMMON=--env-file=.env \
 	-v ${PWD}/services:/app/services \
 	-v ${PWD}/models:/app/models \
+	-v ${PWD}/helpers:/app/helpers \
 	-v ${PWD}/main.rb:/app/main.rb
 
 run-image:
