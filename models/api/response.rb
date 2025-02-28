@@ -95,19 +95,7 @@ module API
         end
 
         def success
-          if model.present? && raw_data.is_a?(Array)
-            self.data = raw_data.map { |payload| model.new(**payload) }
-          elsif model.present?
-            self.data = [model.new(**raw_data)]
-          end
-          handle_updates
-        end
-
-        def handle_updates
-          return unless raw_data.is_a?(Hash)
-
-          BankService.update_items(raw_data[:bank]) if raw_data[:bank].present?
-          CharacterService.update(raw_data[:character]) if raw_data[:character].present?
+          self.data = action.data_handler(raw_data:)
         end
 
         def page

@@ -10,70 +10,94 @@ module API
     move: {
       uri: "my/#{CHARACTER_NAME_KEY}/action/move",
       type: Net::HTTP::Post,
-      add_to_queue: true
+      add_to_queue: true,
+      data_handler: ->(raw_data) do
+        update_character(raw_data:)
+        [MapService.find_by_position(**raw_data[:destination].slice(:x, :y))]
+      end
     },
     characters: {
       uri: 'my/characters',
       type: Net::HTTP::Get,
-      model: Characters::Character
+      data_handler: ->(raw_data) { raw_data.map { |x| Characters::Character.new(**x) } }
     },
     maps: {
       uri: 'maps',
       type: Net::HTTP::Get,
-      model: Map
+      data_handler: ->(raw_data) { raw_data.map { |x| Locations::Map.new(**x) } }
     },
     monsters: {
       uri: 'monsters',
       type: Net::HTTP::Get,
-      model: Monsters::Monster
+      data_handler: ->(raw_data) { raw_data.map { |x| Monsters::Monster.new(**x) } }
     },
     items: {
       uri: 'items',
       type: Net::HTTP::Get,
-      model: Item
+      data_handler: ->(raw_data) { raw_data.map { |x| Item.new(**x) } }
     },
     fight: {
       uri: "my/#{CHARACTER_NAME_KEY}/action/fight",
       type: Net::HTTP::Post,
       add_to_queue: true,
-      model: Monsters::Fight
+      data_handler: ->(raw_data) do
+        update_character(raw_data:)
+        [Monsters::Fight.new(**raw_data[:fight])]
+      end
     },
     rest: {
       uri: "my/#{CHARACTER_NAME_KEY}/action/rest",
       type: Net::HTTP::Post,
-      add_to_queue: true
+      add_to_queue: true,
+      data_handler: ->(raw_data) do
+        character = update_character(raw_data:)
+        ["Restored #{raw_data[:hp_restored]} (#{character.hp}/#{character.max_hp})"]
+      end
     },
     deposit: {
       uri: "my/#{CHARACTER_NAME_KEY}/action/bank/deposit",
       type: Net::HTTP::Post,
       add_to_queue: true,
-      model: Item
+      data_handler: ->(raw_data) do
+        update_character(raw_data:)
+        BankService.update_items(bank_items: raw_data[:bank])
+        [Item.new(**raw_data[:item])]
+      end
     },
     deposit_gold: {
       uri: "my/#{CHARACTER_NAME_KEY}/action/bank/deposit/gold",
       type: Net::HTTP::Post,
-      add_to_queue: true
+      add_to_queue: true,
+      data_handler: ->(raw_data) do
+        update_character(raw_data:)
+        [BankService.update_gold(**raw_data[:bank])]
+      end
     },
     bank: {
       uri: 'my/bank',
       type: Net::HTTP::Get,
-      model: Locations::Bank
+      data_handler: ->(raw_data) { [Locations::Bank.new(**raw_data)] }
     },
     bank_items: {
       uri: 'my/bank/items',
       type: Net::HTTP::Get,
-      model: Characters::Item
+      data_handler: ->(raw_data) { raw_data.map { |x| Characters::Item.new(**x) } }
     },
     task: {
       uri: "my/#{CHARACTER_NAME_KEY}/action/task/new",
-      type: Net::HTTP::Post
+      type: Net::HTTP::Post,
+      data_handler: ->(raw_data) { [Tasks::Task.new(**raw_data)] }
     },
     tasks: {
       uri: 'tasks/list',
       type: Net::HTTP::Get,
-      model: Tasks::Task
+      data_handler: ->(raw_data) { raw_data.map { |x| Tasks::Task.new(**x) } }
     }
   }.freeze
+
+  def self.update_character(raw_data:)
+    CharacterService.update(raw_data[:character])
+  end
 
   module Action
     def self.new(keys = {})
@@ -108,7 +132,7 @@ module API
         end
 
         def deposit(code:, quantity:)
-          if code == Item::CODES[:gold]
+          if code == Characters::Item.code(code: :gold)
             deposit_gold(quantity:)
           else
             prepare(action: :deposit, body: { code:, quantity: })
@@ -155,8 +179,8 @@ module API
           character_name ? "#{character_name}: " : ''
         end
 
-        def model
-          ACTIONS[action][:model]
+        def data_handler(raw_data:)
+          ACTIONS[action][:data_handler].call(raw_data)
         end
 
         def add_response(response:)
