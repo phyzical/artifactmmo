@@ -96,6 +96,11 @@ module API
       type: Net::HTTP::Get,
       data_handler: ->(raw_data) { raw_data.map { |x| Tasks::Task.new(**x) } },
       cache: true
+    },
+    achievements: {
+      uri: 'achievements',
+      type: Net::HTTP::Get,
+      data_handler: ->(raw_data) { raw_data.map { |x| Achievement.new(**x) } }
     }
   }.freeze
 
@@ -161,6 +166,10 @@ module API
 
         def maps
           prepare(action: :maps)
+        end
+
+        def achievements
+          prepare(action: :achievements)
         end
 
         def task
