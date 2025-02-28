@@ -8,7 +8,7 @@ module BankService
       @bank.items = pull_items
     end
 
-    alias items bank
+    alias init bank
 
     def update_items(bank_items:)
       @bank.items = bank_items.map { |item| Characters::Item.new(**item) }

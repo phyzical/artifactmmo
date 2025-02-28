@@ -2,8 +2,8 @@
 
 module MonsterService
   class << self
-    def items
-      @items ||= pull
+    def init
+      @init ||= pull
     end
 
     def monster(code:)
@@ -11,8 +11,8 @@ module MonsterService
     end
 
     def monsters(code: nil)
-      @monsters ||= items.group_by(&:code)
-      @monsters[code] || @monsters.values.flatten
+      @monsters ||= init.group_by(&:code)
+      @monsters[code] || init
     end
 
     private

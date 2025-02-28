@@ -2,8 +2,8 @@
 
 module MapService
   class << self
-    def items
-      @items ||= pull
+    def init
+      @init ||= pull
     end
 
     def monsters(code: nil)
@@ -70,7 +70,7 @@ module MapService
     end
 
     def non_empty
-      @non_empty ||= items.reject { |map| map.type.nil? }
+      @non_empty ||= init.reject { |map| map.type.nil? }
     end
 
     def maps_by_type
@@ -78,7 +78,7 @@ module MapService
     end
 
     def find_by_position(x:, y:) # rubocop:disable Naming/MethodParameterName
-      @items.find { |map| map.x == x && map.y == y }
+      init.find { |map| map.x == x && map.y == y }
     end
 
     private

@@ -2,20 +2,22 @@
 
 module CharacterService
   class << self
-    def items
-      @items ||= pull
+    def init
+      @init ||= pull
     end
+
+    alias characters init
 
     def update(values)
       find_by_name(values[:name])&.update(values)
     end
 
     def find_by_name(name)
-      items.find { |character| character.name == name }
+      init.find { |character| character.name == name }
     end
 
     def character_cooldowns_text
-      items
+      init
         .reduce('') { |acc, character| acc + "#{character.name}: #{character.current_cooldown} seconds, " }
         .chomp(', ')
     end

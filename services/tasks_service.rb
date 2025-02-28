@@ -2,8 +2,8 @@
 
 module TasksService
   class << self
-    def items
-      @items ||= pull
+    def init
+      @init ||= pull
     end
 
     def task(code:)
@@ -11,8 +11,8 @@ module TasksService
     end
 
     def tasks(code: nil)
-      @tasks ||= items.group_by(&:code)
-      @tasks[code] || @tasks.values.flatten
+      @tasks ||= init.group_by(&:code)
+      @tasks[code] || init
     end
 
     private
