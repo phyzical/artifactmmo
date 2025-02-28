@@ -4,6 +4,7 @@ module API
   module Response
     CODES = {
       # General
+      success: 200,
       invalid_payload: 422,
       too_many_requests: 429,
       not_found: 404,

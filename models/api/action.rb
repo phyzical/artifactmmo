@@ -24,17 +24,20 @@ module API
     maps: {
       uri: 'maps',
       type: Net::HTTP::Get,
-      data_handler: ->(raw_data) { raw_data.map { |x| Locations::Map.new(**x) } }
+      data_handler: ->(raw_data) { raw_data.map { |x| Locations::Map.new(**x) } },
+      cache: true
     },
     monsters: {
       uri: 'monsters',
       type: Net::HTTP::Get,
-      data_handler: ->(raw_data) { raw_data.map { |x| Monsters::Monster.new(**x) } }
+      data_handler: ->(raw_data) { raw_data.map { |x| Monsters::Monster.new(**x) } },
+      cache: true
     },
     items: {
       uri: 'items',
       type: Net::HTTP::Get,
-      data_handler: ->(raw_data) { raw_data.map { |x| Item.new(**x) } }
+      data_handler: ->(raw_data) { raw_data.map { |x| Item.new(**x) } },
+      cache: true
     },
     fight: {
       uri: "my/#{CHARACTER_NAME_KEY}/action/fight",
@@ -91,7 +94,8 @@ module API
     tasks: {
       uri: 'tasks/list',
       type: Net::HTTP::Get,
-      data_handler: ->(raw_data) { raw_data.map { |x| Tasks::Task.new(**x) } }
+      data_handler: ->(raw_data) { raw_data.map { |x| Tasks::Task.new(**x) } },
+      cache: true
     }
   }.freeze
 
@@ -215,7 +219,7 @@ module API
         end
 
         def perform(page:)
-          generated_request = request({ page: page })
+          generated_request = request({ page: })
           http = Net::HTTP.new(generated_request.uri.host, generated_request.uri.port)
           http.use_ssl = true
           Logs.log(
@@ -223,7 +227,20 @@ module API
             log: "#{character_log}#{action} #{body_log(body: generated_request.body)}#{page_log(page:)}",
             start: page.nil? || page == 1
           )
-          Response.new(action: self, response: http.request(generated_request))
+          Response.new(action: self, response: response(http:, generated_request:, page:))
+        end
+
+        def response(http:, generated_request:, page:)
+          cache_dir = 'cache'
+          file = File.join(cache_dir, "#{action}-#{page}.json")
+          cache_response = CachedResponse.new(body: File.read(file), code: Response::CODES[:success]) if File.exist?(
+            file
+          )
+          response = cache_response || http.request(generated_request)
+          if cache? && cache_response.nil?
+            (Dir.exist?(cache_dir) || Dir.mkdir(cache_dir)) && File.write(file, response.body)
+          end
+          response
         end
 
         def page_log(page:)
@@ -240,6 +257,10 @@ module API
 
         def type
           ACTIONS[action][:type]
+        end
+
+        def cache?
+          ACTIONS[action][:cache]
         end
       end
   end
