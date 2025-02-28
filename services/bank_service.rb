@@ -14,6 +14,10 @@ module BankService
       @bank.items = bank_items.map { |item| Characters::Item.new(**item) }
     end
 
+    def update_gold(quantity:)
+      @bank.gold = quantity
+    end
+
     private
 
     def pull
