@@ -19,7 +19,8 @@ module API
     characters: {
       uri: 'my/characters',
       type: Net::HTTP::Get,
-      data_handler: ->(raw_data) { raw_data.map { |x| Characters::Character.new(**x) } }
+      data_handler: ->(raw_data) { raw_data.map { |x| Characters::Character.new(**x) } },
+      save: true
     },
     maps: {
       uri: 'maps',
@@ -79,12 +80,14 @@ module API
     bank: {
       uri: 'my/bank',
       type: Net::HTTP::Get,
-      data_handler: ->(raw_data) { [Locations::Bank.new(**raw_data)] }
+      data_handler: ->(raw_data) { [Locations::Bank.new(**raw_data)] },
+      save: true
     },
     bank_items: {
       uri: 'my/bank/items',
       type: Net::HTTP::Get,
-      data_handler: ->(raw_data) { raw_data.map { |x| Characters::Item.new(**x) } }
+      data_handler: ->(raw_data) { raw_data.map { |x| Characters::Item.new(**x) } },
+      save: true
     },
     task: {
       uri: "my/#{CHARACTER_NAME_KEY}/action/task/new",
@@ -100,7 +103,8 @@ module API
     achievements: {
       uri: 'achievements',
       type: Net::HTTP::Get,
-      data_handler: ->(raw_data) { raw_data.map { |x| Achievement.new(**x) } }
+      data_handler: ->(raw_data) { raw_data.map { |x| Achievement.new(**x) } },
+      save: true
     }
   }.freeze
 
@@ -246,8 +250,9 @@ module API
             file
           )
           response = cache_response || http.request(generated_request)
-          if cache? && cache_response.nil?
-            (Dir.exist?(cache_dir) || Dir.mkdir(cache_dir)) && File.write(file, response.body)
+          if (cache? && cache_response.nil?) || save?
+            (Dir.exist?(cache_dir) || Dir.mkdir(cache_dir)) &&
+              File.write(File.join(cache_dir, "#{save? && 'save-'}#{action}-#{page}.json"), response.body)
           end
           response
         end
@@ -270,6 +275,10 @@ module API
 
         def cache?
           ACTIONS[action][:cache]
+        end
+
+        def save?
+          ACTIONS[action][:save]
         end
       end
   end
