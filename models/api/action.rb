@@ -171,7 +171,7 @@ module API
           loop do
             response = perform(page: (responses.last&.page || 0) + 1)
             break if response.data.nil? || response.code == Response::CODES[:character_in_cooldown]
-            break unless response.pages.present? && response.page <= response.pages
+            break unless response.pages.present? && response.page < response.pages
           end
         end
 
