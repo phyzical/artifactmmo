@@ -2,30 +2,19 @@
 
 module Characters
   module Character
-    def self.new(keys)
-      Thing.new(**Thing.process_keys(keys:))
+    class << self
+      def new(keys)
+        Thing.new(**Thing.process_keys(keys:))
+      end
     end
 
     Thing =
       Struct.new(
         :account,
-        :alchemy_level,
-        :alchemy_max_xp,
-        :alchemy_xp,
-        :amulet_slot,
-        :artifact1_slot,
-        :artifact2_slot,
-        :artifact3_slot,
         :attack_air,
         :attack_earth,
         :attack_fire,
         :attack_water,
-        :bag_slot,
-        :body_armor_slot,
-        :boots_slot,
-        :cooking_level,
-        :cooking_max_xp,
-        :cooking_xp,
         :cooldown,
         :cooldown_expiration,
         :critical_strike,
@@ -34,53 +23,26 @@ module Characters
         :dmg_earth,
         :dmg_fire,
         :dmg_water,
-        :fishing_level,
-        :fishing_max_xp,
-        :fishing_xp,
-        :gearcrafting_level,
-        :gearcrafting_max_xp,
-        :gearcrafting_xp,
         :gold,
         :haste,
-        :helmet_slot,
         :hp,
         :inventory,
         :inventory_max_items,
-        :jewelrycrafting_level,
-        :jewelrycrafting_max_xp,
-        :jewelrycrafting_xp,
-        :leg_armor_slot,
         :level,
         :max_hp,
         :max_xp,
-        :mining_level,
-        :mining_max_xp,
-        :mining_xp,
         :name,
         :prospecting,
         :res_air,
         :res_earth,
         :res_fire,
         :res_water,
-        :ring1_slot,
-        :ring2_slot,
-        :rune_slot,
-        :shield_slot,
+        :slots,
+        :skills,
         :skin,
         :speed,
         :task,
-        :utility1_slot,
-        :utility1_slot_quantity,
-        :utility2_slot,
-        :utility2_slot_quantity,
-        :weapon_slot,
-        :weaponcrafting_level,
-        :weaponcrafting_max_xp,
-        :weaponcrafting_xp,
         :wisdom,
-        :woodcutting_level,
-        :woodcutting_max_xp,
-        :woodcutting_xp,
         :x,
         :xp,
         :y
@@ -167,33 +129,54 @@ module Characters
           inventory_items.group_by(&:code).transform_values { |items| items.sum(&:quantity) }
         end
 
-        def self.process_keys(keys:)
-          keys = process_inventory(keys:)
-          process_task_payload(keys:)
-        end
-
-        def self.process_inventory(keys:)
-          return keys unless keys[:inventory]
-          keys[:inventory] = keys[:inventory].map { |item| Item.new(**item) }
-          keys
-        end
-
-        def self.process_task_payload(keys:)
-          if keys[:task].blank?
-            keys[:task] = nil
-            keys.except!(:task_progress, :task_total, :task_type)
-            return keys
-          end
-          keys.delete(:task_type)
-          keys[:task] = TasksService
-            .task(code: keys.delete(:task))
-            .dup
-            .update(progress: keys.delete(:task_progress), total: keys.delete(:task_total))
-          keys
-        end
-
         def api
           API::Action.new(character_name: name)
+        end
+
+        class << self
+          def process_keys(keys:)
+            keys = process_inventory(keys:)
+            keys = process_task_payload(keys:)
+            keys = process_skills(keys:)
+            process_slots(keys:)
+          end
+
+          def process_inventory(keys:)
+            keys[:inventory] = keys[:inventory].map { |item| Item.new(**item) }
+            keys
+          end
+
+          def process_task_payload(keys:)
+            if keys[:task].blank?
+              keys[:task] = nil
+              keys.except!(:task_progress, :task_total, :task_type)
+              return keys
+            end
+            keys.delete(:task_type)
+            keys[:task] = TasksService
+              .task(code: keys.delete(:task))
+              .dup
+              .update(progress: keys.delete(:task_progress), total: keys.delete(:task_total))
+            keys
+          end
+
+          def process_skills(keys:)
+            keys[:skills] = Skill::CODES.map do |_code, skill|
+              Skill.new(
+                level_xp: keys.delete(:"#{skill}_xp"),
+                level: keys.delete(:"#{skill}_level"),
+                level_up_xp: keys.delete(:"#{skill}_max_xp")
+              )
+            end
+            keys
+          end
+
+          def process_slots(keys:)
+            keys[:slots] = Item::SLOTS.map do |_code, code|
+              Item.new(code:, slot: keys.delete(:"#{code}_slot"), quantity: keys.delete(:"#{code}_slot_quantity"))
+            end
+            keys
+          end
         end
       end
   end

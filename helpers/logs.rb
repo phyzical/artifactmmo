@@ -5,8 +5,9 @@ module Logs
     # TODO: maybe a struct is better suited?
     def log(log:, type:, error: nil, info: nil, start: false)
       reset_stored_colors(info:, error:, start:)
-      puts "#{random_color(info:, error:, start:)}#{log}" if type == :puts
-      pp "#{random_color(info:, error:, start:)}#{log}" if type == :pp
+      color = random_color(info:, error:, start:)
+      puts "#{color}#{log}" if type == :puts
+      pp log if type == :pp
     end
 
     def reset_stored_colors(info:, error:, start:)
