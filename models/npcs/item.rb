@@ -3,6 +3,7 @@
 module NPCs
   module Item
     def self.new(keys)
+      keys.delete(:npc)
       Thing.new(**keys)
     end
 

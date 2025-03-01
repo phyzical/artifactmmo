@@ -117,19 +117,20 @@ module API
       uri: 'badges',
       type: Net::HTTP::Get,
       data_handler: ->(raw_data) { raw_data.map { |x| Badges::Badge.new(**x) } },
-      save: true
+      cache: true
     },
     npcs: {
       uri: 'npcs',
       type: Net::HTTP::Get,
-      data_handler: ->(raw_data) { raw_data.map { |x| NPCs::Npc.new(**x) } },
+      data_handler: ->(raw_data) { raw_data.map { |x| NPCs::NPC.new(**x) } },
       cache: true
     },
     npc_items: {
       uri: "npcs/#{URI_REPLACEMENT_KEYS[:CODE]}/items",
       type: Net::HTTP::Get,
-      data_handler: ->(raw_data) { raw_data.map { |x| NPCs::Item.new(**x) } },
-      cache: true
+      data_handler: ->(raw_data) { raw_data.map { |x| NPCs::Item.new(**x) } }
+      # TODO: need to support more complicated caching
+      # cache: true
     },
     effects: {
       uri: 'effects',
@@ -148,6 +149,8 @@ module API
   def self.update_character(raw_data:)
     CharacterService.update(raw_data[:character])
   end
+
+  CACHE_DIR = 'cache'
 
   module Action
     def self.new(keys = {})
@@ -303,19 +306,34 @@ module API
           )
           Response.new(action: self, response: response(http:, generated_request:, page:))
         end
+        # TODO: Maybe move this over to the REsposne struct too
 
         def response(http:, generated_request:, page:)
-          cache_dir = 'cache'
-          file = File.join(cache_dir, "#{action}-#{page}.json")
-          cache_response = CachedResponse.new(body: File.read(file), code: Response::CODES[:success]) if File.exist?(
-            file
-          )
-          response = cache_response || http.request(generated_request)
-          if (cache? && cache_response.nil?) || save?
-            (Dir.exist?(cache_dir) || Dir.mkdir(cache_dir)) &&
-              File.write(File.join(cache_dir, "#{save? && 'save-'}#{action}-#{page}.json"), response.body)
-          end
+          response = cached_response(page:) || http.request(generated_request)
+          cache_response(response:, page:) if (cache? && !cached_response?(page:)) || save?
           response
+        end
+
+        # TODO: move these over to CachedResponse
+        # TODO: need part of the body to he used to create the cache filename
+        #  hmm actually page would eb part of the body
+
+        def cache_file_name(page:)
+          File.join(CACHE_DIR, "#{save? && 'save-'}#{action}-#{page}.json")
+        end
+
+        def cached_response?(page:)
+          File.exist?(cache_file_name(page:))
+        end
+
+        def cached_response(page:)
+          return unless cached_response?(page:) && save?
+          CachedResponse.new(body: File.read(cache_file_name(page:)), code: Response::CODES[:success])
+        end
+
+        def cache_response(response:, page:)
+          FileUtils.mkdir_p(CACHE_DIR)
+          File.write(cache_file_name(page:), response.body)
         end
 
         def page_log(page:)
@@ -328,21 +346,23 @@ module API
 
         def uri
           uri = ACTIONS[action][:uri]
-          uri.gsub!(CHARACTER_NAME_KEY, character_name) if uri.include?(CHARACTER_NAME_KEY)
-          uri.gsub!(CODE_KEY, body[:code]) if uri.include?(CODE_KEY)
+          if uri.include?(URI_REPLACEMENT_KEYS[:CHARACTER_NAME])
+            uri.gsub!(URI_REPLACEMENT_KEYS[:CHARACTER_NAME], character_name)
+          end
+          uri.gsub!(URI_REPLACEMENT_KEYS[:CODE], body[:code]) if uri.include?(URI_REPLACEMENT_KEYS[:CODE])
           uri
         end
 
         def type
-          ACTIONS[action][:type]
+          @type ||= ACTIONS[action][:type]
         end
 
         def cache?
-          ACTIONS[action][:cache]
+          @cache ||= ACTIONS[action][:cache]
         end
 
         def save?
-          ACTIONS[action][:save]
+          @save ||= ACTIONS[action][:save]
         end
       end
   end
