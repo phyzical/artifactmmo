@@ -15,16 +15,29 @@ def run
     Object.const_get(service_class).init
   end
 
+  action_index = 0
+  loop = 0
+  loop_count = 20
   loop do
+    # TODO: this is inefficient, we should be able to run all characters at the same time
+    # Also we wait for empty it should be if char X empty reqeue not all empty as other chars sit in downtime
     if API::QueueService.empty?
+      actions = [
+        ->(character) { character.fight(code: Monsters::Monster::CODES[:chicken]) },
+        ->(character) { character.mine(code: Resource::MINING_CODES[:copper_rocks]) },
+        ->(character) { character.woodcut(code: Resource::WOODCUTTING_CODES[:ash_tree]) },
+        ->(character) { character.fish(code: Resource::FISHING_CODES[:gudgeon_fishing_spot]) },
+        ->(character) { character.herb(code: Resource::ALCHEMY_CODES[:sunflower_field]) }
+      ]
       CharacterService.characters.each do |character|
         character.new_task
-        # character.fight(code: Monsters::Monster::CODES[:chicken])
-        character.mine(code: Resource::MINING_CODES[:copper_rocks])
-        # character.woodcut(code: Resource::WOODCUTTING_CODES[:dead_tree])
-        # character.fish(code: Resource::FISHING_CODES[:shrimp_fishing_spot])
-        # character.herb(code: Resource::ALCHEMY_CODES[:nettle])
+        actions[action_index].call(character)
       end
+      loop += 1
+      next unless (loop % loop_count).zero?
+      loop = 0
+      action_index += 1
+      action_index = 0 if action_index == actions.length
     end
     API::QueueService.process
   end

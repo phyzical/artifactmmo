@@ -67,7 +67,7 @@ module Characters
         def inventory_check
           return unless inventory_full?
           deposit_all
-          Logs.log(type: :puts, log: "#{name} inventory is full", info: true)
+          Logs.log(type: :puts, log: "#{name} inventory is full")
         end
 
         def rest
