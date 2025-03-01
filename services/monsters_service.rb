@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module MonsterService
+module MonstersService
   class << self
     def init
       @init ||= pull
