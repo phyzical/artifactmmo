@@ -312,9 +312,7 @@ module API
             log: "#{character_log}#{action} #{body_log(body:)}#{page_log(page:)}",
             start: page.nil? || page == 1
           )
-          response = Response.new(action: self, request: generated_request)
-          Logs.log(type: :puts, log: 'from cache') if response.is_a?(Response::Item)
-          response
+          Response.new(action: self, request: generated_request)
         end
 
         def page_log(page:)

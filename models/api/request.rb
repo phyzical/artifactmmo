@@ -48,7 +48,8 @@ module API
         end
 
         def cached_response
-          return unless cached_response? && save?
+          return if !cached_response? || save?
+          Logs.log(type: :puts, log: 'Pulling from cache')
           CachedResponse.new(body: File.read(cache_file_name), code: Response::CODES[:success])
         end
 
