@@ -1,1 +1,68 @@
-{"data":[{"code":"algae","npc":"fish_merchant","buy_price":50,"sell_price":1},{"code":"bass","npc":"fish_merchant","buy_price":50,"sell_price":1},{"code":"frozen_fishing_rod","npc":"fish_merchant","buy_price":200000,"sell_price":null},{"code":"golden_chalice","npc":"fish_merchant","buy_price":null,"sell_price":3000},{"code":"golden_shrimp","npc":"fish_merchant","buy_price":null,"sell_price":1000},{"code":"gudgeon","npc":"fish_merchant","buy_price":10,"sell_price":1},{"code":"salmon","npc":"fish_merchant","buy_price":75,"sell_price":1},{"code":"shrimp","npc":"fish_merchant","buy_price":25,"sell_price":1},{"code":"silver_chalice","npc":"fish_merchant","buy_price":null,"sell_price":2000},{"code":"trout","npc":"fish_merchant","buy_price":35,"sell_price":1}],"total":10,"page":1,"size":50,"pages":1}
+{
+    "data": [
+        {
+            "code": "algae",
+            "npc": "fish_merchant",
+            "buy_price": 50,
+            "sell_price": 1
+        },
+        {
+            "code": "bass",
+            "npc": "fish_merchant",
+            "buy_price": 50,
+            "sell_price": 1
+        },
+        {
+            "code": "frozen_fishing_rod",
+            "npc": "fish_merchant",
+            "buy_price": 200000,
+            "sell_price": null
+        },
+        {
+            "code": "golden_chalice",
+            "npc": "fish_merchant",
+            "buy_price": null,
+            "sell_price": 3000
+        },
+        {
+            "code": "golden_shrimp",
+            "npc": "fish_merchant",
+            "buy_price": null,
+            "sell_price": 1000
+        },
+        {
+            "code": "gudgeon",
+            "npc": "fish_merchant",
+            "buy_price": 10,
+            "sell_price": 1
+        },
+        {
+            "code": "salmon",
+            "npc": "fish_merchant",
+            "buy_price": 75,
+            "sell_price": 1
+        },
+        {
+            "code": "shrimp",
+            "npc": "fish_merchant",
+            "buy_price": 25,
+            "sell_price": 1
+        },
+        {
+            "code": "silver_chalice",
+            "npc": "fish_merchant",
+            "buy_price": null,
+            "sell_price": 2000
+        },
+        {
+            "code": "trout",
+            "npc": "fish_merchant",
+            "buy_price": 35,
+            "sell_price": 1
+        }
+    ],
+    "total": 10,
+    "page": 1,
+    "size": 50,
+    "pages": 1
+}

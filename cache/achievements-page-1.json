@@ -1,1 +1,608 @@
-{"data":[{"name":"Lok'tar ogar!","code":"loktar_ogar","description":"Kill 500 Orcs.","points":1,"type":"combat_kill","target":"orc","total":500,"rewards":{"gold":1000}},{"name":"Feather Me Impressed","code":"feather_me_impressed","description":"Slaugher 5 000 chickens.","points":1,"type":"combat_kill","target":"chicken","total":5000,"rewards":{"gold":1000}},{"name":"Novice","code":"novice","description":"Level up to 10.","points":1,"type":"combat_level","target":null,"total":10,"rewards":{"gold":1000}},{"name":"Tasks Farmer","code":"tasks_farmer","description":"Completed 100 tasks.","points":1,"type":"task","target":null,"total":100,"rewards":{"gold":1000}},{"name":"Ecologist","code":"ecologist","description":"Recycle 1 000 items.","points":1,"type":"recycling","target":null,"total":1000,"rewards":{"gold":1000}},{"name":"Cabinet Maker","code":"cabinet_maker","description":"Crafts 500 spruce planks.","points":1,"type":"crafting","target":"spruce_plank","total":500,"rewards":{"gold":1000}},{"name":"Worker","code":"worker","description":"Crafts 500 irons.","points":1,"type":"crafting","target":"iron","total":500,"rewards":{"gold":1000}},{"name":"Mithril Mastery","code":"mithril_mastery","description":"Crafts 500 mithrils.","points":1,"type":"crafting","target":"mithril","total":500,"rewards":{"gold":1000}},{"name":"Amateur Miner","code":"amateur_miner","description":"Gather 6 000 copper ores.","points":1,"type":"gathering","target":"copper_ore","total":6000,"rewards":{"gold":1000}},{"name":"Miner","code":"miner","description":"Gather 6 000 iron ores.","points":1,"type":"gathering","target":"iron_ore","total":6000,"rewards":{"gold":1000}},{"name":"Intermediate Miner","code":"intermediate_miner","description":"Gather 6 000 gold ores.","points":1,"type":"gathering","target":"gold_ore","total":6000,"rewards":{"gold":1000}},{"name":"Expert Miner","code":"expert_miner","description":"Gather 6 000 coals.","points":1,"type":"gathering","target":"coal","total":6000,"rewards":{"gold":1000}},{"name":"Professional miner","code":"professional_miner","description":"Gather 6 000 mithrils ore.","points":1,"type":"gathering","target":"mithril_ore","total":6000,"rewards":{"gold":1000}},{"name":"Amateur Lumberjack","code":"amateur_lumberjack","description":"Gather 6 000 ash woods.","points":1,"type":"gathering","target":"ash_wood","total":6000,"rewards":{"gold":1000}},{"name":"Lumberjack","code":"lumberjack","description":"Gather 6 000 spruce woods.","points":1,"type":"gathering","target":"spruce_wood","total":6000,"rewards":{"gold":1000}},{"name":"Intermediate Lumberjack","code":"intermediate_lumberjack","description":"Gather 6 000 birch woods.","points":1,"type":"gathering","target":"birch_wood","total":6000,"rewards":{"gold":1000}},{"name":"Expert Lumberjack","code":"expert_lumberjack","description":"Gather 6 000 dead woods.","points":1,"type":"gathering","target":"dead_wood","total":6000,"rewards":{"gold":1000}},{"name":"Professional Lumberjack","code":"professional_lumberjack","description":"Gather 6 000 maple woods.","points":1,"type":"gathering","target":"maple_wood","total":6000,"rewards":{"gold":1000}},{"name":"Amateur Fisherman","code":"amateur_fisherman","description":"Gather 6 000 gudgeons.","points":1,"type":"gathering","target":"gudgeon","total":6000,"rewards":{"gold":1000}},{"name":"Fisherman","code":"fisherman","description":"Gather 6 000 shrimps.","points":1,"type":"gathering","target":"shrimp","total":6000,"rewards":{"gold":1000}},{"name":"Intermediate Fisherman","code":"intermediate_fisherman","description":"Gather 6 000 trouts.","points":1,"type":"gathering","target":"trout","total":6000,"rewards":{"gold":1000}},{"name":"Expert Fisherman","code":"expert_fisherman","description":"Gather 6 000 bass.","points":1,"type":"gathering","target":"bass","total":6000,"rewards":{"gold":1000}},{"name":"Professional Fisherman","code":"professional_fisherman","description":"Gather 6 000 salmons.","points":1,"type":"gathering","target":"salmon","total":6000,"rewards":{"gold":1000}},{"name":"Amateur Alchemist","code":"amateur_alchmist","description":"Gather 6 000 sunflowers.","points":1,"type":"gathering","target":"sunflower","total":6000,"rewards":{"gold":1000}},{"name":"Intermediate Alchemist","code":"intermediate_alchemist","description":"Gather 6 000 nettle leafs.","points":1,"type":"gathering","target":"nettle_leaf","total":6000,"rewards":{"gold":1000}},{"name":"Expert Alchemist","code":"expert_alchemist","description":"Gather 6 000 glowstems.","points":1,"type":"gathering","target":"glowstem_leaf","total":6000,"rewards":{"gold":1000}},{"name":"Restoring The Peace","code":"restoring_the_peace","description":"Kill 500 Bandit Lizards.","points":2,"type":"combat_kill","target":"bandit_lizard","total":500,"rewards":{"gold":2000}},{"name":"King of the Forest","code":"king_of_the_Forest","description":"Kill 1000 Wolfs.","points":2,"type":"combat_kill","target":"wolf","total":1000,"rewards":{"gold":2000}},{"name":"Closing The Gate","code":"closing_the_gate","description":"Kill 500 demons.","points":2,"type":"combat_kill","target":"demon","total":500,"rewards":{"gold":2000}},{"name":"I want bacon!","code":"i_want_bacon","description":"Slaugher 5 000 pigs.","points":2,"type":"combat_kill","target":"pig","total":5000,"rewards":{"gold":2000}},{"name":"Adventurer","code":"adventurer","description":"Level up to 25.","points":2,"type":"combat_level","target":null,"total":25,"rewards":{"gold":2000}},{"name":"Arachnophobia Conquered","code":"arachnophobia_conquered","description":"Kill 500 Spider.","points":2,"type":"combat_kill","target":"spider","total":500,"rewards":{"gold":2000}},{"name":"Maple Maestro","code":"maple_maestro","description":"Crafts 500 maple planks.","points":2,"type":"crafting","target":"maple_plank","total":500,"rewards":{"gold":2000}},{"name":"Catch and Cook","code":"catch_and_cook","description":"Crafts 500 cooked salmons.","points":2,"type":"crafting","target":"cooked_salmon","total":500,"rewards":{"gold":2000}},{"name":"Sweet as Pie","code":"sweet_as_pie","description":"Crafts 100 apple pies.","points":2,"type":"crafting","target":"apple_pie","total":100,"rewards":{"gold":2000}},{"name":"Strange Miner","code":"strange_miner","description":"Gather 3 000 strange ores.","points":2,"type":"gathering","target":"strange_ore","total":3000,"rewards":{"gold":2000}},{"name":"Magic Lumberjack","code":"magic_lumberjack","description":"Gather 6 000 magic woods.","points":2,"type":"gathering","target":"magic_wood","total":6000,"rewards":{"gold":2000}},{"name":"Alchemist","code":"alchemist","description":"Crafts 250 minor health potions.","points":2,"type":"crafting","target":"minor_health_potion","total":250,"rewards":{"gold":2000}},{"name":"Cursed Wood, Blessed Victory","code":"cursed_wood_blessed_victory","description":"Craft 50 Cursed Plank.","points":2,"type":"crafting","target":"cursed_plank","total":250,"rewards":{"gold":2000}},{"name":"Recall Forever","code":"recall_forever","description":"Use 100 recall potions.","points":2,"type":"use","target":"recall_potion","total":100,"rewards":{"gold":2000}},{"name":"The French Cheese","code":"the_french_cheese","description":"Use 500 cheeses.","points":2,"type":"use","target":"cheese","total":500,"rewards":{"gold":2000}},{"name":"Money Time!","code":"money_time","description":"Use 3 bags of gold.","points":2,"type":"use","target":"bag_of_gold","total":5,"rewards":{"gold":2000}},{"name":"Lich Please!","code":"lich_please","description":"Defeat the lich. Who's the boss now?","points":3,"type":"combat_kill","target":"lich","total":1,"rewards":{"gold":3000}},{"name":"Grand Master","code":"grand_master","description":"Level up to level 40.","points":3,"type":"combat_level","target":null,"total":40,"rewards":{"gold":3000}},{"name":"The New King","code":"the_new_king","description":"Drop a Lich Crown.","points":3,"type":"combat_drop","target":"lich_crown","total":1,"rewards":{"gold":3000}},{"name":"The New Bandit","code":"the_new_bandit","description":"Drop a Bandit Armor.","points":3,"type":"combat_drop","target":"bandit_armor","total":1,"rewards":{"gold":3000}},{"name":"Swordbreaker","code":"swordbreaker","description":"Drop 25 Broken Swords.","points":3,"type":"combat_drop","target":"broken_sword","total":25,"rewards":{"gold":3000}},{"name":"Magic Power","code":"magic_power","description":"Craft 1 Magic Bow.","points":3,"type":"crafting","target":"magic_bow","total":1,"rewards":{"gold":3000}},{"name":"Crown of Mithril","code":"crown_of_mithril","description":"Craft 1 Mithril Shield.","points":3,"type":"crafting","target":"mithril_shield","total":1,"rewards":{"gold":3000}},{"name":"Crafted with Honor","code":"crafted_with_honor","description":"Craft 1 Masterful Necklace.","points":3,"type":"crafting","target":"masterful_necklace","total":1,"rewards":{"gold":3000}}],"total":64,"page":1,"size":50,"pages":2}
+{
+    "data": [
+        {
+            "name": "Lok'tar ogar!",
+            "code": "loktar_ogar",
+            "description": "Kill 500 Orcs.",
+            "points": 1,
+            "type": "combat_kill",
+            "target": "orc",
+            "total": 500,
+            "rewards": {
+                "gold": 1000
+            }
+        },
+        {
+            "name": "Feather Me Impressed",
+            "code": "feather_me_impressed",
+            "description": "Slaugher 5 000 chickens.",
+            "points": 1,
+            "type": "combat_kill",
+            "target": "chicken",
+            "total": 5000,
+            "rewards": {
+                "gold": 1000
+            }
+        },
+        {
+            "name": "Novice",
+            "code": "novice",
+            "description": "Level up to 10.",
+            "points": 1,
+            "type": "combat_level",
+            "target": null,
+            "total": 10,
+            "rewards": {
+                "gold": 1000
+            }
+        },
+        {
+            "name": "Tasks Farmer",
+            "code": "tasks_farmer",
+            "description": "Completed 100 tasks.",
+            "points": 1,
+            "type": "task",
+            "target": null,
+            "total": 100,
+            "rewards": {
+                "gold": 1000
+            }
+        },
+        {
+            "name": "Ecologist",
+            "code": "ecologist",
+            "description": "Recycle 1 000 items.",
+            "points": 1,
+            "type": "recycling",
+            "target": null,
+            "total": 1000,
+            "rewards": {
+                "gold": 1000
+            }
+        },
+        {
+            "name": "Cabinet Maker",
+            "code": "cabinet_maker",
+            "description": "Crafts 500 spruce planks.",
+            "points": 1,
+            "type": "crafting",
+            "target": "spruce_plank",
+            "total": 500,
+            "rewards": {
+                "gold": 1000
+            }
+        },
+        {
+            "name": "Worker",
+            "code": "worker",
+            "description": "Crafts 500 irons.",
+            "points": 1,
+            "type": "crafting",
+            "target": "iron",
+            "total": 500,
+            "rewards": {
+                "gold": 1000
+            }
+        },
+        {
+            "name": "Mithril Mastery",
+            "code": "mithril_mastery",
+            "description": "Crafts 500 mithrils.",
+            "points": 1,
+            "type": "crafting",
+            "target": "mithril",
+            "total": 500,
+            "rewards": {
+                "gold": 1000
+            }
+        },
+        {
+            "name": "Amateur Miner",
+            "code": "amateur_miner",
+            "description": "Gather 6 000 copper ores.",
+            "points": 1,
+            "type": "gathering",
+            "target": "copper_ore",
+            "total": 6000,
+            "rewards": {
+                "gold": 1000
+            }
+        },
+        {
+            "name": "Miner",
+            "code": "miner",
+            "description": "Gather 6 000 iron ores.",
+            "points": 1,
+            "type": "gathering",
+            "target": "iron_ore",
+            "total": 6000,
+            "rewards": {
+                "gold": 1000
+            }
+        },
+        {
+            "name": "Intermediate Miner",
+            "code": "intermediate_miner",
+            "description": "Gather 6 000 gold ores.",
+            "points": 1,
+            "type": "gathering",
+            "target": "gold_ore",
+            "total": 6000,
+            "rewards": {
+                "gold": 1000
+            }
+        },
+        {
+            "name": "Expert Miner",
+            "code": "expert_miner",
+            "description": "Gather 6 000 coals.",
+            "points": 1,
+            "type": "gathering",
+            "target": "coal",
+            "total": 6000,
+            "rewards": {
+                "gold": 1000
+            }
+        },
+        {
+            "name": "Professional miner",
+            "code": "professional_miner",
+            "description": "Gather 6 000 mithrils ore.",
+            "points": 1,
+            "type": "gathering",
+            "target": "mithril_ore",
+            "total": 6000,
+            "rewards": {
+                "gold": 1000
+            }
+        },
+        {
+            "name": "Amateur Lumberjack",
+            "code": "amateur_lumberjack",
+            "description": "Gather 6 000 ash woods.",
+            "points": 1,
+            "type": "gathering",
+            "target": "ash_wood",
+            "total": 6000,
+            "rewards": {
+                "gold": 1000
+            }
+        },
+        {
+            "name": "Lumberjack",
+            "code": "lumberjack",
+            "description": "Gather 6 000 spruce woods.",
+            "points": 1,
+            "type": "gathering",
+            "target": "spruce_wood",
+            "total": 6000,
+            "rewards": {
+                "gold": 1000
+            }
+        },
+        {
+            "name": "Intermediate Lumberjack",
+            "code": "intermediate_lumberjack",
+            "description": "Gather 6 000 birch woods.",
+            "points": 1,
+            "type": "gathering",
+            "target": "birch_wood",
+            "total": 6000,
+            "rewards": {
+                "gold": 1000
+            }
+        },
+        {
+            "name": "Expert Lumberjack",
+            "code": "expert_lumberjack",
+            "description": "Gather 6 000 dead woods.",
+            "points": 1,
+            "type": "gathering",
+            "target": "dead_wood",
+            "total": 6000,
+            "rewards": {
+                "gold": 1000
+            }
+        },
+        {
+            "name": "Professional Lumberjack",
+            "code": "professional_lumberjack",
+            "description": "Gather 6 000 maple woods.",
+            "points": 1,
+            "type": "gathering",
+            "target": "maple_wood",
+            "total": 6000,
+            "rewards": {
+                "gold": 1000
+            }
+        },
+        {
+            "name": "Amateur Fisherman",
+            "code": "amateur_fisherman",
+            "description": "Gather 6 000 gudgeons.",
+            "points": 1,
+            "type": "gathering",
+            "target": "gudgeon",
+            "total": 6000,
+            "rewards": {
+                "gold": 1000
+            }
+        },
+        {
+            "name": "Fisherman",
+            "code": "fisherman",
+            "description": "Gather 6 000 shrimps.",
+            "points": 1,
+            "type": "gathering",
+            "target": "shrimp",
+            "total": 6000,
+            "rewards": {
+                "gold": 1000
+            }
+        },
+        {
+            "name": "Intermediate Fisherman",
+            "code": "intermediate_fisherman",
+            "description": "Gather 6 000 trouts.",
+            "points": 1,
+            "type": "gathering",
+            "target": "trout",
+            "total": 6000,
+            "rewards": {
+                "gold": 1000
+            }
+        },
+        {
+            "name": "Expert Fisherman",
+            "code": "expert_fisherman",
+            "description": "Gather 6 000 bass.",
+            "points": 1,
+            "type": "gathering",
+            "target": "bass",
+            "total": 6000,
+            "rewards": {
+                "gold": 1000
+            }
+        },
+        {
+            "name": "Professional Fisherman",
+            "code": "professional_fisherman",
+            "description": "Gather 6 000 salmons.",
+            "points": 1,
+            "type": "gathering",
+            "target": "salmon",
+            "total": 6000,
+            "rewards": {
+                "gold": 1000
+            }
+        },
+        {
+            "name": "Amateur Alchemist",
+            "code": "amateur_alchmist",
+            "description": "Gather 6 000 sunflowers.",
+            "points": 1,
+            "type": "gathering",
+            "target": "sunflower",
+            "total": 6000,
+            "rewards": {
+                "gold": 1000
+            }
+        },
+        {
+            "name": "Intermediate Alchemist",
+            "code": "intermediate_alchemist",
+            "description": "Gather 6 000 nettle leafs.",
+            "points": 1,
+            "type": "gathering",
+            "target": "nettle_leaf",
+            "total": 6000,
+            "rewards": {
+                "gold": 1000
+            }
+        },
+        {
+            "name": "Expert Alchemist",
+            "code": "expert_alchemist",
+            "description": "Gather 6 000 glowstems.",
+            "points": 1,
+            "type": "gathering",
+            "target": "glowstem_leaf",
+            "total": 6000,
+            "rewards": {
+                "gold": 1000
+            }
+        },
+        {
+            "name": "Restoring The Peace",
+            "code": "restoring_the_peace",
+            "description": "Kill 500 Bandit Lizards.",
+            "points": 2,
+            "type": "combat_kill",
+            "target": "bandit_lizard",
+            "total": 500,
+            "rewards": {
+                "gold": 2000
+            }
+        },
+        {
+            "name": "King of the Forest",
+            "code": "king_of_the_Forest",
+            "description": "Kill 1000 Wolfs.",
+            "points": 2,
+            "type": "combat_kill",
+            "target": "wolf",
+            "total": 1000,
+            "rewards": {
+                "gold": 2000
+            }
+        },
+        {
+            "name": "Closing The Gate",
+            "code": "closing_the_gate",
+            "description": "Kill 500 demons.",
+            "points": 2,
+            "type": "combat_kill",
+            "target": "demon",
+            "total": 500,
+            "rewards": {
+                "gold": 2000
+            }
+        },
+        {
+            "name": "I want bacon!",
+            "code": "i_want_bacon",
+            "description": "Slaugher 5 000 pigs.",
+            "points": 2,
+            "type": "combat_kill",
+            "target": "pig",
+            "total": 5000,
+            "rewards": {
+                "gold": 2000
+            }
+        },
+        {
+            "name": "Adventurer",
+            "code": "adventurer",
+            "description": "Level up to 25.",
+            "points": 2,
+            "type": "combat_level",
+            "target": null,
+            "total": 25,
+            "rewards": {
+                "gold": 2000
+            }
+        },
+        {
+            "name": "Arachnophobia Conquered",
+            "code": "arachnophobia_conquered",
+            "description": "Kill 500 Spider.",
+            "points": 2,
+            "type": "combat_kill",
+            "target": "spider",
+            "total": 500,
+            "rewards": {
+                "gold": 2000
+            }
+        },
+        {
+            "name": "Maple Maestro",
+            "code": "maple_maestro",
+            "description": "Crafts 500 maple planks.",
+            "points": 2,
+            "type": "crafting",
+            "target": "maple_plank",
+            "total": 500,
+            "rewards": {
+                "gold": 2000
+            }
+        },
+        {
+            "name": "Catch and Cook",
+            "code": "catch_and_cook",
+            "description": "Crafts 500 cooked salmons.",
+            "points": 2,
+            "type": "crafting",
+            "target": "cooked_salmon",
+            "total": 500,
+            "rewards": {
+                "gold": 2000
+            }
+        },
+        {
+            "name": "Sweet as Pie",
+            "code": "sweet_as_pie",
+            "description": "Crafts 100 apple pies.",
+            "points": 2,
+            "type": "crafting",
+            "target": "apple_pie",
+            "total": 100,
+            "rewards": {
+                "gold": 2000
+            }
+        },
+        {
+            "name": "Strange Miner",
+            "code": "strange_miner",
+            "description": "Gather 3 000 strange ores.",
+            "points": 2,
+            "type": "gathering",
+            "target": "strange_ore",
+            "total": 3000,
+            "rewards": {
+                "gold": 2000
+            }
+        },
+        {
+            "name": "Magic Lumberjack",
+            "code": "magic_lumberjack",
+            "description": "Gather 6 000 magic woods.",
+            "points": 2,
+            "type": "gathering",
+            "target": "magic_wood",
+            "total": 6000,
+            "rewards": {
+                "gold": 2000
+            }
+        },
+        {
+            "name": "Alchemist",
+            "code": "alchemist",
+            "description": "Crafts 250 minor health potions.",
+            "points": 2,
+            "type": "crafting",
+            "target": "minor_health_potion",
+            "total": 250,
+            "rewards": {
+                "gold": 2000
+            }
+        },
+        {
+            "name": "Cursed Wood, Blessed Victory",
+            "code": "cursed_wood_blessed_victory",
+            "description": "Craft 50 Cursed Plank.",
+            "points": 2,
+            "type": "crafting",
+            "target": "cursed_plank",
+            "total": 250,
+            "rewards": {
+                "gold": 2000
+            }
+        },
+        {
+            "name": "Recall Forever",
+            "code": "recall_forever",
+            "description": "Use 100 recall potions.",
+            "points": 2,
+            "type": "use",
+            "target": "recall_potion",
+            "total": 100,
+            "rewards": {
+                "gold": 2000
+            }
+        },
+        {
+            "name": "The French Cheese",
+            "code": "the_french_cheese",
+            "description": "Use 500 cheeses.",
+            "points": 2,
+            "type": "use",
+            "target": "cheese",
+            "total": 500,
+            "rewards": {
+                "gold": 2000
+            }
+        },
+        {
+            "name": "Money Time!",
+            "code": "money_time",
+            "description": "Use 3 bags of gold.",
+            "points": 2,
+            "type": "use",
+            "target": "bag_of_gold",
+            "total": 5,
+            "rewards": {
+                "gold": 2000
+            }
+        },
+        {
+            "name": "Lich Please!",
+            "code": "lich_please",
+            "description": "Defeat the lich. Who's the boss now?",
+            "points": 3,
+            "type": "combat_kill",
+            "target": "lich",
+            "total": 1,
+            "rewards": {
+                "gold": 3000
+            }
+        },
+        {
+            "name": "Grand Master",
+            "code": "grand_master",
+            "description": "Level up to level 40.",
+            "points": 3,
+            "type": "combat_level",
+            "target": null,
+            "total": 40,
+            "rewards": {
+                "gold": 3000
+            }
+        },
+        {
+            "name": "The New King",
+            "code": "the_new_king",
+            "description": "Drop a Lich Crown.",
+            "points": 3,
+            "type": "combat_drop",
+            "target": "lich_crown",
+            "total": 1,
+            "rewards": {
+                "gold": 3000
+            }
+        },
+        {
+            "name": "The New Bandit",
+            "code": "the_new_bandit",
+            "description": "Drop a Bandit Armor.",
+            "points": 3,
+            "type": "combat_drop",
+            "target": "bandit_armor",
+            "total": 1,
+            "rewards": {
+                "gold": 3000
+            }
+        },
+        {
+            "name": "Swordbreaker",
+            "code": "swordbreaker",
+            "description": "Drop 25 Broken Swords.",
+            "points": 3,
+            "type": "combat_drop",
+            "target": "broken_sword",
+            "total": 25,
+            "rewards": {
+                "gold": 3000
+            }
+        },
+        {
+            "name": "Magic Power",
+            "code": "magic_power",
+            "description": "Craft 1 Magic Bow.",
+            "points": 3,
+            "type": "crafting",
+            "target": "magic_bow",
+            "total": 1,
+            "rewards": {
+                "gold": 3000
+            }
+        },
+        {
+            "name": "Crown of Mithril",
+            "code": "crown_of_mithril",
+            "description": "Craft 1 Mithril Shield.",
+            "points": 3,
+            "type": "crafting",
+            "target": "mithril_shield",
+            "total": 1,
+            "rewards": {
+                "gold": 3000
+            }
+        },
+        {
+            "name": "Crafted with Honor",
+            "code": "crafted_with_honor",
+            "description": "Craft 1 Masterful Necklace.",
+            "points": 3,
+            "type": "crafting",
+            "target": "masterful_necklace",
+            "total": 1,
+            "rewards": {
+                "gold": 3000
+            }
+        }
+    ],
+    "total": 64,
+    "page": 1,
+    "size": 50,
+    "pages": 2
+}

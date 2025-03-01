@@ -1,1 +1,176 @@
-{"data":[{"name":"Bite! Oh, algae!","code":"bite_oh_algae","description":"Gather 1 000 algaes.","points":3,"type":"gathering","target":"algae","total":1000,"rewards":{"gold":3000}},{"name":"Diamond In The Sky","code":"diamond_in_the_sky","description":"Craft 1 Diamond Sword.","points":3,"type":"crafting","target":"diamond_sword","total":1,"rewards":{"gold":3000}},{"name":"Enchanted Alchemist","code":"enchanted_alchemist","description":"Crafts 250 enchanted health potions.","points":3,"type":"crafting","target":"enchanted_health_potion","total":250,"rewards":{"gold":3000}},{"name":"Real Canadian","code":"real_canadian","description":"Crafts 100 maple syrups.","points":3,"type":"crafting","target":"maple_syrup","total":100,"rewards":{"gold":3000}},{"name":"Sultan Slayer","code":"sultan_slayer","description":"Kill 1000 Efreet Sultans.","points":5,"type":"combat_kill","target":"efreet_sultan","total":1000,"rewards":{"gold":5000}},{"name":"Rosenblood","code":"rosenblod","description":"Defeat Rosenblood.","points":5,"type":"combat_kill","target":"rosenblood","total":1,"rewards":{"gold":5000}},{"name":"Cult Destroyer","code":"cult_destroyer","description":"Defeat the Cult Emperor.","points":5,"type":"combat_kill","target":"cultist_emperor","total":1,"rewards":{"gold":5000}},{"name":"Life Lover","code":"life_lover","description":"Drop a Life Crystal.","points":5,"type":"combat_drop","target":"life_crystal","total":1,"rewards":{"gold":5000}},{"name":"Its Malefic!","code":"its_malefic","description":"Kill 2000 Cultist Emperor.","points":5,"type":"combat_kill","target":"cultist_emperor","total":2000,"rewards":{"gold":5000}},{"name":"Tasks Coins Fan","code":"tasks_coins_fan","description":"Completed 1000 tasks.","points":5,"type":"task","target":null,"total":1000,"rewards":{"gold":5000}},{"name":"The planet thanks you","code":"the_planet_thanks_you","description":"Recycle 5 000 items.","points":5,"type":"recycling","target":null,"total":5000,"rewards":{"gold":5000}},{"name":"Elixir Collector","code":"elixir_collector","description":"Kill 800 Rosenblood.","points":5,"type":"combat_kill","target":"rosenblood","total":800,"rewards":{"gold":5000}},{"name":"Carnivore","code":"carnivore","description":"Use 200 cooked hellhound meats.","points":5,"type":"use","target":"cooked_hellhound_meat","total":200,"rewards":{"gold":5000}},{"name":"Release the wolves","code":"release_the_wolves","description":"Kill 500 Goblin Wolfrider.","points":7,"type":"combat_kill","target":"goblin_wolfrider","total":500,"rewards":{"gold":7000}}],"total":64,"page":2,"size":50,"pages":2}
+{
+    "data": [
+        {
+            "name": "Bite! Oh, algae!",
+            "code": "bite_oh_algae",
+            "description": "Gather 1 000 algaes.",
+            "points": 3,
+            "type": "gathering",
+            "target": "algae",
+            "total": 1000,
+            "rewards": {
+                "gold": 3000
+            }
+        },
+        {
+            "name": "Diamond In The Sky",
+            "code": "diamond_in_the_sky",
+            "description": "Craft 1 Diamond Sword.",
+            "points": 3,
+            "type": "crafting",
+            "target": "diamond_sword",
+            "total": 1,
+            "rewards": {
+                "gold": 3000
+            }
+        },
+        {
+            "name": "Enchanted Alchemist",
+            "code": "enchanted_alchemist",
+            "description": "Crafts 250 enchanted health potions.",
+            "points": 3,
+            "type": "crafting",
+            "target": "enchanted_health_potion",
+            "total": 250,
+            "rewards": {
+                "gold": 3000
+            }
+        },
+        {
+            "name": "Real Canadian",
+            "code": "real_canadian",
+            "description": "Crafts 100 maple syrups.",
+            "points": 3,
+            "type": "crafting",
+            "target": "maple_syrup",
+            "total": 100,
+            "rewards": {
+                "gold": 3000
+            }
+        },
+        {
+            "name": "Sultan Slayer",
+            "code": "sultan_slayer",
+            "description": "Kill 1000 Efreet Sultans.",
+            "points": 5,
+            "type": "combat_kill",
+            "target": "efreet_sultan",
+            "total": 1000,
+            "rewards": {
+                "gold": 5000
+            }
+        },
+        {
+            "name": "Rosenblood",
+            "code": "rosenblod",
+            "description": "Defeat Rosenblood.",
+            "points": 5,
+            "type": "combat_kill",
+            "target": "rosenblood",
+            "total": 1,
+            "rewards": {
+                "gold": 5000
+            }
+        },
+        {
+            "name": "Cult Destroyer",
+            "code": "cult_destroyer",
+            "description": "Defeat the Cult Emperor.",
+            "points": 5,
+            "type": "combat_kill",
+            "target": "cultist_emperor",
+            "total": 1,
+            "rewards": {
+                "gold": 5000
+            }
+        },
+        {
+            "name": "Life Lover",
+            "code": "life_lover",
+            "description": "Drop a Life Crystal.",
+            "points": 5,
+            "type": "combat_drop",
+            "target": "life_crystal",
+            "total": 1,
+            "rewards": {
+                "gold": 5000
+            }
+        },
+        {
+            "name": "Its Malefic!",
+            "code": "its_malefic",
+            "description": "Kill 2000 Cultist Emperor.",
+            "points": 5,
+            "type": "combat_kill",
+            "target": "cultist_emperor",
+            "total": 2000,
+            "rewards": {
+                "gold": 5000
+            }
+        },
+        {
+            "name": "Tasks Coins Fan",
+            "code": "tasks_coins_fan",
+            "description": "Completed 1000 tasks.",
+            "points": 5,
+            "type": "task",
+            "target": null,
+            "total": 1000,
+            "rewards": {
+                "gold": 5000
+            }
+        },
+        {
+            "name": "The planet thanks you",
+            "code": "the_planet_thanks_you",
+            "description": "Recycle 5 000 items.",
+            "points": 5,
+            "type": "recycling",
+            "target": null,
+            "total": 5000,
+            "rewards": {
+                "gold": 5000
+            }
+        },
+        {
+            "name": "Elixir Collector",
+            "code": "elixir_collector",
+            "description": "Kill 800 Rosenblood.",
+            "points": 5,
+            "type": "combat_kill",
+            "target": "rosenblood",
+            "total": 800,
+            "rewards": {
+                "gold": 5000
+            }
+        },
+        {
+            "name": "Carnivore",
+            "code": "carnivore",
+            "description": "Use 200 cooked hellhound meats.",
+            "points": 5,
+            "type": "use",
+            "target": "cooked_hellhound_meat",
+            "total": 200,
+            "rewards": {
+                "gold": 5000
+            }
+        },
+        {
+            "name": "Release the wolves",
+            "code": "release_the_wolves",
+            "description": "Kill 500 Goblin Wolfrider.",
+            "points": 7,
+            "type": "combat_kill",
+            "target": "goblin_wolfrider",
+            "total": 500,
+            "rewards": {
+                "gold": 7000
+            }
+        }
+    ],
+    "total": 64,
+    "page": 2,
+    "size": 50,
+    "pages": 2
+}
