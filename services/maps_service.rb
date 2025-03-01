@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module MapService
+module MapsService
   class << self
     def init
       @init ||= pull
@@ -78,7 +78,8 @@ module MapService
     end
 
     def find_by_position(x:, y:) # rubocop:disable Naming/MethodParameterName
-      init.find { |map| map.x == x && map.y == y }
+      @find_by_position ||= init.group_by(&:position)
+      @find_by_position[{ x:, y: }]&.first
     end
 
     private

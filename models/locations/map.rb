@@ -29,7 +29,7 @@ module Locations
 
         def item
           if type == TYPES[:monster]
-            MonsterService.monster(code:)
+            MonstersService.monster(code:)
             # elsif type == TYPES[:resource]
             #   Resource.new(code: code)
           elsif type == TYPES[:bank]
