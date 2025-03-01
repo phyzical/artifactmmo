@@ -28,7 +28,7 @@ module NpcsService
 
     def pull
       API::Action.new.npcs.map do |npc|
-        npc.items = API::Action.new.npc_items(npc: npc)
+        npc.items = API::Action.new.npc_items(code: npc.code)
         npc
       end
     end
