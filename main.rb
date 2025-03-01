@@ -10,15 +10,10 @@ Dir[File.join(__dir__, 'models', '**', '*.rb')].each { |file| require file }
 Dir[File.join(__dir__, 'services', '**', '*.rb')].each { |file| require file }
 
 def run
-  %i[
-    AchievementsService
-    TasksService
-    CharacterService
-    MonsterService
-    ItemsService
-    MapService
-    BankService
-  ].map { |service| Object.const_get(service).init }
+  Dir[File.join(__dir__, 'services', '*.rb')].each do |file|
+    service_class = file.split('/').last.gsub('.rb', '').snake_to_camel
+    Object.const_get(service_class).init
+  end
 
   loop do
     if API::QueueService.empty?
