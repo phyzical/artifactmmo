@@ -62,7 +62,7 @@ module Characters
             Logs.log(type: :puts, log: "#{name} inventory is full", info: true)
           end
           rest
-          monster = MapService.monster(code:)
+          monster = MapsService.monster(code:)
           move(**monster.position) if position != monster.position
           api.fight
         end
@@ -73,7 +73,7 @@ module Characters
         end
 
         def deposit(code:, quantity:)
-          bank = MapService.bank
+          bank = MapsService.bank
           move(**bank.position) if position != bank.position
           api.deposit(code:, quantity:)
         end
@@ -97,7 +97,7 @@ module Characters
 
         def new_task
           return if task.present?
-          task_master = MapService.tasks_master
+          task_master = MapsService.tasks_master
           move(**task_master.position) if position != task_master.position
           api.task
         end
