@@ -70,8 +70,8 @@ module API
       CODES[:character_in_cooldown]
     ].freeze
 
-    def self.new(action:, response:)
-      response = Item.new(response:, action:, data: [])
+    def self.new(action:, request:)
+      response = Item.new(response: request.perform, action:, data: [])
       action.add_response(response:)
       response.handle
       response

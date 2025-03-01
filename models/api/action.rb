@@ -128,9 +128,8 @@ module API
     npc_items: {
       uri: "npcs/#{URI_REPLACEMENT_KEYS[:CODE]}/items",
       type: Net::HTTP::Get,
-      data_handler: ->(raw_data) { raw_data.map { |x| NPCs::Item.new(**x) } }
-      # TODO: need to support more complicated caching
-      # cache: true
+      data_handler: ->(raw_data) { raw_data.map { |x| NPCs::Item.new(**x) } },
+      cache: true
     },
     effects: {
       uri: 'effects',
@@ -149,8 +148,6 @@ module API
   def self.update_character(raw_data:)
     CharacterService.update(raw_data[:character])
   end
-
-  CACHE_DIR = 'cache'
 
   module Action
     def self.new(keys = {})
@@ -268,7 +265,19 @@ module API
           responses.push(response)
         end
 
+        def cache?
+          @cache ||= ACTIONS[action][:cache]
+        end
+
+        def save?
+          @save ||= ACTIONS[action][:save]
+        end
+
         private
+
+        def type
+          @type ||= ACTIONS[action][:type]
+        end
 
         def deposit_gold(quantity:)
           prepare(action: :deposit_gold, body: { quantity: })
@@ -292,48 +301,20 @@ module API
           request['Accept'] = 'application/json'
           request['Authorization'] = "Bearer #{api_key}"
           request.body = JSON.generate(body)
-          request
+          Request.new(action: self, http_request: request)
         end
 
         def perform(page:)
+          # TODO: follow flow from here and finish, need to add pagiation based on vars/.
           generated_request = request({ page: })
-          http = Net::HTTP.new(generated_request.uri.host, generated_request.uri.port)
-          http.use_ssl = true
           Logs.log(
             type: :puts,
-            log: "#{character_log}#{action} #{body_log(body: generated_request.body)}#{page_log(page:)}",
+            log: "#{character_log}#{action} #{body_log(body:)}#{page_log(page:)}",
             start: page.nil? || page == 1
           )
-          Response.new(action: self, response: response(http:, generated_request:, page:))
-        end
-        # TODO: Maybe move this over to the REsposne struct too
-
-        def response(http:, generated_request:, page:)
-          response = cached_response(page:) || http.request(generated_request)
-          cache_response(response:, page:) if (cache? && !cached_response?(page:)) || save?
+          response = Response.new(action: self, request: generated_request)
+          Logs.log(type: :puts, log: 'from cache') if response.is_a?(Response::Item)
           response
-        end
-
-        # TODO: move these over to CachedResponse
-        # TODO: need part of the body to he used to create the cache filename
-        #  hmm actually page would eb part of the body
-
-        def cache_file_name(page:)
-          File.join(CACHE_DIR, "#{save? && 'save-'}#{action}-#{page}.json")
-        end
-
-        def cached_response?(page:)
-          File.exist?(cache_file_name(page:))
-        end
-
-        def cached_response(page:)
-          return unless cached_response?(page:) && save?
-          CachedResponse.new(body: File.read(cache_file_name(page:)), code: Response::CODES[:success])
-        end
-
-        def cache_response(response:, page:)
-          FileUtils.mkdir_p(CACHE_DIR)
-          File.write(cache_file_name(page:), response.body)
         end
 
         def page_log(page:)
@@ -351,18 +332,6 @@ module API
           end
           uri.gsub!(URI_REPLACEMENT_KEYS[:CODE], body[:code]) if uri.include?(URI_REPLACEMENT_KEYS[:CODE])
           uri
-        end
-
-        def type
-          @type ||= ACTIONS[action][:type]
-        end
-
-        def cache?
-          @cache ||= ACTIONS[action][:cache]
-        end
-
-        def save?
-          @save ||= ACTIONS[action][:save]
         end
       end
   end
