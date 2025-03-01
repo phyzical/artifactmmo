@@ -5,15 +5,16 @@ Dir[File.join(__dir__, '..', '**', '*.rb')].each { |file| require file }
 module API
   BASE_URL = 'https://api.artifactsmmo.com'
 
-  CHARACTER_NAME_KEY = 'CHARACTER_NAME'
+  URI_REPLACEMENT_KEYS = { CHARACTER_NAME: 'CHARACTER_NAME', CODE: 'CODE' }.freeze
+
   ACTIONS = {
     move: {
-      uri: "my/#{CHARACTER_NAME_KEY}/action/move",
+      uri: "my/#{URI_REPLACEMENT_KEYS[:CHARACTER_NAME_KEY]}/action/move",
       type: Net::HTTP::Post,
       add_to_queue: true,
       data_handler: ->(raw_data) do
         update_character(raw_data:)
-        [MapService.find_by_position(**raw_data[:destination].slice(:x, :y))]
+        [MapsService.find_by_position(**raw_data[:destination].slice(:x, :y))]
       end
     },
     characters: {
@@ -41,7 +42,7 @@ module API
       cache: true
     },
     fight: {
-      uri: "my/#{CHARACTER_NAME_KEY}/action/fight",
+      uri: "my/#{URI_REPLACEMENT_KEYS[:CHARACTER_NAME_KEY]}/action/fight",
       type: Net::HTTP::Post,
       add_to_queue: true,
       data_handler: ->(raw_data) do
@@ -50,7 +51,7 @@ module API
       end
     },
     rest: {
-      uri: "my/#{CHARACTER_NAME_KEY}/action/rest",
+      uri: "my/#{URI_REPLACEMENT_KEYS[:CHARACTER_NAME_KEY]}/action/rest",
       type: Net::HTTP::Post,
       add_to_queue: true,
       data_handler: ->(raw_data) do
@@ -59,7 +60,7 @@ module API
       end
     },
     deposit: {
-      uri: "my/#{CHARACTER_NAME_KEY}/action/bank/deposit",
+      uri: "my/#{URI_REPLACEMENT_KEYS[:CHARACTER_NAME_KEY]}/action/bank/deposit",
       type: Net::HTTP::Post,
       add_to_queue: true,
       data_handler: ->(raw_data) do
@@ -69,7 +70,7 @@ module API
       end
     },
     deposit_gold: {
-      uri: "my/#{CHARACTER_NAME_KEY}/action/bank/deposit/gold",
+      uri: "my/#{URI_REPLACEMENT_KEYS[:CHARACTER_NAME_KEY]}/action/bank/deposit/gold",
       type: Net::HTTP::Post,
       add_to_queue: true,
       data_handler: ->(raw_data) do
@@ -90,21 +91,57 @@ module API
       save: true
     },
     task: {
-      uri: "my/#{CHARACTER_NAME_KEY}/action/task/new",
+      uri: "my/#{URI_REPLACEMENT_KEYS[:CHARACTER_NAME_KEY]}/action/task/new",
       type: Net::HTTP::Post,
-      data_handler: ->(raw_data) { [Tasks::Task.new(**raw_data)] }
+      data_handler: ->(raw_data) { [Task.new(**raw_data)] }
     },
     tasks: {
       uri: 'tasks/list',
       type: Net::HTTP::Get,
-      data_handler: ->(raw_data) { raw_data.map { |x| Tasks::Task.new(**x) } },
+      data_handler: ->(raw_data) { raw_data.map { |x| Task.new(**x) } },
       cache: true
     },
     achievements: {
       uri: 'achievements',
       type: Net::HTTP::Get,
       data_handler: ->(raw_data) { raw_data.map { |x| Achievement.new(**x) } },
+      cache: true
+    },
+    resources: {
+      uri: 'resources',
+      type: Net::HTTP::Get,
+      data_handler: ->(raw_data) { raw_data.map { |x| Resource.new(**x) } },
+      cache: true
+    },
+    badges: {
+      uri: 'badges',
+      type: Net::HTTP::Get,
+      data_handler: ->(raw_data) { raw_data.map { |x| Badges::Badge.new(**x) } },
       save: true
+    },
+    npcs: {
+      uri: 'npcs',
+      type: Net::HTTP::Get,
+      data_handler: ->(raw_data) { raw_data.map { |x| NPCs::Npc.new(**x) } },
+      cache: true
+    },
+    npc_items: {
+      uri: "npcs/#{URI_REPLACEMENT_KEYS[:CODE]}/items",
+      type: Net::HTTP::Get,
+      data_handler: ->(raw_data) { raw_data.map { |x| NPCs::Item.new(**x) } },
+      cache: true
+    },
+    effects: {
+      uri: 'effects',
+      type: Net::HTTP::Get,
+      data_handler: ->(raw_data) { raw_data.map { |x| Effect.new(**x) } },
+      cache: true
+    },
+    events: {
+      uri: 'events',
+      type: Net::HTTP::Get,
+      data_handler: ->(raw_data) { raw_data.map { |x| Event.new(**x) } },
+      cache: true
     }
   }.freeze
 
@@ -174,6 +211,30 @@ module API
 
         def achievements
           prepare(action: :achievements)
+        end
+
+        def badges
+          prepare(action: :badges)
+        end
+
+        def resources
+          prepare(action: :resources)
+        end
+
+        def events
+          prepare(action: :events)
+        end
+
+        def effects
+          prepare(action: :effects)
+        end
+
+        def npcs
+          prepare(action: :npcs)
+        end
+
+        def npc_items(code:)
+          prepare(action: :npc_items, body: { code: })
         end
 
         def task
@@ -266,7 +327,10 @@ module API
         end
 
         def uri
-          ACTIONS[action][:uri].gsub(CHARACTER_NAME_KEY, character_name || '')
+          uri = ACTIONS[action][:uri]
+          uri.gsub!(CHARACTER_NAME_KEY, character_name) if uri.include?(CHARACTER_NAME_KEY)
+          uri.gsub!(CODE_KEY, body[:code]) if uri.include?(CODE_KEY)
+          uri
         end
 
         def type
