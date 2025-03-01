@@ -11,8 +11,8 @@ module AchievementsService
     end
 
     def achievements(code: nil)
-      @achievements ||= init.group_by(&:code)
-      @achievements[code] || init
+      @achievements_by_code ||= init.group_by(&:code)
+      @achievements_by_code[code] || init
     end
 
     private
