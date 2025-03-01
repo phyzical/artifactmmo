@@ -9,7 +9,7 @@ module API
 
   ACTIONS = {
     move: {
-      uri: "my/#{URI_REPLACEMENT_KEYS[:CHARACTER_NAME_KEY]}/action/move",
+      uri: "my/#{URI_REPLACEMENT_KEYS[:CHARACTER_NAME]}/action/move",
       type: Net::HTTP::Post,
       add_to_queue: true,
       data_handler: ->(raw_data) do
@@ -42,7 +42,7 @@ module API
       cache: true
     },
     fight: {
-      uri: "my/#{URI_REPLACEMENT_KEYS[:CHARACTER_NAME_KEY]}/action/fight",
+      uri: "my/#{URI_REPLACEMENT_KEYS[:CHARACTER_NAME]}/action/fight",
       type: Net::HTTP::Post,
       add_to_queue: true,
       data_handler: ->(raw_data) do
@@ -51,7 +51,7 @@ module API
       end
     },
     rest: {
-      uri: "my/#{URI_REPLACEMENT_KEYS[:CHARACTER_NAME_KEY]}/action/rest",
+      uri: "my/#{URI_REPLACEMENT_KEYS[:CHARACTER_NAME]}/action/rest",
       type: Net::HTTP::Post,
       add_to_queue: true,
       data_handler: ->(raw_data) do
@@ -60,7 +60,7 @@ module API
       end
     },
     deposit: {
-      uri: "my/#{URI_REPLACEMENT_KEYS[:CHARACTER_NAME_KEY]}/action/bank/deposit",
+      uri: "my/#{URI_REPLACEMENT_KEYS[:CHARACTER_NAME]}/action/bank/deposit",
       type: Net::HTTP::Post,
       add_to_queue: true,
       data_handler: ->(raw_data) do
@@ -70,7 +70,7 @@ module API
       end
     },
     deposit_gold: {
-      uri: "my/#{URI_REPLACEMENT_KEYS[:CHARACTER_NAME_KEY]}/action/bank/deposit/gold",
+      uri: "my/#{URI_REPLACEMENT_KEYS[:CHARACTER_NAME]}/action/bank/deposit/gold",
       type: Net::HTTP::Post,
       add_to_queue: true,
       data_handler: ->(raw_data) do
@@ -91,7 +91,7 @@ module API
       save: true
     },
     task: {
-      uri: "my/#{URI_REPLACEMENT_KEYS[:CHARACTER_NAME_KEY]}/action/task/new",
+      uri: "my/#{URI_REPLACEMENT_KEYS[:CHARACTER_NAME]}/action/task/new",
       type: Net::HTTP::Post,
       data_handler: ->(raw_data) { [Task.new(**raw_data)] }
     },
@@ -305,12 +305,11 @@ module API
         end
 
         def perform(page:)
-          # TODO: follow flow from here and finish, need to add pagiation based on vars/.
           generated_request = request({ page: })
           Logs.log(
             type: :puts,
-            log: "#{character_log}#{action} #{body_log(body:)}#{page_log(page:)}",
-            start: page.nil? || page == 1
+            log: "#{character_log}#{action} #{body_log(body:)}#{page_log(page:)} (#{generated_request.uri})",
+            start: page == 1
           )
           Response.new(action: self, request: generated_request)
         end
@@ -326,9 +325,9 @@ module API
         def uri
           uri = ACTIONS[action][:uri]
           if uri.include?(URI_REPLACEMENT_KEYS[:CHARACTER_NAME])
-            uri.gsub!(URI_REPLACEMENT_KEYS[:CHARACTER_NAME], character_name)
+            uri = uri.gsub(URI_REPLACEMENT_KEYS[:CHARACTER_NAME], character_name)
           end
-          uri.gsub!(URI_REPLACEMENT_KEYS[:CODE], body[:code]) if uri.include?(URI_REPLACEMENT_KEYS[:CODE])
+          uri = uri.gsub(URI_REPLACEMENT_KEYS[:CODE], body[:code]) if uri.include?(URI_REPLACEMENT_KEYS[:CODE])
           uri
         end
       end

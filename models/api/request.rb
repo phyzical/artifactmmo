@@ -18,6 +18,12 @@ module API
           response
         end
 
+        def uri
+          http_request.uri.to_s
+        end
+
+        private
+
         def http
           https = Net::HTTP.new(http_request.uri.host, http_request.uri.port)
           https.use_ssl = true

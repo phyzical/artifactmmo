@@ -15,6 +15,7 @@ module API
       def process
         while actions.any?
           index = next_action_index_not_in_cooldown
+
           if index.nil?
             Logs.log(
               type: :puts,
