@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module NPCsService
+module NpcsService
   class << self
     def init
       @init ||= pull
@@ -15,10 +15,22 @@ module NPCsService
       @npcs[code] || init
     end
 
+    def merchants(code: nil)
+      @merchants ||= init.select { |npc| npc.type == NPC::TYPES[:merchant] }.group_by(&:code)
+      @merchants[code] || @merchants.values.flatten
+    end
+
+    def merchant(code:)
+      merchants(code:)&.first
+    end
+
     private
 
     def pull
-      API::Action.new.npcs
+      API::Action.new.npcs.map do |npc|
+        npc.items = API::Action.new.npc_items(npc: npc)
+        npc
+      end
     end
   end
 end
