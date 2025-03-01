@@ -50,9 +50,9 @@ module Logs
         ]
 
         colors.delete(Logs.last_color) if Logs.last_color
-        color = ((Logs.preserve_color != Logs.last_color) && Logs.preserve_color) || colors.sample
+        color = Logs.preserve_color || colors.sample
+        Logs.preserve_color(color) if start
         Logs.last_color(color)
-        Logs.preserve_color(Logs.last_color) if start
       end
     end
 end
