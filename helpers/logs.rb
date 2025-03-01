@@ -1,12 +1,21 @@
 # frozen_string_literal: true
 
 module Logs
-  def self.log(keys)
-    Log.new(**keys).post
-  end
+  class << self
+    def log(keys)
+      Log.new(**keys).post
+    end
 
-  @last_color = nil
-  @preserve_color = nil
+    def last_color(color = nil)
+      @last_color = color if color || color == false
+      @last_color
+    end
+
+    def preserve_color(color = nil)
+      @preserve_color = color if color || color == false
+      @preserve_color
+    end
+  end
 
   Log =
     Struct.new(:log, :type, :error, :info, :start) do
@@ -17,8 +26,8 @@ module Logs
       end
 
       def reset_stored_colors
-        @last_color = nil if info || error
-        @preserve_color = nil if info || error || start
+        Logs.last_color(false) if info || error
+        Logs.preserve_color(false) if info || error || start
       end
 
       def color
@@ -39,10 +48,11 @@ module Logs
           "\e[36m", # Cyan
           "\e[37m" # White
         ]
-        colors.delete(@last_color) if @last_color
-        color = ((@preserve_color != @last_color) && @preserve_color) || colors.sample
-        @last_color = color
-        @preserve_color = @last_color if start
+
+        colors.delete(Logs.last_color) if Logs.last_color
+        color = ((Logs.preserve_color != Logs.last_color) && Logs.preserve_color) || colors.sample
+        Logs.last_color(color)
+        Logs.preserve_color(Logs.last_color) if start
       end
     end
 end

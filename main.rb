@@ -35,7 +35,5 @@ rescue StandardError => e
 end
 
 #  TODOS
-#  - make some loose algo to workout how chance of winning aginst a monster
-#  - add logic to choose the type of task not just monster
-#  - add logic for skills
-#  - helpers to models for like a prettier overview, raw struct is pretty loud
+#  - make some loose algo to workout how chance of winning against a monster
+#  - add multi threading for queue so that all characters can run at the same time might not be worth the complexity to save like ~3 seconds tops
