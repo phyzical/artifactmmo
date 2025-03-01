@@ -27,6 +27,8 @@ module Locations
           super(**content, **keys)
         end
 
+        # TODO:
+
         def item
           if type == TYPES[:monster]
             MonstersService.monster(code:)
@@ -47,6 +49,10 @@ module Locations
 
         def position
           { x:, y: }
+        end
+
+        def overview
+          "Name: #{name}, Type: #{type}, Skin: #{skin}, Position: #{position},"
         end
       end
   end

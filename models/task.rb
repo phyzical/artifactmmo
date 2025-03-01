@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Task
-  CODES = Characters::Skill::CODES
+  CODES = Skills::Skill::CODES
 
   TYPES = { monsters: 'monsters', items: 'items' }.freeze
 

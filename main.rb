@@ -19,7 +19,11 @@ def run
     if API::QueueService.empty?
       CharacterService.characters.each do |character|
         character.new_task
-        character.fight(code: Monsters::Monster::CODES[:chicken])
+        # character.fight(code: Monsters::Monster::CODES[:chicken])
+        character.mine(code: Resource::MINING_CODES[:copper_rocks])
+        # character.woodcut(code: Resource::WOODCUTTING_CODES[:dead_tree])
+        # character.fish(code: Resource::FISHING_CODES[:shrimp_fishing_spot])
+        # character.herb(code: Resource::ALCHEMY_CODES[:nettle])
       end
     end
     API::QueueService.process
@@ -35,5 +39,5 @@ rescue StandardError => e
 end
 
 #  TODOS
-#  - make some loose algo to workout how chance of winning against a monster
+#  - make some loose algo to workout next best type to action when we call a skill
 #  - add multi threading for queue so that all characters can run at the same time might not be worth the complexity to save like ~3 seconds tops

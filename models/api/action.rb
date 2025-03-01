@@ -50,6 +50,15 @@ module API
         [Monsters::Fight.new(**raw_data[:fight])]
       end
     },
+    gather: {
+      uri: "my/#{URI_REPLACEMENT_KEYS[:CHARACTER_NAME]}/action/gathering",
+      type: Net::HTTP::Post,
+      add_to_queue: true,
+      data_handler: ->(raw_data) do
+        update_character(raw_data:)
+        [Skills::Details.new(**raw_data[:details])]
+      end
+    },
     rest: {
       uri: "my/#{URI_REPLACEMENT_KEYS[:CHARACTER_NAME]}/action/rest",
       type: Net::HTTP::Post,
@@ -167,6 +176,10 @@ module API
 
         def fight
           prepare(action: :fight)
+        end
+
+        def gather
+          prepare(action: :gather)
         end
 
         def rest

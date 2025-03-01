@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require_relative 'skills/skill'
+
 module Item
   TYPES = {
     utility: 'utility',
@@ -19,7 +21,7 @@ module Item
     bag: 'bag'
   }.freeze
 
-  CREATION_TYPE = Characters::Skill::CODES
+  CREATION_TYPE = Skills::Skill::CODES
 
   def self.new(keys)
     keys[:effects] = keys[:effects].map { |effect| Effect.new(**effect) }

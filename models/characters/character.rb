@@ -57,19 +57,50 @@ module Characters
         end
 
         def fight(code:)
-          if inventory_full?
-            deposit_all
-            Logs.log(type: :puts, log: "#{name} inventory is full", info: true)
-          end
+          inventory_check
           rest
           monster = MapsService.monster(code:)
           move(**monster.position) if position != monster.position
           api.fight
         end
 
+        def inventory_check
+          return unless inventory_full?
+          deposit_all
+          Logs.log(type: :puts, log: "#{name} inventory is full", info: true)
+        end
+
         def rest
           return if hp >= max_hp
           api.rest
+        end
+
+        def mine(code:)
+          inventory_check
+          mine = MapsService.resource(code:)
+          move(**mine.position) if position != mine.position
+          api.gather
+        end
+
+        def woodcut(code:)
+          inventory_check
+          woodcut = MapsService.resource(code:)
+          move(**woodcut.position) if position != woodcut.position
+          api.gather
+        end
+
+        def fish(code:)
+          inventory_check
+          fish = MapsService.resource(code:)
+          move(**fish.position) if position != fish.position
+          api.gather
+        end
+
+        def herb(code:)
+          inventory_check
+          herb = MapsService.resource(code:)
+          move(**herb.position) if position != herb.position
+          api.gather
         end
 
         def deposit(code:, quantity:)
@@ -161,8 +192,8 @@ module Characters
           end
 
           def process_skills(keys:)
-            keys[:skills] = Skill::CODES.map do |_code, skill|
-              Skill.new(
+            keys[:skills] = Skills::Skill::CODES.map do |_code, skill|
+              Skills::Skill.new(
                 level_xp: keys.delete(:"#{skill}_xp"),
                 level: keys.delete(:"#{skill}_level"),
                 level_up_xp: keys.delete(:"#{skill}_max_xp")

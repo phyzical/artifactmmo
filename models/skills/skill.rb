@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module Characters
+module Skills
   module Skill
     CODES = {
       alchemy: 'alchemy',
