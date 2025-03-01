@@ -91,7 +91,7 @@ module API
               Logs.log(type: :puts, log: "Error: #{code} -> #{code_log}", error: true)
               raise StandardError, response_payload[:message]
             else
-              Logs.log(type: :puts, log: "#{action.character_log}#{code_log}", info: true)
+              Logs.log(type: :puts, log: "#{action.character_log}#{code_log}")
             end
           end
         end

@@ -29,6 +29,7 @@ module API
             next
           end
           action = actions.slice!(index)
+          next if action.move_redundant?
           run(action:)
           if responses.last.code == Response::CODES[:character_in_cooldown]
             actions.insert(index, action)

@@ -60,7 +60,7 @@ module Characters
           inventory_check
           rest
           monster = MapsService.monster(code:)
-          move(**monster.position) if position != monster.position
+          move(**monster.position)
           api.fight
         end
 
@@ -78,34 +78,34 @@ module Characters
         def mine(code:)
           inventory_check
           mine = MapsService.resource(code:)
-          move(**mine.position) if position != mine.position
+          move(**mine.position)
           api.gather
         end
 
         def woodcut(code:)
           inventory_check
           woodcut = MapsService.resource(code:)
-          move(**woodcut.position) if position != woodcut.position
+          move(**woodcut.position)
           api.gather
         end
 
         def fish(code:)
           inventory_check
           fish = MapsService.resource(code:)
-          move(**fish.position) if position != fish.position
+          move(**fish.position)
           api.gather
         end
 
         def herb(code:)
           inventory_check
           herb = MapsService.resource(code:)
-          move(**herb.position) if position != herb.position
+          move(**herb.position)
           api.gather
         end
 
         def deposit(code:, quantity:)
           bank = MapsService.bank
-          move(**bank.position) if position != bank.position
+          move(**bank.position)
           api.deposit(code:, quantity:)
         end
 

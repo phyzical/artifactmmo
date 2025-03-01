@@ -286,6 +286,10 @@ module API
           @save ||= ACTIONS[action][:save]
         end
 
+        def move_redundant?
+          action == :move && character.position == body
+        end
+
         private
 
         def type
