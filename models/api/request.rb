@@ -15,7 +15,7 @@ module API
           Logs.log(
             type: :puts,
             log:
-              "#{character_log}#{action_name}#{body_log} (#{request_uri}) " \
+              "#{character_log} #{action_name}#{body_log} (#{request_uri}) " \
                 "#{cached_response? ? 'cached' : 'requesting'}",
             start: page == 1
           )

@@ -7,7 +7,6 @@ module Monsters
       keys[:monster_blocked_hits] = Hit.new(**keys[:monster_blocked_hits]) if keys[:monster_blocked_hits]
       keys[:player_blocked_hits] = Hit.new(**keys[:player_blocked_hits]) if keys[:player_blocked_hits]
       keys[:win] = keys.delete(:result) == 'win'
-
       Thing.new(**keys)
     end
 
