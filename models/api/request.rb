@@ -12,13 +12,14 @@ module API
         delegate :body, :character_log, :character_name, to: :action
 
         def perform
-          response = cached_response
           Logs.log(
             type: :puts,
-            log: "#{character_log}#{action_name}#{body_log}#{page_log} (#{request_uri})",
+            log:
+              "#{character_log}#{action_name}#{body_log} (#{request_uri}) " \
+                "#{cached_response? ? 'cached' : 'requesting'}",
             start: page == 1
           )
-          response ||= http.request(http_request)
+          response = cached_response || perform_request
           cache_response(response:) if (cache? && !cached_response?) || save?
           response
         end
@@ -28,6 +29,25 @@ module API
         end
 
         private
+
+        def perform_request
+          attempts = 0
+          response = nil
+          while response.nil?
+            begin
+              response = http.request(http_request)
+            rescue Net::ReadTimeout
+              Logs.log(type: :puts, log: 'Timeout, retrying', error: true)
+              sleep(15)
+            end
+            if attempts > 10
+              Logs.log(type: :puts, log: "Too many attempts (#{attempts})", error: true)
+              raise Net::ReadTimeout
+            end
+            attempts += 1
+          end
+          response
+        end
 
         def action_name
           action.action
@@ -58,10 +78,6 @@ module API
           ENV['API_KEY']
         end
 
-        def page_log
-          page && page > 1 ? " page: #{page}" : ''
-        end
-
         def body_log
           body == {} ? '' : " #{body}"
         end
@@ -85,11 +101,11 @@ module API
         end
 
         def page
-          uri_get_vars[:page] || 1
+          uri_get_vars[:page].to_i || 1
         end
 
         def uri_get_vars
-          http_request.uri.query.split('&').to_h { |pair| pair.split('=') }
+          http_request.uri.query.split('&').to_h { |pair| pair.split('=') }.symbolize_keys
         end
 
         def body
@@ -109,7 +125,6 @@ module API
 
         def cached_response
           return if !cached_response? || save?
-          Logs.log(type: :puts, log: 'Pulling from cache')
           CachedResponse.new(body: File.read(cache_file_name), code: Response::CODES[:success])
         end
 
