@@ -8,21 +8,75 @@ module API
     CACHE_DIR = 'cache'
 
     Thing =
-      Struct.new(:action, :http_request) do
-        delegate :save?, :cache?, to: :action
+      Struct.new(:action, :get_vars) do
+        delegate :body, :character_log, :character_name, to: :action
 
         def perform
           response = cached_response
+          Logs.log(
+            type: :puts,
+            log: "#{character_log}#{action_name}#{body_log}#{page_log} (#{request_uri})",
+            start: page == 1
+          )
           response ||= http.request(http_request)
           cache_response(response:) if (cache? && !cached_response?) || save?
           response
         end
 
-        def uri
+        def request_uri
           http_request.uri.to_s
         end
 
         private
+
+        def action_name
+          action.action
+        end
+
+        def cache?
+          @cache ||= ACTIONS[action_name][:cache]
+        end
+
+        def save?
+          @save ||= ACTIONS[action_name][:save]
+        end
+
+        def type
+          @type ||= ACTIONS[action_name][:type]
+        end
+
+        def uri
+          uri = ACTIONS[action_name][:uri]
+          if uri.include?(URI_REPLACEMENT_KEYS[:CHARACTER_NAME])
+            uri = uri.gsub(URI_REPLACEMENT_KEYS[:CHARACTER_NAME], character_name)
+          end
+          uri = uri.gsub(URI_REPLACEMENT_KEYS[:CODE], body[:code]) if uri.include?(URI_REPLACEMENT_KEYS[:CODE])
+          uri
+        end
+
+        def api_key
+          ENV['API_KEY']
+        end
+
+        def page_log
+          page && page > 1 ? " page: #{page}" : ''
+        end
+
+        def body_log
+          body == {} ? '' : " #{body}"
+        end
+
+        def http_request
+          return @request if @request
+          uris = URI.encode_www_form(**get_vars) if get_vars.present?
+          url = URI("#{BASE_URL}/#{uri}?#{uris}")
+          @request = type.new(url)
+          @request['Content-Type'] = 'application/json'
+          @request['Accept'] = 'application/json'
+          @request['Authorization'] = "Bearer #{api_key}"
+          @request.body = JSON.generate(body)
+          @request
+        end
 
         def http
           https = Net::HTTP.new(http_request.uri.host, http_request.uri.port)
@@ -39,14 +93,14 @@ module API
         end
 
         def body
-          JSON.parse(http_request.body)
+          action.body
         end
 
         def cache_file_name
           cache_key = uri_get_vars.reduce('') { |acc, (k, v)| "#{acc}-#{k}-#{v}" }
           cache_key += body.reduce('') { |acc, (k, v)| "#{acc}-#{k}-#{v}" }
           cache_key = cache_key.sub(/^-/, '')
-          File.join(CACHE_DIR, "#{save? && 'save-'}#{action.action}-#{cache_key}.json")
+          File.join(CACHE_DIR, "#{save? && 'save-'}#{action_name}-#{cache_key}.json")
         end
 
         def cached_response?

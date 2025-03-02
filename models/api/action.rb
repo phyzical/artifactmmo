@@ -266,10 +266,6 @@ module API
           responses.map(&:data).flatten
         end
 
-        def character_log
-          character_name ? "#{character_name}: " : ''
-        end
-
         def data_handler(raw_data:)
           ACTIONS[action][:data_handler].call(raw_data)
         end
@@ -278,23 +274,15 @@ module API
           responses.push(response)
         end
 
-        def cache?
-          @cache ||= ACTIONS[action][:cache]
-        end
-
-        def save?
-          @save ||= ACTIONS[action][:save]
-        end
-
         def move_redundant?
           action == :move && character.position == body
         end
 
-        private
-
-        def type
-          @type ||= ACTIONS[action][:type]
+        def character_log
+          character_name ? " #{character_name}:" : ''
         end
+
+        private
 
         def deposit_gold(quantity:)
           prepare(action: :deposit_gold, body: { quantity: })
@@ -306,46 +294,8 @@ module API
           API::QueueService.handle_action(action: self)
         end
 
-        def api_key
-          ENV['API_KEY']
-        end
-
-        def request(get_vars = nil)
-          uris = URI.encode_www_form(**get_vars) if get_vars.present?
-          url = URI("#{BASE_URL}/#{uri}?#{uris}")
-          request = type.new(url)
-          request['Content-Type'] = 'application/json'
-          request['Accept'] = 'application/json'
-          request['Authorization'] = "Bearer #{api_key}"
-          request.body = JSON.generate(body)
-          Request.new(action: self, http_request: request)
-        end
-
         def perform(page:)
-          generated_request = request({ page: })
-          Logs.log(
-            type: :puts,
-            log: "#{character_log}#{action} #{body_log(body:)}#{page_log(page:)} (#{generated_request.uri})",
-            start: page == 1
-          )
-          Response.new(action: self, request: generated_request)
-        end
-
-        def page_log(page:)
-          page && page > 1 ? "page: #{page}" : ''
-        end
-
-        def body_log(body:)
-          body == '{}' ? '' : "#{body} "
-        end
-
-        def uri
-          uri = ACTIONS[action][:uri]
-          if uri.include?(URI_REPLACEMENT_KEYS[:CHARACTER_NAME])
-            uri = uri.gsub(URI_REPLACEMENT_KEYS[:CHARACTER_NAME], character_name)
-          end
-          uri = uri.gsub(URI_REPLACEMENT_KEYS[:CODE], body[:code]) if uri.include?(URI_REPLACEMENT_KEYS[:CODE])
-          uri
+          Response.new(action: self, request: Request.new(action: self, get_vars: { page: }))
         end
       end
   end
