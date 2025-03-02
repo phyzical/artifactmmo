@@ -12,6 +12,7 @@ module API
       ->(character) { character.herb(code: Resource::ALCHEMY_CODES[:sunflower_field]) }
     ].freeze
     LOOP_COUNT = 20
+    COOLDOWN_SAFETY_TIME = 0.1
 
     class << self
       def actions
@@ -66,7 +67,7 @@ module API
               ].join("\n"),
               info: true
             )
-            sleep(lowest_cooldown + 0.1)
+            sleep(lowest_cooldown)
             next
           end
           action = actions.slice!(index)
@@ -118,7 +119,7 @@ module API
       end
 
       def lowest_cooldown
-        actions.map { |action| action.character.current_cooldown }.min
+        actions.map { |action| action.character.current_cooldown }.min + COOLDOWN_SAFETY_TIME
       end
     end
   end
