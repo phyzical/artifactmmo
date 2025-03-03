@@ -10,7 +10,7 @@ module Skills
     Thing =
       Struct.new(:xp, :items) do
         def overview
-          "XP: #{xp}, Items: #{items.map(&:overview).join(', ')}"
+          " XP: #{xp}, Items: #{items.map(&:overview).join(', ')}"
         end
       end
   end

@@ -24,6 +24,10 @@ module ResourcesService
       minings(code:)&.first
     end
 
+    def mining_by_level(level:)
+      minings.sort(&:level).reject { |resource| resource.level <= level }&.first
+    end
+
     def woodcuttings(code: nil)
       @woodcutting ||= resources(code:).select { |resource| resource.type == TYPES[:woodcutting] }.group_by(&:code)
       @woodcutting[code] || @woodcutting.values.flatten
@@ -31,6 +35,10 @@ module ResourcesService
 
     def woodcutting(code:)
       woodcuttings(code:)&.first
+    end
+
+    def woodcutting_by_level(level:)
+      woodcuttings.sort(&:level).reject { |resource| resource.level <= level }&.first
     end
 
     def fishings(code: nil)
@@ -42,6 +50,10 @@ module ResourcesService
       fishings(code:)&.first
     end
 
+    def fishing_by_level(level:)
+      fishings.sort(&:level).reject { |resource| resource.level <= level }&.first
+    end
+
     def alchemys(code: nil)
       @alchemy ||= resources(code:).select { |resource| resource.type == TYPES[:alchemy] }.group_by(&:code)
       @alchemy[code] || @alchemy.values.flatten
@@ -49,6 +61,10 @@ module ResourcesService
 
     def alchemy(code:)
       alchemys(code:)&.first
+    end
+
+    def alchemy_by_level(level:)
+      alchemys.sort(&:level).reject { |resource| resource.level <= level }&.first
     end
 
     private

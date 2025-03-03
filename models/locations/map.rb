@@ -52,7 +52,7 @@ module Locations
         end
 
         def overview
-          "Name: #{name}, Type: #{type}, Skin: #{skin}, Position: #{position},"
+          "Name: #{name}, Type: #{type}, Skin: #{skin}, Position: #{position}"
         end
       end
   end
