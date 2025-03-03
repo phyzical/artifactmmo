@@ -52,6 +52,11 @@ module Characters
           self
         end
 
+        def overview
+          "Name: #{name}, Level: #{level}, XP: #{xp}, HP: #{hp}, Gold: #{gold}, Position: #{position}," \
+            "\n     #{skills.map(&:overview).join("\n     ")}"
+        end
+
         def move(x:, y:) # rubocop:disable Naming/MethodParameterName
           api.move(x:, y:)
         end
@@ -77,29 +82,29 @@ module Characters
 
         def mine(code:)
           inventory_check
-          mine = MapsService.resource(code:)
-          move(**mine.position)
+          code ||= ResourcesService.mining_by_level(level: mining.level).code
+          move(**MapsService.resource(code:).position)
           api.gather
         end
 
         def woodcut(code:)
           inventory_check
-          woodcut = MapsService.resource(code:)
-          move(**woodcut.position)
+          code ||= ResourcesService.woodcutting_by_level(level: woodcut.level).code
+          move(**MapsService.resource(code:).position)
           api.gather
         end
 
         def fish(code:)
           inventory_check
-          fish = MapsService.resource(code:)
-          move(**fish.position)
+          code ||= ResourcesService.fishing_by_level(level: fishing.level).code
+          move(**MapsService.resource(code:).position)
           api.gather
         end
 
         def herb(code:)
           inventory_check
-          herb = MapsService.resource(code:)
-          move(**herb.position)
+          code ||= ResourcesService.alchemy_by_level(level: alchemy.level).code
+          move(**MapsService.resource(code:).position)
           api.gather
         end
 
@@ -144,6 +149,38 @@ module Characters
 
         def deposit_all
           deposit_all_items.push(deposit_gold)
+        end
+
+        def mining
+          skills.find { |skill| skill.code == Skills::Skill::CODES[:mining] }
+        end
+
+        def woodcutting
+          skills.find { |skill| skill.code == Skills::Skill::CODES[:woodcutting] }
+        end
+
+        def fishing
+          skills.find { |skill| skill.code == Skills::Skill::CODES[:fishing] }
+        end
+
+        def cooking
+          skills.find { |skill| skill.code == Skills::Skill::CODES[:cooking] }
+        end
+
+        def alchemy
+          skills.find { |skill| skill.code == Skills::Skill::CODES[:alchemy] }
+        end
+
+        def gearcrafting
+          skills.find { |skill| skill.code == Skills::Skill::CODES[:gearcrafting] }
+        end
+
+        def jewelrycrafting
+          skills.find { |skill| skill.code == Skills::Skill::CODES[:jewelrycrafting] }
+        end
+
+        def weaponcrafting
+          skills.find { |skill| skill.code == Skills::Skill::CODES[:weaponcrafting] }
         end
 
         private
@@ -194,6 +231,7 @@ module Characters
           def process_skills(keys:)
             keys[:skills] = Skills::Skill::CODES.map do |_code, skill|
               Skills::Skill.new(
+                code: skill,
                 level_xp: keys.delete(:"#{skill}_xp"),
                 level: keys.delete(:"#{skill}_level"),
                 level_up_xp: keys.delete(:"#{skill}_max_xp")

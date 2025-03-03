@@ -39,6 +39,7 @@ module API
             loop = 0
             action_index += 1
             action_index = 0 if action_index == DEFAULT_ACTIONS.length
+            CharacterService.characters.each { |character| Logs.log(type: :puts, log: character.overview, start: true) }
           end
           process
         end
