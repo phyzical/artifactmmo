@@ -36,13 +36,16 @@ module API
           while response.nil?
             begin
               response = http.request(http_request)
-            rescue Net::ReadTimeout
+            rescue Net::ReadTimeout => e
               Logs.log(type: :puts, log: 'Timeout, retrying', error: true)
+              sleep(15)
+            rescue Net::HTTPServerError => e
+              Logs.log(type: :puts, log: 'Server, retrying', error: true)
               sleep(15)
             end
             if attempts > 10
               Logs.log(type: :puts, log: "Too many attempts (#{attempts})", error: true)
-              raise Net::ReadTimeout
+              raise e
             end
             attempts += 1
           end
