@@ -15,6 +15,10 @@ module MonstersService
       @monsters[code] || init
     end
 
+    def by_level(level:)
+      monsters.sort_by(&:level).reject { |monster| monster.level <= level }&.first
+    end
+
     private
 
     def pull

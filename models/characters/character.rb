@@ -61,11 +61,11 @@ module Characters
           api.move(x:, y:)
         end
 
-        def fight(code:)
+        def fight(code: nil)
           inventory_check
-          rest
-          monster = MapsService.monster(code:)
-          move(**monster.position)
+          rest_check
+          code ||= MonstersService.by_level(level:).code
+          move(**MapsService.monster(code:).position)
           api.fight
         end
 
@@ -75,33 +75,33 @@ module Characters
           Logs.log(type: :puts, log: "#{name} inventory is full")
         end
 
-        def rest
+        def rest_check
           return if hp >= max_hp
           api.rest
         end
 
-        def mine(code:)
+        def mine(code: nil)
           inventory_check
           code ||= ResourcesService.mining_by_level(level: mining.level).code
           move(**MapsService.resource(code:).position)
           api.gather
         end
 
-        def woodcut(code:)
+        def woodcut(code: nil)
           inventory_check
           code ||= ResourcesService.woodcutting_by_level(level: woodcut.level).code
           move(**MapsService.resource(code:).position)
           api.gather
         end
 
-        def fish(code:)
+        def fish(code: nil)
           inventory_check
           code ||= ResourcesService.fishing_by_level(level: fishing.level).code
           move(**MapsService.resource(code:).position)
           api.gather
         end
 
-        def herb(code:)
+        def herb(code: nil)
           inventory_check
           code ||= ResourcesService.alchemy_by_level(level: alchemy.level).code
           move(**MapsService.resource(code:).position)

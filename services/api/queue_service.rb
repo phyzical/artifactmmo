@@ -6,10 +6,10 @@ module API
 
     DEFAULT_ACTIONS = [
       ->(character) { character.fight(code: Monsters::Monster::CODES[:chicken]) },
-      ->(character) { character.mine(code: Resource::MINING_CODES[:copper_rocks]) },
-      ->(character) { character.woodcut(code: Resource::WOODCUTTING_CODES[:ash_tree]) },
-      ->(character) { character.fish(code: Resource::FISHING_CODES[:gudgeon_fishing_spot]) },
-      ->(character) { character.herb(code: Resource::ALCHEMY_CODES[:sunflower_field]) }
+      lambda(&:mine),
+      lambda(&:woodcut),
+      lambda(&:fish),
+      lambda(&:herb)
     ].freeze
     LOOP_COUNT = 20
     COOLDOWN_SAFETY_TIME = 0.1

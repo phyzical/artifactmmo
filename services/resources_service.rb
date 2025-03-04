@@ -25,7 +25,7 @@ module ResourcesService
     end
 
     def mining_by_level(level:)
-      minings.sort(&:level).reject { |resource| resource.level <= level }&.first
+      minings.sort_by(&:level).reject { |resource| resource.level <= level }&.first
     end
 
     def woodcuttings(code: nil)
@@ -38,7 +38,7 @@ module ResourcesService
     end
 
     def woodcutting_by_level(level:)
-      woodcuttings.sort(&:level).reject { |resource| resource.level <= level }&.first
+      woodcuttings.sort_by(&:level).reject { |resource| resource.level <= level }&.first
     end
 
     def fishings(code: nil)
@@ -51,7 +51,7 @@ module ResourcesService
     end
 
     def fishing_by_level(level:)
-      fishings.sort(&:level).reject { |resource| resource.level <= level }&.first
+      fishings.sort_by(&:level).reject { |resource| resource.level <= level }&.first
     end
 
     def alchemys(code: nil)
@@ -64,7 +64,7 @@ module ResourcesService
     end
 
     def alchemy_by_level(level:)
-      alchemys.sort(&:level).reject { |resource| resource.level <= level }&.first
+      alchemys.sort_by(&:level).reject { |resource| resource.level <= level }&.first
     end
 
     private
