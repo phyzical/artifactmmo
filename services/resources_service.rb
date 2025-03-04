@@ -16,7 +16,7 @@ module ResourcesService
     end
 
     def minings(code: nil)
-      @mining ||= resources(code:).select { |resource| resource.skill == TYPES[:mining] }.group_by(&:code)
+      @mining ||= resources(code:).select { |resource| resource.skill == Resource::SKILLS[:mining] }.group_by(&:code)
       @mining[code] || @mining.values.flatten
     end
 
@@ -25,11 +25,12 @@ module ResourcesService
     end
 
     def mining_by_level(level:)
-      minings.sort_by(&:level).reject { |resource| resource.level <= level }&.first
+      minings.sort_by(&:level).reject { |resource| resource.level < level }&.first
     end
 
     def woodcuttings(code: nil)
-      @woodcutting ||= resources(code:).select { |resource| resource.skill == TYPES[:woodcutting] }.group_by(&:code)
+      @woodcutting ||=
+        resources(code:).select { |resource| resource.skill == Resource::SKILLS[:woodcutting] }.group_by(&:code)
       @woodcutting[code] || @woodcutting.values.flatten
     end
 
@@ -38,11 +39,11 @@ module ResourcesService
     end
 
     def woodcutting_by_level(level:)
-      woodcuttings.sort_by(&:level).reject { |resource| resource.level <= level }&.first
+      woodcuttings.sort_by(&:level).reject { |resource| resource.level < level }&.first
     end
 
     def fishings(code: nil)
-      @fishing ||= resources(code:).select { |resource| resource.skill == TYPES[:fishing] }.group_by(&:code)
+      @fishing ||= resources(code:).select { |resource| resource.skill == Resource::SKILLS[:fishing] }.group_by(&:code)
       @fishing[code] || @fishing.values.flatten
     end
 
@@ -51,11 +52,11 @@ module ResourcesService
     end
 
     def fishing_by_level(level:)
-      fishings.sort_by(&:level).reject { |resource| resource.level <= level }&.first
+      fishings.sort_by(&:level).reject { |resource| resource.level < level }&.first
     end
 
     def alchemys(code: nil)
-      @alchemy ||= resources(code:).select { |resource| resource.skill == TYPES[:alchemy] }.group_by(&:code)
+      @alchemy ||= resources(code:).select { |resource| resource.skill == Resource::SKILLS[:alchemy] }.group_by(&:code)
       @alchemy[code] || @alchemy.values.flatten
     end
 
@@ -64,7 +65,7 @@ module ResourcesService
     end
 
     def alchemy_by_level(level:)
-      alchemys.sort_by(&:level).reject { |resource| resource.level <= level }&.first
+      alchemys.sort_by(&:level).reject { |resource| resource.level < level }&.first
     end
 
     private

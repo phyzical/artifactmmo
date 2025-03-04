@@ -89,7 +89,7 @@ module Characters
 
         def woodcut(code: nil)
           inventory_check
-          code ||= ResourcesService.woodcutting_by_level(level: woodcut.level).code
+          code ||= ResourcesService.woodcutting_by_level(level: woodcutting.level).code
           move(**MapsService.resource(code:).position)
           api.gather
         end
