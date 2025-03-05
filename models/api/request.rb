@@ -43,6 +43,13 @@ module API
               Logs.log(type: :puts, log: 'Server, retrying', error: true)
               sleep(15)
             end
+
+            if response.code.to_i == Response::CODES[:server_error]
+              response = nil
+              Logs.log(type: :puts, log: 'Server, retrying', error: true)
+              sleep(15)
+            end
+
             if attempts > 10
               Logs.log(type: :puts, log: "Too many attempts (#{attempts})", error: true)
               raise e

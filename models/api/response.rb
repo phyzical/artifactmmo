@@ -59,6 +59,8 @@ module API
       bank_insufficient_gold: 460,
       bank_transaction_in_progress: 461,
       bank_full: 462,
+      # general
+      server_error: 520,
       # Maps Error Codes
       map_not_found: 597,
       map_content_not_found: 598
