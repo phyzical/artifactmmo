@@ -16,7 +16,7 @@ module MonstersService
     end
 
     def by_level(level:)
-      monsters.sort_by(&:level).reject { |monster| monster.level <= level }&.first
+      monsters.sort_by { |resource| -resource.level }.select { |monster| monster.level <= level }&.first
     end
 
     private
