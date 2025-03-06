@@ -44,7 +44,7 @@ module API
               sleep(15)
             end
 
-            if response.code.to_i == Response::CODES[:server_error]
+            if response&.code&.to_i == Response::CODES[:server_error]
               response = nil
               Logs.log(type: :puts, log: 'Server, retrying', error: true)
               sleep(15)
