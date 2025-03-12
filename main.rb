@@ -1,13 +1,6 @@
 # frozen_string_literal: true
 
-require 'dotenv/load'
-require 'uri'
-require 'net/http'
-require 'active_support/all'
-require 'prettyprint'
-Dir[File.join(__dir__, 'helpers', '**', '*.rb')].each { |file| require file }
-Dir[File.join(__dir__, 'models', '**', '*.rb')].each { |file| require file }
-Dir[File.join(__dir__, 'services', '**', '*.rb')].each { |file| require file }
+Dir[File.join(__dir__, 'app', '**', '**', '*.rb')].each { |file| require file }
 
 def run
   init_services
@@ -15,7 +8,7 @@ def run
 end
 
 def init_services
-  Dir[File.join(__dir__, 'services', '*.rb')].each do |file|
+  Dir[File.join(__dir__, 'app', 'services', '*.rb')].each do |file|
     service_class = file.split('/').last.gsub('.rb', '').snake_to_camel
     Object.const_get(service_class).init
   end
