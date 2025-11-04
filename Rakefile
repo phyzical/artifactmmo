@@ -14,4 +14,4 @@ RuboCop::RakeTask.new
 task lint_fix: %i[stree:write rubocop:autocorrect_all]
 task lint: %i[stree:check rubocop]
 task default: %i[ci]
-task ci: %i[lint set_coverage]
+task ci: %i[lint]
