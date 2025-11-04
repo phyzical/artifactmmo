@@ -27,7 +27,7 @@ module Locations
           super(**content, **keys)
         end
 
-        # TODO:
+        # TODO: finsih other types
 
         def item
           if type == TYPES[:monster]

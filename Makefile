@@ -19,3 +19,6 @@ run-image:
 	@docker run -it --rm \
 	${COMMON} \
 	${IMAGE_NAME} 
+
+lint: 
+	bundle exec rake lint_fix

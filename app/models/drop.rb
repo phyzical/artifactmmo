@@ -8,9 +8,9 @@ module Drop
   Thing =
     Struct.new(:code, :rate, :min_quantity, :max_quantity, :quantity) do
       def overview
-        "#{code ? "Code: #{code}," : ''}#{rate ? " Rate: #{rate}," : ''}" \
-          "#{min_quantity ? " Min: #{min_quantity}," : ''}#{max_quantity ? " Max: #{max_quantity}," : ''}" \
-          "#{quantity ? " Quantity: #{quantity}," : ''}"
+        "#{"Code: #{code}," if code}#{" Rate: #{rate}," if rate}" \
+          "#{" Min: #{min_quantity}," if min_quantity}#{" Max: #{max_quantity}," if max_quantity}" \
+          "#{" Quantity: #{quantity}," if quantity}"
       end
     end
 end
