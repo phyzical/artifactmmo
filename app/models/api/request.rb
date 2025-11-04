@@ -111,7 +111,8 @@ module API
         end
 
         def page
-          uri_get_vars[:page].to_i || 1
+          num = uri_get_vars[:page].to_i
+          num.positive? ? num : 1
         end
 
         def uri_get_vars

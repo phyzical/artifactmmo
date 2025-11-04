@@ -67,5 +67,6 @@ Style/StringLiteralsInInterpolation:
   EnforcedStyle: single_quotes
 inherit_gem:
   syntax_tree: config/rubocop.yml
-require:
+plugins:
   - rubocop-performance
+  - rubocop-rake
