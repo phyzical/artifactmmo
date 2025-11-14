@@ -3,12 +3,16 @@
 Dir[File.join(__dir__, 'app', '**', '**', '*.rb')].each { |file| require file }
 
 def run
+  API::Request.clear_cache
   init_services
+  ConstGenerator.generate_all
   API::QueueService.start
 end
 
 def init_services
+  AuthService.init
   Dir[File.join(__dir__, 'app', 'services', '*.rb')].each do |file|
+    next if file.include?('auth_service.rb')
     service_class = file.split('/').last.gsub('.rb', '').snake_to_camel
     Object.const_get(service_class).init
   end
