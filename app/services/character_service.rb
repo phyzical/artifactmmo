@@ -6,6 +6,9 @@ module CharacterService
       @init ||= pull
     end
 
+    MAX = 5
+    SKINS = %w[men1 men2 men3 women1 women2 women3].freeze
+
     alias characters init
 
     def update(values)
@@ -25,6 +28,13 @@ module CharacterService
     private
 
     def pull
+      characters = API::Action.new.characters
+      return characters if characters.length == MAX
+      characters
+        .length
+        .upto(MAX - 1) do |index|
+          characters << API::Action.new.new_character(name: "Phyzical_#{index + 1}", skin: SKINS.sample)
+        end
       API::Action.new.characters
     end
   end
