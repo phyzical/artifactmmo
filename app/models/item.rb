@@ -3,31 +3,21 @@
 require_relative 'skills/skill'
 
 module Item
-  TYPES = {
-    utility: 'utility',
-    body_armor: 'body_armor',
-    weapon: 'weapon',
-    resource: 'resource',
-    leg_armor: 'leg_armor',
-    helmet: 'helmet',
-    boots: 'boots',
-    shield: 'shield',
-    amulet: 'amulet',
-    ring: 'ring',
-    artifact: 'artifact',
-    currency: 'currency',
-    consumable: 'consumable',
-    rune: 'rune',
-    bag: 'bag'
-  }.freeze
+  TYPES = Items::Constants::TYPES
 
   CREATION_TYPE = Skills::Skill::CODES
 
+  def self.type(type:)
+    TYPES[type.to_sym] || raise(ArgumentError, "Invalid type: #{type}")
+  end
+
   def self.new(keys)
+    keys[:type] = Item.type(type: keys.delete(:type)) if keys[:type]
     keys[:effects] = keys[:effects].map { |effect| Effect.new(**effect) }
     keys[:craft] = Characters::Craft.new(**keys[:craft]) if keys[:craft]
+    keys[:conditions] = keys[:conditions]&.map { |cond| Condition.new(**cond) } || []
     Thing.new(**keys)
   end
 
-  Thing = Struct.new(:name, :code, :level, :type, :subtype, :description, :effects, :craft, :tradeable)
+  Thing = Struct.new(:name, :code, :level, :type, :subtype, :description, :effects, :craft, :tradeable, :conditions)
 end

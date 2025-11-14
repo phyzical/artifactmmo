@@ -2,22 +2,31 @@
 
 module Monsters
   module Monster
-    CODES = { orc: 'orc', ogre: 'ogre', pig: 'pig', cyclops: 'cyclops', chicken: 'chicken', cow: 'cow' }.freeze
+    CODES = Constants::CODES
+    TYPES = Constants::TYPES
 
     def self.new(keys)
+      keys[:code] = Monster.code(code: keys.delete(:code))
+      keys[:type] = Monster.type(type: keys.delete(:type))
       keys[:drops] = keys[:drops].map { |drop| Drop.new(**drop) }
       keys[:effects] = keys[:effects].map { |drop| Effect.new(**drop) }
       Thing.new(**keys)
     end
 
+    def self.type(type:)
+      TYPES[type.to_sym] || raise(ArgumentError, "Invalid type: #{type}")
+    end
+
     def self.code(code:)
-      TYPES[code.to_sym] || raise(ArgumentError, "Invalid code: #{code}")
+      CODES[code.to_sym] || raise(ArgumentError, "Invalid code: #{code}")
     end
 
     Thing =
       Struct.new(
         :name,
+        :type,
         :code,
+        :initiative,
         :level,
         :hp,
         :attack_fire,

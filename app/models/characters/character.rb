@@ -45,7 +45,12 @@ module Characters
         :wisdom,
         :x,
         :xp,
-        :y
+        :y,
+        :initiative,
+        :threat,
+        :effects,
+        :layer,
+        :map_id
       ) do
         def update(keys)
           Thing.process_keys(keys:).each { |key, value| self[key] = value }
@@ -206,11 +211,17 @@ module Characters
             keys = process_inventory(keys:)
             keys = process_task_payload(keys:)
             keys = process_skills(keys:)
+            keys = process_effects(keys:)
             process_slots(keys:)
           end
 
           def process_inventory(keys:)
             keys[:inventory] = keys[:inventory].map { |item| Item.new(**item) }
+            keys
+          end
+
+          def process_effects(keys:)
+            keys[:effects] = keys[:effects].map { |effect| Effect.new(**effect) }
             keys
           end
 
@@ -241,7 +252,7 @@ module Characters
           end
 
           def process_slots(keys:)
-            keys[:slots] = Item::SLOTS.map do |_code, code|
+            keys[:slots] = Item::TYPES.map do |_code, code|
               Item.new(code:, slot: keys.delete(:"#{code}_slot"), quantity: keys.delete(:"#{code}_slot_quantity"))
             end
             keys

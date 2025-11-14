@@ -6,45 +6,42 @@ module Locations
       Thing.new(**keys)
     end
 
-    TYPES = {
-      monster: 'monster',
-      resource: 'resource',
-      bank: 'bank',
-      npc: 'npc',
-      tasks_master: 'tasks_master',
-      workshop: 'workshop',
-      grand_exchange: 'grand_exchange'
-    }.freeze
+    LAYERS = Maps::Constants::LAYERS
 
-    def self.type(type:)
-      TYPES[type.to_sym] || raise(ArgumentError, "Invalid type: #{type}")
+    def self.layer(layer:)
+      LAYERS[layer.to_sym] || raise(ArgumentError, "Invalid layer: #{layer}")
     end
 
     Thing =
-      Struct.new(:name, :skin, :x, :y, :type, :code) do
+      Struct.new(:map_id, :name, :skin, :x, :y, :code, :layer, :access, :interactions, :conditions) do
         def initialize(keys)
           content = keys.delete(:content) || {}
+          keys[:layer] = Map.layer(layer: keys.delete(:layer)) if keys.key?(:layer)
+          keys[:access] = Maps::Access.new(keys.delete(:access)) if keys.key?(:access)
+          keys[:interactions] = Maps::Interaction.new(keys.delete(:interactions)) if keys.key?(:interactions)
           super(**content, **keys)
         end
 
-        # TODO: finsih other types
-
-        def item
+        def item # rubocop:disable Metrics/AbcSize,Metrics/CyclomaticComplexity,Metrics/PerceivedComplexity
           if type == TYPES[:monster]
             MonstersService.monster(code:)
-            # elsif type == TYPES[:resource]
-            #   Resource.new(code: code)
+          elsif type == TYPES[:resource]
+            Resource.new(code: code)
           elsif type == TYPES[:bank]
             BankService.bank
-            # elsif type == TYPES[:npc]
-            #   Npc.new(code: code)
-            # elsif type == TYPES[:tasks_master]
-            #   TasksMaster.new(code: code)
-            # elsif type == TYPES[:workshop]
-            #   Workshop.new(code: code)
-            # elsif type == TYPES[:grand_exchange]
-            #   GrandExchange.new(code: code)
+          elsif type == TYPES[:npc]
+            Npc.new(code: code)
+          elsif type == TYPES[:tasks_master]
+            TasksMaster.new(code: code)
+          elsif type == TYPES[:workshop]
+            Workshop.new(code: code)
+          elsif type == TYPES[:grand_exchange]
+            GrandExchange.new(code: code)
           end
+        end
+
+        def type
+          interactions&.content&.[](:type)
         end
 
         def position

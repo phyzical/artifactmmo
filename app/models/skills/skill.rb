@@ -14,6 +14,7 @@ module Skills
     }.freeze
 
     def self.new(keys)
+      keys[:code] = Skill.code(code: keys.delete(:code))
       Thing.new(**keys)
     end
 

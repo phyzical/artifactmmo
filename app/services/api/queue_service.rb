@@ -46,7 +46,7 @@ module API
       end
 
       def handle_action(action:)
-        ACTIONS[action.action][:add_to_queue] ? add(action:) : run(action:)
+        action.add_to_queue? ? add(action:) : run(action:)
       end
 
       private

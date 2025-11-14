@@ -1,9 +1,8 @@
 # frozen_string_literal: true
 
-module NPCs
-  module NPC
-    TYPES = { merchant: 'merchant' }.freeze
-
+module Npcs
+  module Npc
+    TYPES = Constants::TYPES
     def self.new(keys)
       Thing.new(**keys)
     end

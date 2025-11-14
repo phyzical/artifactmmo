@@ -7,7 +7,7 @@ module MapsService
     end
 
     def monsters(code: nil)
-      @monsters ||= maps_by_type[Locations::Map.type(type: :monster)].group_by(&:code)
+      @monsters ||= maps_by_type[Locations::Maps::Interaction.type(type: :monster)].group_by(&:code)
       @monsters[code] || @monsters.values.flatten
     end
 
@@ -16,7 +16,7 @@ module MapsService
     end
 
     def resources(code: nil)
-      @resources ||= maps_by_type[Locations::Map.type(type: :resource)].group_by(&:code)
+      @resources ||= maps_by_type[Locations::Maps::Interaction.type(type: :resource)].group_by(&:code)
       @resources[code] || @resources.values.flatten
     end
 
@@ -25,7 +25,7 @@ module MapsService
     end
 
     def banks(code: nil)
-      @banks ||= maps_by_type[Locations::Map.type(type: :bank)].group_by(&:code)
+      @banks ||= maps_by_type[Locations::Maps::Interaction.type(type: :bank)].group_by(&:code)
       @banks[code] || @banks.values.flatten
     end
 
@@ -34,7 +34,7 @@ module MapsService
     end
 
     def npcs(code: nil)
-      @npcs ||= maps_by_type[Locations::Map.type(type: :npc)].group_by(&:code)
+      @npcs ||= maps_by_type[Locations::Maps::Interaction.type(type: :npc)].group_by(&:code)
       @npcs[code] || @npcs.values.flatten
     end
 
@@ -43,7 +43,7 @@ module MapsService
     end
 
     def tasks_masters(code: nil)
-      @tasks_masters ||= maps_by_type[Locations::Map.type(type: :tasks_master)].group_by(&:code)
+      @tasks_masters ||= maps_by_type[Locations::Maps::Interaction.type(type: :tasks_master)].group_by(&:code)
       @tasks_masters[code] || @tasks_masters.values.flatten
     end
 
@@ -52,7 +52,7 @@ module MapsService
     end
 
     def workshops(code: nil)
-      @workshops ||= maps_by_type[Locations::Map.type(type: :workshop)].group_by(&:code)
+      @workshops ||= maps_by_type[Locations::Maps::Interaction.type(type: :workshop)].group_by(&:code)
       @workshops[code] || @workshops.values.flatten
     end
 
@@ -61,7 +61,7 @@ module MapsService
     end
 
     def grand_exchanges(code: nil)
-      @grand_exchanges ||= maps_by_type[Locations::Map.type(type: :grand_exchange)].group_by(&:code)
+      @grand_exchanges ||= maps_by_type[Locations::Maps::Interaction.type(type: :grand_exchange)].group_by(&:code)
       @grand_exchanges[code] || @grand_exchanges.values.flatten
     end
 
