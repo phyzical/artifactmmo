@@ -17,11 +17,22 @@ module API
         [MapsService.find_by_position(**raw_data[:destination].slice(:x, :y))]
       end
     },
+    generate_api_key: {
+      uri: 'token',
+      type: Net::HTTP::Post,
+      data_handler: ->(raw_data) { raw_data[:token] },
+      headers: -> { ::AuthService.authorization_header }
+    },
     characters: {
       uri: 'my/characters',
       type: Net::HTTP::Get,
       data_handler: ->(raw_data) { raw_data.map { |x| Characters::Character.new(**x) } },
       save: true
+    },
+    new_character: {
+      uri: 'characters/create',
+      type: Net::HTTP::Post,
+      data_handler: ->(raw_data) { Characters::Character.new(**raw_data) }
     },
     maps: {
       uri: 'maps',
@@ -129,15 +140,15 @@ module API
       cache: true
     },
     npcs: {
-      uri: 'npcs',
+      uri: 'npcs/details',
       type: Net::HTTP::Get,
-      data_handler: ->(raw_data) { raw_data.map { |x| NPCs::NPC.new(**x) } },
+      data_handler: ->(raw_data) { raw_data.map { |x| Npcs::Npc.new(**x) } },
       cache: true
     },
     npc_items: {
-      uri: "npcs/#{URI_REPLACEMENT_KEYS[:CODE]}/items",
+      uri: "npcs/items/#{URI_REPLACEMENT_KEYS[:CODE]}",
       type: Net::HTTP::Get,
-      data_handler: ->(raw_data) { raw_data.map { |x| NPCs::Item.new(**x) } },
+      data_handler: ->(raw_data) { raw_data.map { |x| Npcs::Item.new(**x) } },
       cache: true
     },
     effects: {
@@ -168,6 +179,10 @@ module API
         def character
           return if character_name.nil?
           CharacterService.find_by_name(character_name)
+        end
+
+        def api_key
+          prepare(action: :generate_api_key)
         end
 
         def move(x: 0, y: 0) # rubocop:disable Naming/MethodParameterName
@@ -216,6 +231,10 @@ module API
 
         def characters
           prepare(action: :characters)
+        end
+
+        def new_character(name:, skin:)
+          prepare(action: :new_character, body: { name:, skin: })
         end
 
         def maps
@@ -267,7 +286,15 @@ module API
         end
 
         def data_handler(raw_data:)
-          ACTIONS[action][:data_handler].call(raw_data)
+          ACTIONS[action][:data_handler]&.call(raw_data) || raw_data
+        end
+
+        def extra_headers
+          ACTIONS[action][:headers]&.call || {}
+        end
+
+        def add_to_queue?
+          ACTIONS[action][:add_to_queue] || false
         end
 
         def add_response(response:)

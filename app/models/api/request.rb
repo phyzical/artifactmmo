@@ -7,6 +7,11 @@ module API
     end
     CACHE_DIR = 'cache'
 
+    def self.clear_cache
+      Dir.glob("#{CACHE_DIR}/*").each { |file| File.delete(file) } if ENV['CLEAR_CACHE'] == 'true'
+      ENV['CLEAR_CACHE'] = 'false'
+    end
+
     Thing =
       Struct.new(:action, :get_vars) do
         delegate :body, :character_log, :character_name, to: :action
@@ -85,7 +90,7 @@ module API
         end
 
         def api_key
-          ENV['API_KEY']
+          ::AuthService.api_key
         end
 
         def body_log
@@ -99,7 +104,8 @@ module API
           @request = type.new(url)
           @request['Content-Type'] = 'application/json'
           @request['Accept'] = 'application/json'
-          @request['Authorization'] = "Bearer #{api_key}"
+          @request['Authorization'] = "Bearer #{api_key}" if action.extra_headers[:Authorization].nil?
+          action.extra_headers.each { |key, value| @request[key.to_s] = value }
           @request.body = JSON.generate(body)
           @request
         end
