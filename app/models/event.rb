@@ -2,7 +2,7 @@
 
 module Event
   def self.new(keys)
-    keys[:maps] = keys[:maps].map { |map| MapsService.find_by_position(**map) }
+    keys[:maps] = keys[:maps].map { |map| MapsService.find_by_position(**map.slice(:x, :y)) }
     keys[:type] = keys[:content][:type]
     keys[:content_code] = keys[:content][:code]
     keys.delete(:content)
