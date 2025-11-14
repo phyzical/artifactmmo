@@ -13,6 +13,7 @@ build:
 COMMON=--env-file=.env \
 	-v ${PWD}/app:/app/app \
 	-v ${PWD}/cache:/app/cache \
+	-v ${PWD}/Rakefile:/app/Rakefile \
 	-v ${PWD}/main.rb:/app/main.rb
 
 run-image:

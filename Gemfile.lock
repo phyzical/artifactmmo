@@ -111,6 +111,7 @@ PLATFORMS
 
 DEPENDENCIES
   activesupport
+  base64
   debug
   dotenv
   net

@@ -15,3 +15,4 @@ gem 'ruby-lsp', require: false
 gem 'syntax_tree', require: false
 gem 'uri', require: false
 gem 'w_syntax_tree-erb', require: false
+gem 'base64', require: false
