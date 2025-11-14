@@ -1,391 +1,808 @@
 {
     "data": [
         {
+            "map_id": 1,
             "name": "Forest",
             "skin": "forest_3",
             "x": -5,
             "y": -5,
-            "content": null
+            "layer": "overworld",
+            "access": {
+                "type": "standard",
+                "conditions": []
+            },
+            "interactions": {
+                "content": null,
+                "transition": null
+            }
         },
         {
+            "map_id": 2,
+            "name": "Empty",
+            "skin": "underground",
+            "x": -5,
+            "y": -5,
+            "layer": "underground",
+            "access": {
+                "type": "blocked",
+                "conditions": []
+            },
+            "interactions": {
+                "content": null,
+                "transition": null
+            }
+        },
+        {
+            "map_id": 3,
+            "name": "Empty",
+            "skin": "interior",
+            "x": -5,
+            "y": -5,
+            "layer": "interior",
+            "access": {
+                "type": "blocked",
+                "conditions": []
+            },
+            "interactions": {
+                "content": null,
+                "transition": null
+            }
+        },
+        {
+            "map_id": 4,
             "name": "Forest",
             "skin": "forest_2",
             "x": -4,
             "y": -5,
-            "content": null
+            "layer": "overworld",
+            "access": {
+                "type": "standard",
+                "conditions": []
+            },
+            "interactions": {
+                "content": null,
+                "transition": null
+            }
         },
         {
+            "map_id": 5,
+            "name": "Empty",
+            "skin": "underground",
+            "x": -4,
+            "y": -5,
+            "layer": "underground",
+            "access": {
+                "type": "blocked",
+                "conditions": []
+            },
+            "interactions": {
+                "content": null,
+                "transition": null
+            }
+        },
+        {
+            "map_id": 6,
+            "name": "Empty",
+            "skin": "interior",
+            "x": -4,
+            "y": -5,
+            "layer": "interior",
+            "access": {
+                "type": "blocked",
+                "conditions": []
+            },
+            "interactions": {
+                "content": null,
+                "transition": null
+            }
+        },
+        {
+            "map_id": 7,
             "name": "Forest",
             "skin": "forest_2",
             "x": -3,
             "y": -5,
-            "content": null
+            "layer": "overworld",
+            "access": {
+                "type": "standard",
+                "conditions": []
+            },
+            "interactions": {
+                "content": null,
+                "transition": null
+            }
         },
         {
+            "map_id": 8,
+            "name": "Empty",
+            "skin": "underground",
+            "x": -3,
+            "y": -5,
+            "layer": "underground",
+            "access": {
+                "type": "blocked",
+                "conditions": []
+            },
+            "interactions": {
+                "content": null,
+                "transition": null
+            }
+        },
+        {
+            "map_id": 9,
+            "name": "Empty",
+            "skin": "interior",
+            "x": -3,
+            "y": -5,
+            "layer": "interior",
+            "access": {
+                "type": "blocked",
+                "conditions": []
+            },
+            "interactions": {
+                "content": null,
+                "transition": null
+            }
+        },
+        {
+            "map_id": 10,
             "name": "Forest",
             "skin": "forest_3",
             "x": -2,
             "y": -5,
-            "content": null
+            "layer": "overworld",
+            "access": {
+                "type": "standard",
+                "conditions": []
+            },
+            "interactions": {
+                "content": null,
+                "transition": null
+            }
         },
         {
+            "map_id": 11,
+            "name": "Empty",
+            "skin": "underground",
+            "x": -2,
+            "y": -5,
+            "layer": "underground",
+            "access": {
+                "type": "blocked",
+                "conditions": []
+            },
+            "interactions": {
+                "content": null,
+                "transition": null
+            }
+        },
+        {
+            "map_id": 12,
+            "name": "Empty",
+            "skin": "interior",
+            "x": -2,
+            "y": -5,
+            "layer": "interior",
+            "access": {
+                "type": "blocked",
+                "conditions": []
+            },
+            "interactions": {
+                "content": null,
+                "transition": null
+            }
+        },
+        {
+            "map_id": 13,
             "name": "Forest",
             "skin": "forest_1",
             "x": -1,
             "y": -5,
-            "content": null
+            "layer": "overworld",
+            "access": {
+                "type": "standard",
+                "conditions": []
+            },
+            "interactions": {
+                "content": null,
+                "transition": null
+            }
         },
         {
+            "map_id": 14,
+            "name": "Empty",
+            "skin": "underground",
+            "x": -1,
+            "y": -5,
+            "layer": "underground",
+            "access": {
+                "type": "blocked",
+                "conditions": []
+            },
+            "interactions": {
+                "content": null,
+                "transition": null
+            }
+        },
+        {
+            "map_id": 15,
+            "name": "Empty",
+            "skin": "interior",
+            "x": -1,
+            "y": -5,
+            "layer": "interior",
+            "access": {
+                "type": "blocked",
+                "conditions": []
+            },
+            "interactions": {
+                "content": null,
+                "transition": null
+            }
+        },
+        {
+            "map_id": 16,
             "name": "Forest",
             "skin": "forest_2",
             "x": 0,
             "y": -5,
-            "content": null
+            "layer": "overworld",
+            "access": {
+                "type": "standard",
+                "conditions": []
+            },
+            "interactions": {
+                "content": null,
+                "transition": null
+            }
         },
         {
+            "map_id": 17,
+            "name": "Empty",
+            "skin": "underground",
+            "x": 0,
+            "y": -5,
+            "layer": "underground",
+            "access": {
+                "type": "blocked",
+                "conditions": []
+            },
+            "interactions": {
+                "content": null,
+                "transition": null
+            }
+        },
+        {
+            "map_id": 18,
+            "name": "Empty",
+            "skin": "interior",
+            "x": 0,
+            "y": -5,
+            "layer": "interior",
+            "access": {
+                "type": "blocked",
+                "conditions": []
+            },
+            "interactions": {
+                "content": null,
+                "transition": null
+            }
+        },
+        {
+            "map_id": 19,
             "name": "Forest",
             "skin": "forest_3",
             "x": 1,
             "y": -5,
-            "content": null
+            "layer": "overworld",
+            "access": {
+                "type": "standard",
+                "conditions": []
+            },
+            "interactions": {
+                "content": null,
+                "transition": null
+            }
         },
         {
+            "map_id": 20,
+            "name": "Empty",
+            "skin": "underground",
+            "x": 1,
+            "y": -5,
+            "layer": "underground",
+            "access": {
+                "type": "blocked",
+                "conditions": []
+            },
+            "interactions": {
+                "content": null,
+                "transition": null
+            }
+        },
+        {
+            "map_id": 21,
+            "name": "Empty",
+            "skin": "interior",
+            "x": 1,
+            "y": -5,
+            "layer": "interior",
+            "access": {
+                "type": "blocked",
+                "conditions": []
+            },
+            "interactions": {
+                "content": null,
+                "transition": null
+            }
+        },
+        {
+            "map_id": 22,
             "name": "Forest",
             "skin": "forest_2",
             "x": 2,
             "y": -5,
-            "content": null
+            "layer": "overworld",
+            "access": {
+                "type": "standard",
+                "conditions": []
+            },
+            "interactions": {
+                "content": null,
+                "transition": null
+            }
         },
         {
+            "map_id": 23,
+            "name": "Empty",
+            "skin": "underground",
+            "x": 2,
+            "y": -5,
+            "layer": "underground",
+            "access": {
+                "type": "blocked",
+                "conditions": []
+            },
+            "interactions": {
+                "content": null,
+                "transition": null
+            }
+        },
+        {
+            "map_id": 24,
+            "name": "Empty",
+            "skin": "interior",
+            "x": 2,
+            "y": -5,
+            "layer": "interior",
+            "access": {
+                "type": "blocked",
+                "conditions": []
+            },
+            "interactions": {
+                "content": null,
+                "transition": null
+            }
+        },
+        {
+            "map_id": 25,
             "name": "Forest",
             "skin": "forest_3",
             "x": 3,
             "y": -5,
-            "content": null
+            "layer": "overworld",
+            "access": {
+                "type": "standard",
+                "conditions": []
+            },
+            "interactions": {
+                "content": null,
+                "transition": null
+            }
         },
         {
+            "map_id": 26,
+            "name": "Empty",
+            "skin": "underground",
+            "x": 3,
+            "y": -5,
+            "layer": "underground",
+            "access": {
+                "type": "blocked",
+                "conditions": []
+            },
+            "interactions": {
+                "content": null,
+                "transition": null
+            }
+        },
+        {
+            "map_id": 27,
+            "name": "Empty",
+            "skin": "interior",
+            "x": 3,
+            "y": -5,
+            "layer": "interior",
+            "access": {
+                "type": "blocked",
+                "conditions": []
+            },
+            "interactions": {
+                "content": null,
+                "transition": null
+            }
+        },
+        {
+            "map_id": 28,
             "name": "Forest",
             "skin": "forest_1",
             "x": 4,
             "y": -5,
-            "content": null
+            "layer": "overworld",
+            "access": {
+                "type": "standard",
+                "conditions": []
+            },
+            "interactions": {
+                "content": null,
+                "transition": null
+            }
         },
         {
+            "map_id": 29,
+            "name": "Empty",
+            "skin": "underground",
+            "x": 4,
+            "y": -5,
+            "layer": "underground",
+            "access": {
+                "type": "blocked",
+                "conditions": []
+            },
+            "interactions": {
+                "content": null,
+                "transition": null
+            }
+        },
+        {
+            "map_id": 30,
+            "name": "Empty",
+            "skin": "interior",
+            "x": 4,
+            "y": -5,
+            "layer": "interior",
+            "access": {
+                "type": "blocked",
+                "conditions": []
+            },
+            "interactions": {
+                "content": null,
+                "transition": null
+            }
+        },
+        {
+            "map_id": 31,
             "name": "Forest",
             "skin": "forest_2",
             "x": 5,
             "y": -5,
-            "content": null
+            "layer": "overworld",
+            "access": {
+                "type": "standard",
+                "conditions": []
+            },
+            "interactions": {
+                "content": null,
+                "transition": null
+            }
         },
         {
+            "map_id": 32,
+            "name": "Empty",
+            "skin": "underground",
+            "x": 5,
+            "y": -5,
+            "layer": "underground",
+            "access": {
+                "type": "blocked",
+                "conditions": []
+            },
+            "interactions": {
+                "content": null,
+                "transition": null
+            }
+        },
+        {
+            "map_id": 33,
+            "name": "Empty",
+            "skin": "interior",
+            "x": 5,
+            "y": -5,
+            "layer": "interior",
+            "access": {
+                "type": "blocked",
+                "conditions": []
+            },
+            "interactions": {
+                "content": null,
+                "transition": null
+            }
+        },
+        {
+            "map_id": 34,
             "name": "Forest",
             "skin": "forest_3",
             "x": 6,
             "y": -5,
-            "content": null
+            "layer": "overworld",
+            "access": {
+                "type": "standard",
+                "conditions": []
+            },
+            "interactions": {
+                "content": null,
+                "transition": null
+            }
         },
         {
+            "map_id": 35,
+            "name": "Empty",
+            "skin": "underground",
+            "x": 6,
+            "y": -5,
+            "layer": "underground",
+            "access": {
+                "type": "blocked",
+                "conditions": []
+            },
+            "interactions": {
+                "content": null,
+                "transition": null
+            }
+        },
+        {
+            "map_id": 36,
+            "name": "Empty",
+            "skin": "interior",
+            "x": 6,
+            "y": -5,
+            "layer": "interior",
+            "access": {
+                "type": "blocked",
+                "conditions": []
+            },
+            "interactions": {
+                "content": null,
+                "transition": null
+            }
+        },
+        {
+            "map_id": 37,
             "name": "Forest",
             "skin": "forest_1",
             "x": 7,
             "y": -5,
-            "content": null
+            "layer": "overworld",
+            "access": {
+                "type": "standard",
+                "conditions": []
+            },
+            "interactions": {
+                "content": null,
+                "transition": null
+            }
         },
         {
+            "map_id": 38,
+            "name": "Empty",
+            "skin": "underground",
+            "x": 7,
+            "y": -5,
+            "layer": "underground",
+            "access": {
+                "type": "blocked",
+                "conditions": []
+            },
+            "interactions": {
+                "content": null,
+                "transition": null
+            }
+        },
+        {
+            "map_id": 39,
+            "name": "Empty",
+            "skin": "interior",
+            "x": 7,
+            "y": -5,
+            "layer": "interior",
+            "access": {
+                "type": "blocked",
+                "conditions": []
+            },
+            "interactions": {
+                "content": null,
+                "transition": null
+            }
+        },
+        {
+            "map_id": 40,
             "name": "Forest",
             "skin": "forest_2",
             "x": 8,
             "y": -5,
-            "content": null
+            "layer": "overworld",
+            "access": {
+                "type": "standard",
+                "conditions": []
+            },
+            "interactions": {
+                "content": null,
+                "transition": null
+            }
         },
         {
+            "map_id": 41,
+            "name": "Empty",
+            "skin": "underground",
+            "x": 8,
+            "y": -5,
+            "layer": "underground",
+            "access": {
+                "type": "blocked",
+                "conditions": []
+            },
+            "interactions": {
+                "content": null,
+                "transition": null
+            }
+        },
+        {
+            "map_id": 42,
+            "name": "Empty",
+            "skin": "interior",
+            "x": 8,
+            "y": -5,
+            "layer": "interior",
+            "access": {
+                "type": "blocked",
+                "conditions": []
+            },
+            "interactions": {
+                "content": null,
+                "transition": null
+            }
+        },
+        {
+            "map_id": 43,
             "name": "Forest",
             "skin": "forest_3",
             "x": 9,
             "y": -5,
-            "content": null
+            "layer": "overworld",
+            "access": {
+                "type": "standard",
+                "conditions": []
+            },
+            "interactions": {
+                "content": null,
+                "transition": null
+            }
         },
         {
+            "map_id": 44,
+            "name": "Empty",
+            "skin": "underground",
+            "x": 9,
+            "y": -5,
+            "layer": "underground",
+            "access": {
+                "type": "blocked",
+                "conditions": []
+            },
+            "interactions": {
+                "content": null,
+                "transition": null
+            }
+        },
+        {
+            "map_id": 45,
+            "name": "Empty",
+            "skin": "interior",
+            "x": 9,
+            "y": -5,
+            "layer": "interior",
+            "access": {
+                "type": "blocked",
+                "conditions": []
+            },
+            "interactions": {
+                "content": null,
+                "transition": null
+            }
+        },
+        {
+            "map_id": 46,
             "name": "Forest",
             "skin": "forest_2",
             "x": 10,
             "y": -5,
-            "content": null
+            "layer": "overworld",
+            "access": {
+                "type": "standard",
+                "conditions": []
+            },
+            "interactions": {
+                "content": null,
+                "transition": null
+            }
         },
         {
+            "map_id": 47,
+            "name": "Empty",
+            "skin": "underground",
+            "x": 10,
+            "y": -5,
+            "layer": "underground",
+            "access": {
+                "type": "blocked",
+                "conditions": []
+            },
+            "interactions": {
+                "content": null,
+                "transition": null
+            }
+        },
+        {
+            "map_id": 48,
+            "name": "Empty",
+            "skin": "interior",
+            "x": 10,
+            "y": -5,
+            "layer": "interior",
+            "access": {
+                "type": "blocked",
+                "conditions": []
+            },
+            "interactions": {
+                "content": null,
+                "transition": null
+            }
+        },
+        {
+            "map_id": 49,
             "name": "Forest",
             "skin": "forest_3",
             "x": 11,
             "y": -5,
-            "content": null
-        },
-        {
-            "name": "Forest",
-            "skin": "forest_2",
-            "x": -5,
-            "y": -4,
-            "content": null
-        },
-        {
-            "name": "Forest",
-            "skin": "forest_2",
-            "x": -4,
-            "y": -4,
-            "content": null
-        },
-        {
-            "name": "Forest",
-            "skin": "forest_lake1",
-            "x": -3,
-            "y": -4,
-            "content": {
-                "type": "resource",
-                "code": "salmon_fishing_spot"
+            "layer": "overworld",
+            "access": {
+                "type": "standard",
+                "conditions": []
+            },
+            "interactions": {
+                "content": null,
+                "transition": null
             }
         },
         {
-            "name": "Forest",
-            "skin": "forest_lake2",
-            "x": -2,
-            "y": -4,
-            "content": {
-                "type": "resource",
-                "code": "salmon_fishing_spot"
-            }
-        },
-        {
-            "name": "Forest",
-            "skin": "forest_2",
-            "x": -1,
-            "y": -4,
-            "content": null
-        },
-        {
-            "name": "Forest",
-            "skin": "forest_1",
-            "x": 0,
-            "y": -4,
-            "content": null
-        },
-        {
-            "name": "Forest",
-            "skin": "forest_4",
-            "x": 1,
-            "y": -4,
-            "content": null
-        },
-        {
-            "name": "Forest",
-            "skin": "forest_3",
-            "x": 2,
-            "y": -4,
-            "content": null
-        },
-        {
-            "name": "Forest",
-            "skin": "forest_1",
-            "x": 3,
-            "y": -4,
-            "content": null
-        },
-        {
-            "name": "Forest",
-            "skin": "forest_2",
-            "x": 4,
-            "y": -4,
-            "content": null
-        },
-        {
-            "name": "Forest",
-            "skin": "forest_3",
-            "x": 5,
-            "y": -4,
-            "content": null
-        },
-        {
-            "name": "Forest",
-            "skin": "forest_goblin_wolfrider1",
-            "x": 6,
-            "y": -4,
-            "content": {
-                "type": "monster",
-                "code": "goblin_wolfrider"
-            }
-        },
-        {
-            "name": "Forest",
-            "skin": "forest_orc2",
-            "x": 7,
-            "y": -4,
-            "content": {
-                "type": "monster",
-                "code": "orc"
-            }
-        },
-        {
-            "name": "Forest",
-            "skin": "forest_ogre1",
-            "x": 8,
-            "y": -4,
-            "content": {
-                "type": "monster",
-                "code": "ogre"
-            }
-        },
-        {
-            "name": "Forest",
-            "skin": "forest_2",
-            "x": 9,
-            "y": -4,
-            "content": null
-        },
-        {
-            "name": "Forest",
-            "skin": "forest_1",
-            "x": 10,
-            "y": -4,
-            "content": null
-        },
-        {
-            "name": "Forest",
-            "skin": "forest_1",
+            "map_id": 50,
+            "name": "Empty",
+            "skin": "underground",
             "x": 11,
-            "y": -4,
-            "content": null
-        },
-        {
-            "name": "Forest",
-            "skin": "forest_2",
-            "x": -5,
-            "y": -3,
-            "content": null
-        },
-        {
-            "name": "Forest",
-            "skin": "forest_2",
-            "x": -4,
-            "y": -3,
-            "content": null
-        },
-        {
-            "name": "Forest",
-            "skin": "forest_pig1",
-            "x": -3,
-            "y": -3,
-            "content": {
-                "type": "monster",
-                "code": "pig"
+            "y": -5,
+            "layer": "underground",
+            "access": {
+                "type": "blocked",
+                "conditions": []
+            },
+            "interactions": {
+                "content": null,
+                "transition": null
             }
-        },
-        {
-            "name": "Forest",
-            "skin": "forest_woodcuttingstation1",
-            "x": -2,
-            "y": -3,
-            "content": {
-                "type": "workshop",
-                "code": "woodcutting"
-            }
-        },
-        {
-            "name": "Forest",
-            "skin": "forest_1",
-            "x": -1,
-            "y": -3,
-            "content": null
-        },
-        {
-            "name": "Forest",
-            "skin": "forest_2",
-            "x": 0,
-            "y": -3,
-            "content": null
-        },
-        {
-            "name": "Forest",
-            "skin": "forest_3",
-            "x": 1,
-            "y": -3,
-            "content": null
-        },
-        {
-            "name": "Forest",
-            "skin": "forest_2",
-            "x": 2,
-            "y": -3,
-            "content": null
-        },
-        {
-            "name": "Forest",
-            "skin": "forest_3",
-            "x": 3,
-            "y": -3,
-            "content": null
-        },
-        {
-            "name": "Forest",
-            "skin": "forest_1",
-            "x": 4,
-            "y": -3,
-            "content": null
-        },
-        {
-            "name": "Forest",
-            "skin": "forest_2",
-            "x": 5,
-            "y": -3,
-            "content": null
-        },
-        {
-            "name": "Forest",
-            "skin": "forest_goldore1",
-            "x": 6,
-            "y": -3,
-            "content": {
-                "type": "resource",
-                "code": "gold_rocks"
-            }
-        },
-        {
-            "name": "Forest",
-            "skin": "forest_cyclops2",
-            "x": 7,
-            "y": -3,
-            "content": {
-                "type": "monster",
-                "code": "cyclops"
-            }
-        },
-        {
-            "name": "Forest",
-            "skin": "forest_cyclops1",
-            "x": 8,
-            "y": -3,
-            "content": {
-                "type": "monster",
-                "code": "cyclops"
-            }
-        },
-        {
-            "name": "Forest",
-            "skin": "forest_goblin_wolfrider2",
-            "x": 9,
-            "y": -3,
-            "content": {
-                "type": "monster",
-                "code": "goblin_wolfrider"
-            }
-        },
-        {
-            "name": "Forest",
-            "skin": "forest_2",
-            "x": 10,
-            "y": -3,
-            "content": null
         }
     ],
-    "total": 357,
+    "total": 1428,
     "page": 1,
     "size": 50,
-    "pages": 8
+    "pages": 29
 }
