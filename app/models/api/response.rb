@@ -72,6 +72,8 @@ module API
       CODES[:character_in_cooldown]
     ].freeze
 
+    RESET_API_KEY_CODES = [CODES[:token_invalid], CODES[:token_expired], CODES[:token_missing]].freeze
+
     def self.new(action:, request:)
       response = Item.new(response: request.perform, action:, data: [])
       action.add_response(response:)
@@ -89,7 +91,9 @@ module API
           when 200
             success
           else
-            if code_raise?
+            if code_reset_api_key?
+              ::AuthService.reset
+            elsif code_raise?
               Logs.log(type: :puts, log: "Error: #{code} -> #{code_log}", error: true)
               raise StandardError, response_payload[:message]
             else
@@ -124,12 +128,16 @@ module API
           CONTINUE_CODES.exclude?(code)
         end
 
+        def code_reset_api_key?
+          RESET_API_KEY_CODES.include?(code)
+        end
+
         def body
           response.body
         end
 
         def raw_data
-          response_payload[:data]
+          response_payload[:data] || response_payload
         end
       end
   end
