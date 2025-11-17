@@ -26,7 +26,7 @@ module Locations
           if type == TYPES[:monster]
             MonstersService.monster(code:)
           elsif type == TYPES[:resource]
-            Resource.new(code:)
+            Characters::Resource.new(code:)
           elsif type == TYPES[:bank]
             BankService.bank
           elsif type == TYPES[:npc]

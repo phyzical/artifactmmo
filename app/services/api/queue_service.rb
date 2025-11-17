@@ -44,7 +44,10 @@ module API
             next unless (loop % LOOP_COUNT).zero?
             loop = 0
             action_index += 1
-            action_index = 0 if action_index == DEFAULT_ACTIONS.length
+            if action_index == DEFAULT_ACTIONS.length
+              action_index = 0
+              # TODO:  add Logic to perform an equipment check here
+            end
             CharacterService.characters.each { |character| Logs.log(type: :puts, log: character.overview, start: true) }
           end
           process
