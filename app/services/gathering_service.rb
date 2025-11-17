@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module ResourcesService
+module GatheringService
   class << self
     def init
       @init ||= pull
@@ -25,7 +25,7 @@ module ResourcesService
     end
 
     def mining_by_level(level:)
-      minings.sort_by { |resource| -resource.level }.select { |resource| resource.level <= level }&.first
+      level_check(items: minings, level:)
     end
 
     def woodcuttings(code: nil)
@@ -39,7 +39,7 @@ module ResourcesService
     end
 
     def woodcutting_by_level(level:)
-      woodcuttings.sort_by { |resource| -resource.level }.select { |resource| resource.level <= level }&.first
+      level_check(items: woodcuttings, level:)
     end
 
     def fishings(code: nil)
@@ -52,7 +52,7 @@ module ResourcesService
     end
 
     def fishing_by_level(level:)
-      fishings.sort_by { |resource| -resource.level }.select { |resource| resource.level <= level }&.first
+      level_check(items: fishings, level:)
     end
 
     def alchemys(code: nil)
@@ -65,10 +65,14 @@ module ResourcesService
     end
 
     def alchemy_by_level(level:)
-      alchemys.sort_by { |resource| -resource.level }.select { |resource| resource.level <= level }&.first
+      level_check(items: alchemys, level:)
     end
 
     private
+
+    def level_check(items:, level:)
+      items.sort_by { |resource| -resource.craft.level }.select { |resource| resource.craft.level <= level }&.first
+    end
 
     def pull
       API::Action.new.resources
