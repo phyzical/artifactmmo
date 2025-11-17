@@ -13,7 +13,7 @@ module API
       type: Net::HTTP::Post,
       add_to_queue: true,
       data_handler: ->(raw_data) do
-        update_character(raw_data:)
+        update_characters(raw_data:)
         [MapsService.find_by_position(**raw_data[:destination].slice(:x, :y))]
       end
     },
@@ -32,7 +32,7 @@ module API
     new_character: {
       uri: 'characters/create',
       type: Net::HTTP::Post,
-      data_handler: ->(raw_data) { Characters::Character.new(**raw_data) }
+      data_handler: ->(raw_data) { [Characters::Character.new(**raw_data)] }
     },
     maps: {
       uri: 'maps',
@@ -57,8 +57,9 @@ module API
       type: Net::HTTP::Post,
       add_to_queue: true,
       data_handler: ->(raw_data) do
-        update_character(raw_data:)
-        [Monsters::Fight.new(**raw_data[:fight])]
+        update_characters(raw_data:)
+        fight_data = raw_data[:fight]
+        fight_data.delete(:characters).each { |char_data| CharacterService.update(**raw_data[:fight], **char_data) }
       end
     },
     gather: {
@@ -66,7 +67,7 @@ module API
       type: Net::HTTP::Post,
       add_to_queue: true,
       data_handler: ->(raw_data) do
-        update_character(raw_data:)
+        update_characters(raw_data:)
         [Skills::Details.new(**raw_data[:details])]
       end
     },
@@ -75,8 +76,7 @@ module API
       type: Net::HTTP::Post,
       add_to_queue: true,
       data_handler: ->(raw_data) do
-        character = update_character(raw_data:)
-        ["Restored #{raw_data[:hp_restored]} (#{character.hp}/#{character.max_hp})"]
+        update_characters(raw_data:).map { "Restored #{raw_data[:hp_restored]} (#{it.hp}/#{it.max_hp})" }
       end
     },
     deposit: {
@@ -84,7 +84,7 @@ module API
       type: Net::HTTP::Post,
       add_to_queue: true,
       data_handler: ->(raw_data) do
-        update_character(raw_data:)
+        update_characters(raw_data:)
         BankService.update_items(bank_items: raw_data[:bank])
         [Item.new(**raw_data[:item])]
       end
@@ -94,7 +94,7 @@ module API
       type: Net::HTTP::Post,
       add_to_queue: true,
       data_handler: ->(raw_data) do
-        update_character(raw_data:)
+        update_characters(raw_data:)
         [BankService.update_gold(**raw_data[:bank])]
       end
     },
@@ -113,7 +113,11 @@ module API
     task: {
       uri: "my/#{URI_REPLACEMENT_KEYS[:CHARACTER_NAME]}/action/task/new",
       type: Net::HTTP::Post,
-      data_handler: ->(raw_data) { [Task.new(**raw_data)] }
+      add_to_queue: true,
+      data_handler: ->(raw_data) do
+        update_characters(raw_data:)
+        [Task.new(**raw_data[:task])]
+      end
     },
     tasks: {
       uri: 'tasks/list',
@@ -165,8 +169,9 @@ module API
     }
   }.freeze
 
-  def self.update_character(raw_data:)
-    CharacterService.update(raw_data[:character])
+  def self.update_characters(raw_data:)
+    return [] if raw_data[:character].nil? && raw_data[:characters].nil?
+    (raw_data[:characters] || [raw_data[:character]]).map { |char_data| CharacterService.update(char_data) }
   end
 
   module Action

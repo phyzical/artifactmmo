@@ -18,7 +18,8 @@ module ConstGenerator
       monsters: %i[code type],
       items: %i[code type],
       npcs: [:type],
-      npc_items: [:code]
+      npc_items: [:code],
+      tasks: [:type]
     }
 
     resources.each { |resource, keys| keys.each { |key| generate(resource:, key:) } }
