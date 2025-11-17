@@ -9,6 +9,7 @@ module API
       too_many_requests: 429,
       not_found: 404,
       fatal_error: 500,
+      bad_gateway: 502,
       # Account Error Codes
       token_invalid: 452,
       token_expired: 453,
@@ -66,6 +67,8 @@ module API
       map_content_not_found: 598
     }.freeze
 
+    RETRY_CODES = [CODES[:too_many_requests], CODES[:bad_gateway]].freeze
+
     CONTINUE_CODES = [
       CODES[:character_inventory_full],
       CODES[:character_already_map],
@@ -75,14 +78,14 @@ module API
     RESET_API_KEY_CODES = [CODES[:token_invalid], CODES[:token_expired], CODES[:token_missing]].freeze
 
     def self.new(action:, request:)
-      response = Item.new(response: request.perform, action:, data: [])
+      response = Item.new(response: request.perform, action:, data: [], request:)
       action.add_response(response:)
       response.handle
       response
     end
 
     Item =
-      Struct.new(:response, :action, :data, :response_payload) do
+      Struct.new(:response, :action, :data, :response_payload, :request) do
         delegate :model, to: :action
 
         def handle
@@ -93,6 +96,10 @@ module API
           else
             if code_reset_api_key?
               ::AuthService.reset
+            elsif code_retry?
+              Logs.log(type: :puts, log: "Retrying due to error: #{code} -> #{code_log}", error: true)
+              sleep(10)
+              Item.new(action:, request:)
             elsif code_raise?
               Logs.log(type: :puts, log: "Error: #{code} -> #{code_log}", error: true)
               raise StandardError, response_payload[:message]
@@ -122,6 +129,10 @@ module API
 
         def code_log
           CODES.key(code)
+        end
+
+        def code_retry?
+          RETRY_CODES.include?(code)
         end
 
         def code_raise?
