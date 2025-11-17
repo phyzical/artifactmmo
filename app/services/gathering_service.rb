@@ -6,6 +6,8 @@ module GatheringService
       @init ||= pull
     end
 
+    SKILLS = Characters::Resource::SKILLS.freeze
+
     def resource(code:)
       resources(code:)&.first
     end
@@ -16,8 +18,8 @@ module GatheringService
     end
 
     def minings(code: nil)
-      @mining ||= resources(code:).select { |resource| resource.skill == Resource::SKILLS[:mining] }.group_by(&:code)
-      @mining[code] || @mining.values.flatten
+      @minings ||= group_by_code(skill: :mining)
+      @minings[code] || @minings.values.flatten
     end
 
     def mining(code:)
@@ -29,9 +31,8 @@ module GatheringService
     end
 
     def woodcuttings(code: nil)
-      @woodcutting ||=
-        resources(code:).select { |resource| resource.skill == Resource::SKILLS[:woodcutting] }.group_by(&:code)
-      @woodcutting[code] || @woodcutting.values.flatten
+      @woodcuttings ||= group_by_code(skill: :woodcutting)
+      @woodcuttings[code] || @woodcuttings.values.flatten
     end
 
     def woodcutting(code:)
@@ -43,8 +44,8 @@ module GatheringService
     end
 
     def fishings(code: nil)
-      @fishing ||= resources(code:).select { |resource| resource.skill == Resource::SKILLS[:fishing] }.group_by(&:code)
-      @fishing[code] || @fishing.values.flatten
+      @fishings ||= group_by_code(skill: :fishing)
+      @fishings[code] || @fishings.values.flatten
     end
 
     def fishing(code:)
@@ -56,8 +57,8 @@ module GatheringService
     end
 
     def alchemys(code: nil)
-      @alchemy ||= resources(code:).select { |resource| resource.skill == Resource::SKILLS[:alchemy] }.group_by(&:code)
-      @alchemy[code] || @alchemy.values.flatten
+      @alchemys ||= group_by_code(skill: :alchemy)
+      @alchemys[code] || @alchemys.values.flatten
     end
 
     def alchemy(code:)
@@ -72,6 +73,10 @@ module GatheringService
 
     def level_check(items:, level:)
       items.sort_by { |resource| -resource.craft.level }.select { |resource| resource.craft.level <= level }&.first
+    end
+
+    def group_by_code(skill:)
+      resources.select { |resource| resource.skill == SKILLS[skill.to_sym] }.group_by(&:code)
     end
 
     def pull

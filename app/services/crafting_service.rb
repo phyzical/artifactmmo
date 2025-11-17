@@ -5,6 +5,7 @@ module CraftingService
     def init
       @init ||= pull
     end
+    # TODO: we need to also add filtering by avail resoruces
 
     TYPES = Characters::Craft::SKILLS.freeze
 
@@ -18,7 +19,7 @@ module CraftingService
     end
 
     def blending(code: nil)
-      @blending ||= items(code:).select { |resource| resource.craft.skill == TYPES[:alchemy] }.group_by(&:code)
+      @blending ||= group_by_code(skill: :alchemy)
       @blending[code] || @blending.values.flatten
     end
 
@@ -31,7 +32,7 @@ module CraftingService
     end
 
     def cookings(code: nil)
-      @cooking ||= items(code:).select { |resource| resource.craft.skill == TYPES[:cooking] }.group_by(&:code)
+      @cooking ||= group_by_code(skill: :cooking)
       @cooking[code] || @cooking.values.flatten
     end
 
@@ -44,7 +45,7 @@ module CraftingService
     end
 
     def gearcraftings(code: nil)
-      @gearcrafting ||= items(code:).select { |resource| resource.craft.skill == TYPES[:gearcrafting] }.group_by(&:code)
+      @gearcrafting ||= group_by_code(skill: :gearcrafting)
       @gearcrafting[code] || @gearcrafting.values.flatten
     end
 
@@ -57,8 +58,7 @@ module CraftingService
     end
 
     def jewelrycraftings(code: nil)
-      @jewelrycrafting ||=
-        items(code:).select { |resource| resource.craft.skill == TYPES[:jewelrycrafting] }.group_by(&:code)
+      @jewelrycrafting ||= group_by_code(skill: :jewelrycrafting)
       @jewelrycrafting[code] || @jewelrycrafting.values.flatten
     end
 
@@ -71,8 +71,7 @@ module CraftingService
     end
 
     def weaponcraftings(code: nil)
-      @weaponcrafting ||=
-        items(code:).select { |resource| resource.craft.skill == TYPES[:weaponcrafting] }.group_by(&:code)
+      @weaponcrafting ||= group_by_code(skill: :weaponcrafting)
       @weaponcrafting[code] || @weaponcrafting.values.flatten
     end
 
@@ -85,7 +84,7 @@ module CraftingService
     end
 
     def smelting(code: nil)
-      @smelting ||= items(code:).select { |resource| resource.craft.skill == TYPES[:mining] }.group_by(&:code)
+      @smelting ||= group_by_code(skill: :mining)
       @smelting[code] || @smelting.values.flatten
     end
 
@@ -103,8 +102,12 @@ module CraftingService
       items.sort_by { |resource| -resource.craft.level }.select { |resource| resource.craft.level <= level }&.first
     end
 
+    def group_by_code(skill:)
+      items.select { |resource| resource.skill == TYPES[skill.to_sym] }.group_by(&:code)
+    end
+
     def pull
-      ItemsService.init.select { |item| TYPES.include?(item.craft.skill) }
+      ItemsService.init.select { |item| item.craft && TYPES.include?(item.craft.skill) }
     end
   end
 end
