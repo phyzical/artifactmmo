@@ -2,6 +2,9 @@
 
 module Characters
   module Craft
+    SKILLS =
+      Skills::Skill::CODES.slice(:jewelrycrafting, :gearcrafting, :cooking, :alchemy, :weaponcrafting, :mining).freeze
+
     def self.new(keys)
       keys[:items] = keys[:items].map { |item| Characters::Item.new(**item) }
       Thing.new(**keys)

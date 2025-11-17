@@ -76,8 +76,8 @@ module Characters
 
         def inventory_check
           return unless inventory_full?
-          deposit_all
           Logs.log(type: :puts, log: "#{name} inventory is full")
+          deposit_all
         end
 
         def rest_check
@@ -87,28 +87,64 @@ module Characters
 
         def mine(code: nil)
           inventory_check
-          code ||= ResourcesService.mining_by_level(level: mining.level).code
+          code ||= GatheringService.mining_by_level(level: mining.level).code
           move(**MapsService.resource(code:).position)
           api.gather
         end
 
         def woodcut(code: nil)
           inventory_check
-          code ||= ResourcesService.woodcutting_by_level(level: woodcutting.level).code
+          code ||= GatheringService.woodcutting_by_level(level: woodcutting.level).code
           move(**MapsService.resource(code:).position)
           api.gather
         end
 
+        # def weaponcraft(code: nil)
+        #   code ||= CraftingService.weaponcrafting_by_level(level: weaponcrafting.level).code
+        #   move(**MapsService.workshop(code: :weaponcrafting).position)
+        #   api.craft(code:)
+        # end
+
+        # def jewelcraft(code: nil)
+        #   code ||= CraftingService.jewelrycrafting_by_level(level: jewelrycrafting.level).code
+        #   move(**MapsService.workshop(code: :jewelrycrafting).position)
+        #   api.craft(code:)
+        # end
+
+        # def gearcraft(code: nil)
+        #   code ||= CraftingService.gearcrafting_by_level(level: gearcrafting.level).code
+        #   move(**MapsService.workshop(code: :gearcrafting).position)
+        #   api.craft(code:)
+        # end
+
+        # def cook(code: nil)
+        #   code ||= CraftingService.cooking_by_level(level: cooking.level).code
+        #   move(**MapsService.workshop(code: :cooking).position)
+        #   api.craft(code:)
+        # end
+
+        # def alchemy(code: nil)
+        #   code ||= CraftingService.alchemy_by_level(level: alchemy.level).code
+        #   move(**MapsService.workshop(code: :alchemy).position)
+        #   api.craft(code:)
+        # end
+
+        # def smelt(code: nil)
+        #   code ||= CraftingService.smelting_by_level(level: mining.level).code
+        #   move(**MapsService.workshop(code: :mining).position)
+        #   api.craft(code:)
+        # end
+
         def fish(code: nil)
           inventory_check
-          code ||= ResourcesService.fishing_by_level(level: fishing.level).code
+          code ||= GatheringService.fishing_by_level(level: fishing.level).code
           move(**MapsService.resource(code:).position)
           api.gather
         end
 
         def herb(code: nil)
           inventory_check
-          code ||= ResourcesService.alchemy_by_level(level: alchemy.level).code
+          code ||= GatheringService.alchemy_by_level(level: alchemy.level).code
           move(**MapsService.resource(code:).position)
           api.gather
         end
