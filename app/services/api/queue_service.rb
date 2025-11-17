@@ -10,6 +10,12 @@ module API
       lambda(&:woodcut),
       lambda(&:fish),
       lambda(&:herb)
+      # lambda(&:cook)
+      # lambda(&:blend),
+      # lambda(&:jewelcraft),
+      # lambda(&:weaponcraft),
+      # lambda(&:gearcraft),
+      # lambda(&:smelt)
     ].freeze
     LOOP_COUNT = 20
     COOLDOWN_SAFETY_TIME = 0.1
@@ -28,8 +34,8 @@ module API
         loop = 0
         loop do
           # TODO: this is inefficient, we should be able to run all characters at the same time
-          # Also we wait for empty it should be if char X empty reqeue not all empty as other chars sit in downtime
-          if empty?
+          if any_idle_characters?
+            Logs.log(type: :puts, log: 'RELOOPING!!!', start: true)
             CharacterService.characters.each do |character|
               character.new_task
               DEFAULT_ACTIONS[action_index].call(character)
@@ -51,8 +57,8 @@ module API
 
       private
 
-      def empty?
-        actions.empty?
+      def any_idle_characters?
+        CharacterService.characters.reject { |character| actions.any? { |action| action.character == character } }.any?
       end
 
       def process
