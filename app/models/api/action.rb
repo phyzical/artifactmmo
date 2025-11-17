@@ -134,7 +134,7 @@ module API
     resources: {
       uri: 'resources',
       type: Net::HTTP::Get,
-      data_handler: ->(raw_data) { raw_data.map { |x| Resource.new(**x) } },
+      data_handler: ->(raw_data) { raw_data.map { |x| Characters::Resource.new(**x) } },
       cache: true
     },
     badges: {

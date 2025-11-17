@@ -2,16 +2,7 @@
 
 module Skills
   module Skill
-    CODES = {
-      alchemy: 'alchemy',
-      cooking: 'cooking',
-      fishing: 'fishing',
-      gearcrafting: 'gearcrafting',
-      jewelrycrafting: 'jewelrycrafting',
-      mining: 'mining',
-      weaponcrafting: 'weaponcrafting',
-      woodcutting: 'woodcutting'
-    }.freeze
+    CODES = ::Skill::Constants::CODES
 
     def self.new(keys)
       keys[:code] = Skill.code(code: keys.delete(:code))

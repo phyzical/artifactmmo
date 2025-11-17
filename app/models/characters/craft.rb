@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require_relative '../skills/skill'
+
 module Characters
   module Craft
     SKILLS =
