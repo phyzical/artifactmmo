@@ -99,41 +99,53 @@ module Characters
           api.gather
         end
 
-        # def weaponcraft(code: nil)
-        #   code ||= CraftingService.weaponcrafting_by_level(level: weaponcrafting.level).code
-        #   move(**MapsService.workshop(code: :weaponcrafting).position)
-        #   api.craft(code:)
-        # end
+        def weaponcraft(code: nil)
+          code ||= CraftingService.weaponcrafting_by_level(level: weaponcrafting.level)&.code
+          return if code.nil?
 
-        # def jewelcraft(code: nil)
-        #   code ||= CraftingService.jewelrycrafting_by_level(level: jewelrycrafting.level).code
-        #   move(**MapsService.workshop(code: :jewelrycrafting).position)
-        #   api.craft(code:)
-        # end
+          move(**MapsService.workshop(code: :weaponcrafting).position)
+          api.craft(code:)
+        end
 
-        # def gearcraft(code: nil)
-        #   code ||= CraftingService.gearcrafting_by_level(level: gearcrafting.level).code
-        #   move(**MapsService.workshop(code: :gearcrafting).position)
-        #   api.craft(code:)
-        # end
+        def jewelcraft(code: nil)
+          code ||= CraftingService.jewelrycrafting_by_level(level: jewelrycrafting.level)&.code
+          return if code.nil?
 
-        # def cook(code: nil)
-        #   code ||= CraftingService.cooking_by_level(level: cooking.level).code
-        #   move(**MapsService.workshop(code: :cooking).position)
-        #   api.craft(code:)
-        # end
+          move(**MapsService.workshop(code: :jewelrycrafting).position)
+          api.craft(code:)
+        end
 
-        # def alchemy(code: nil)
-        #   code ||= CraftingService.alchemy_by_level(level: alchemy.level).code
-        #   move(**MapsService.workshop(code: :alchemy).position)
-        #   api.craft(code:)
-        # end
+        def gearcraft(code: nil)
+          code ||= CraftingService.gearcrafting_by_level(level: gearcrafting.level)&.code
+          return if code.nil?
 
-        # def smelt(code: nil)
-        #   code ||= CraftingService.smelting_by_level(level: mining.level).code
-        #   move(**MapsService.workshop(code: :mining).position)
-        #   api.craft(code:)
-        # end
+          move(**MapsService.workshop(code: :gearcrafting).position)
+          api.craft(code:)
+        end
+
+        def cook(code: nil)
+          code ||= CraftingService.cooking_by_level(level: cooking.level)&.code
+          return if code.nil?
+
+          move(**MapsService.workshop(code: :cooking).position)
+          api.craft(code:)
+        end
+
+        def alchemy(code: nil)
+          code ||= CraftingService.blend_by_level(level: alchemy.level)&.code
+          return if code.nil?
+
+          move(**MapsService.workshop(code: :alchemy).position)
+          api.craft(code:)
+        end
+
+        def smelt(code: nil)
+          code ||= CraftingService.smelt_by_level(level: mining.level)&.code
+          return if code.nil?
+
+          move(**MapsService.workshop(code: :mining).position)
+          api.craft(code:)
+        end
 
         def fish(code: nil)
           inventory_check
