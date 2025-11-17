@@ -80,13 +80,13 @@ module API
       end
     },
     deposit: {
-      uri: "my/#{URI_REPLACEMENT_KEYS[:CHARACTER_NAME]}/action/bank/deposit",
+      uri: "my/#{URI_REPLACEMENT_KEYS[:CHARACTER_NAME]}/action/bank/deposit/item",
       type: Net::HTTP::Post,
       add_to_queue: true,
       data_handler: ->(raw_data) do
         update_characters(raw_data:)
         BankService.update_items(bank_items: raw_data[:bank])
-        [Item.new(**raw_data[:item])]
+        raw_data[:items].map { |item_data| Item.new(**item_data) }
       end
     },
     deposit_gold: {
@@ -215,10 +215,10 @@ module API
         end
 
         def deposit(code:, quantity:)
-          if code == Characters::Item.code(code: :gold)
+          if code == ::Item.code(code: :gold)
             deposit_gold(quantity:)
           else
-            prepare(action: :deposit, body: { code:, quantity: })
+            prepare(action: :deposit, body: [{ code:, quantity: }])
           end
         end
 

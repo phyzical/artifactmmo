@@ -81,7 +81,7 @@ module Characters
         end
 
         def rest_check
-          return if hp >= max_hp
+          return if hp > (max_hp / 4)
           api.rest
         end
 
@@ -121,7 +121,7 @@ module Characters
 
         def deposit_gold(quantity: gold)
           return if quantity.zero?
-          deposit(code: Item.code(code: :gold), quantity:)
+          deposit(code: ::Item.code(code: :gold), quantity:)
         end
 
         def cooldown_expiration

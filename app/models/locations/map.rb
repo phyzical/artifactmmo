@@ -13,7 +13,7 @@ module Locations
     end
 
     Thing =
-      Struct.new(:map_id, :name, :skin, :x, :y, :code, :layer, :access, :interactions, :conditions) do
+      Struct.new(:map_id, :name, :skin, :x, :y, :layer, :access, :interactions, :conditions) do
         def initialize(keys)
           content = keys.delete(:content) || {}
           keys[:layer] = Map.layer(layer: keys.delete(:layer)) if keys.key?(:layer)
@@ -26,18 +26,22 @@ module Locations
           if type == TYPES[:monster]
             MonstersService.monster(code:)
           elsif type == TYPES[:resource]
-            Resource.new(code: code)
+            Resource.new(code:)
           elsif type == TYPES[:bank]
             BankService.bank
           elsif type == TYPES[:npc]
-            Npc.new(code: code)
+            Npc.new(code:)
           elsif type == TYPES[:tasks_master]
-            TasksMaster.new(code: code)
+            TasksMaster.new(code:)
           elsif type == TYPES[:workshop]
-            Workshop.new(code: code)
+            Workshop.new(code:)
           elsif type == TYPES[:grand_exchange]
-            GrandExchange.new(code: code)
+            GrandExchange.new(code:)
           end
+        end
+
+        def code
+          interactions&.content&.[](:code)
         end
 
         def type
@@ -49,7 +53,7 @@ module Locations
         end
 
         def overview
-          "Name: #{name}, Type: #{type}, Skin: #{skin}, Position: #{position}"
+          "Name: #{name}, Type: #{type}, Code: #{code}, Skin: #{skin}, Position: #{position}"
         end
       end
   end
