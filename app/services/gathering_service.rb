@@ -72,7 +72,7 @@ module GatheringService
     private
 
     def level_check(items:, level:)
-      items.sort_by { |resource| -resource.craft.level }.select { |resource| resource.craft.level <= level }&.first
+      items.sort_by { |resource| -resource.level }.select { |resource| resource.level <= level }&.first
     end
 
     def group_by_code(skill:)
